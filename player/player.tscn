@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=11 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://player/player.gd" id="1_utgdb"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://player/player_camera.gd" id="4_hr172"]
 [ext_resource type="AudioStream" uid="uid://bysiyxxx3rsfd" path="res://player/engine_jolt.wav" id="5_cpwju"]
 [ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://player/engine_sustain.wav" id="6_fatdb"]
+[ext_resource type="AudioStream" uid="uid://dja57jk2rq1h1" path="res://player/cooloff.wav" id="6_ygi07"]
 [ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://player/cannon_shot.wav" id="7_q38qb"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
@@ -56,11 +57,18 @@ stream = ExtResource("5_cpwju")
 [node name="EngineSustainSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_fatdb")
 
+[node name="CannonCooloffSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_ygi07")
+
 [node name="CannonShotSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_q38qb")
 
 [node name="ShotTimer" type="Timer" parent="."]
 wait_time = 0.2
+one_shot = true
+
+[node name="HeatCooloffTimer" type="Timer" parent="."]
+wait_time = 5.0
 one_shot = true
 
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
