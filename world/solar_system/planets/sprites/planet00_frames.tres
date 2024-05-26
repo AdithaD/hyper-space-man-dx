@@ -1,0 +1,94 @@
+[gd_resource type="SpriteFrames" load_steps=14 format=3 uid="uid://drsm548k06lkv"]
+
+[ext_resource type="Texture2D" uid="uid://0wcu0kwk1ksw" path="res://world/solar_system/planets/sprites/debris_sheet.png" id="1_osmnw"]
+[ext_resource type="Texture2D" uid="uid://cnwpsl75e7xxq" path="res://world/solar_system/planets/sprites/t100-sheet.png" id="1_rr54g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5y4g"]
+atlas = ExtResource("1_osmnw")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1tj2"]
+atlas = ExtResource("1_osmnw")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhg8o"]
+atlas = ExtResource("1_osmnw")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mffop"]
+atlas = ExtResource("1_osmnw")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qlfxd"]
+atlas = ExtResource("1_rr54g")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5x6gi"]
+atlas = ExtResource("1_rr54g")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jptqw"]
+atlas = ExtResource("1_rr54g")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b446v"]
+atlas = ExtResource("1_rr54g")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mvu3k"]
+atlas = ExtResource("1_rr54g")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4p1tc"]
+atlas = ExtResource("1_rr54g")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jrorn"]
+atlas = ExtResource("1_rr54g")
+region = Rect2(768, 0, 128, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m5y4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1tj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhg8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mffop")
+}],
+"loop": true,
+"name": &"debris",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qlfxd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5x6gi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jptqw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b446v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mvu3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4p1tc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jrorn")
+}],
+"loop": true,
+"name": &"rotate",
+"speed": 5.0
+}]

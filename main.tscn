@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bpcm5e32ovatf"]
+
+[ext_resource type="PackedScene" uid="uid://8lrhxnd33lcm" path="res://world/world.tscn" id="1_534u6"]
+[ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://player/player.tscn" id="2_xc4b4"]
+
+[node name="Main" type="Node"]
+
+[node name="World" parent="." instance=ExtResource("1_534u6")]
+
+[node name="Player" parent="." node_paths=PackedStringArray("cannon_points") instance=ExtResource("2_xc4b4")]
+motion_mode = 1
+cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]

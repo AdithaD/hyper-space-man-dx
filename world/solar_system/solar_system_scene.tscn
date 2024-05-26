@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://btum3xqjlqyh7"]
+
+[ext_resource type="Script" path="res://world/solar_system/solar_system.gd" id="1_srxdv"]
+[ext_resource type="SpriteFrames" uid="uid://drsm548k06lkv" path="res://world/solar_system/planets/sprites/planet00_frames.tres" id="2_b54y6"]
+[ext_resource type="SpriteFrames" uid="uid://bab5sbpbrbgx5" path="res://world/solar_system/sun/sprites/sun_frames.tres" id="2_lm18m"]
+[ext_resource type="PackedScene" uid="uid://brofvfdbhyl6j" path="res://world/solar_system/planet.tscn" id="4_gk7i6"]
+[ext_resource type="PackedScene" uid="uid://cogv3mc3fag88" path="res://world/solar_system/sun.tscn" id="5_nj5xh"]
+
+[node name="SolarSystem" type="Node2D"]
+script = ExtResource("1_srxdv")
+planet_scene = ExtResource("4_gk7i6")
+planet_sprites = Array[SpriteFrames]([ExtResource("2_b54y6")])
+planet_width = 128
+planet_min = 1.5
+planet_max = 2.0
+planet_randomness = 0.1
+planet_minerals_mean = 100.0
+planet_minerals_randomness = 0.2
+planet_enemies_mean = 3.0
+planet_enemies_randomness = 0.5
+sun_scene = ExtResource("5_nj5xh")
+sun_sprites = Array[SpriteFrames]([ExtResource("2_lm18m")])
+sun_width = 512
+sun_min = 4.0
+sun_max = 5.0
+sun_minerals_mean = 750.0
+sun_minerals_randomness = 0.3
+sun_enemies_mean = 5.0
+sun_enemies_randomness = 0.4

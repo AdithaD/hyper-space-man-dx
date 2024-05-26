@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://b5324c2o2kjct"]
+
+[ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
+[ext_resource type="Script" path="res://player/player.gd" id="1_utgdb"]
+[ext_resource type="Material" uid="uid://c1nu5ip1icxal" path="res://player/engine_particle_process_material.tres" id="2_i7ooq"]
+[ext_resource type="Script" path="res://player/player_camera.gd" id="4_hr172"]
+[ext_resource type="AudioStream" uid="uid://bysiyxxx3rsfd" path="res://player/engine_jolt.wav" id="5_cpwju"]
+[ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://player/engine_sustain.wav" id="6_fatdb"]
+[ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://player/cannon_shot.wav" id="7_q38qb"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
+radius = 22.0
+height = 64.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vbycn"]
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points")]
+script = ExtResource("1_utgdb")
+cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
+
+[node name="EngineParticles1" type="GPUParticles2D" parent="."]
+position = Vector2(-21, 12)
+amount = 16
+process_material = ExtResource("2_i7ooq")
+
+[node name="EngineParticles2" type="GPUParticles2D" parent="."]
+position = Vector2(-21, -12)
+amount = 16
+process_material = ExtResource("2_i7ooq")
+
+[node name="Player" type="Sprite2D" parent="."]
+rotation = 1.5708
+texture = ExtResource("1_jem3x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_t7nkm")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("4_hr172")
+decay = 0.5
+max_offset = Vector2(60, 40)
+noise = SubResource("FastNoiseLite_vbycn")
+
+[node name="CannonPoint1" type="Node2D" parent="."]
+position = Vector2(-15, -25)
+
+[node name="CannonPoint2" type="Node2D" parent="."]
+position = Vector2(-15, 25)
+
+[node name="Shots" type="Node" parent="."]
+
+[node name="EngineJoltSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_cpwju")
+
+[node name="EngineSustainSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_fatdb")
+
+[node name="CannonShotSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_q38qb")
+
+[node name="ShotTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]

@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://8lrhxnd33lcm"]
+
+[ext_resource type="Texture2D" uid="uid://dl8swyen5neuw" path="res://world/background.png" id="1_t7s4i"]
+[ext_resource type="Script" path="res://world/solar_system/solar_system_spawner.gd" id="2_kkegu"]
+[ext_resource type="PackedScene" uid="uid://btum3xqjlqyh7" path="res://world/solar_system/solar_system_scene.tscn" id="3_re62x"]
+
+[node name="World" type="Node2D"]
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+scroll_scale = Vector2(0.1, 0.1)
+repeat_size = Vector2(3840, 2156)
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("1_t7s4i")
+
+[node name="SolarSystems" type="Node2D" parent="."]
+script = ExtResource("2_kkegu")
+solar_system_scene = ExtResource("3_re62x")
+grid_size = 1250
+min_distance = 6000
+max_distance = 16000
+min_planets = 5
+max_planets = 8
+min_solar_range = 1150
+max_solar_range = 1750
+solar_system_randomness = 0.3
