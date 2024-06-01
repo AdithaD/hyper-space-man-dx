@@ -1,20 +1,19 @@
 extends CharacterBody2D
+class_name Player
 
 const SHOT = preload("res://player/shot.tscn")
 
 signal acceleration_changed(state:bool)
 
-signal fuel_changed(new_amount: int)
 signal heat_changed(new_amount: int)
 
-@export var acceleration := 500.0
+@export var world: World
+
+@export var ship_engine : ShipEngine
 @export var max_speed := 500.0
 @export var drag := 10.0
 
 @export var cannon_points : Array[Node2D] = []
-
-@export var maximum_fuel : float = 100.0
-@export var fuel_cost_per_second = 1.0
 
 @export var maximum_heat : float = 100.0
 @export var heat_drain_per_second = 15.0
@@ -28,11 +27,6 @@ var shot_count = 0
 # State
 var is_mining := false
 
-@onready var current_fuel = maximum_fuel:
-	set(value):
-		current_fuel = value
-		fuel_changed.emit(current_fuel, current_fuel / maximum_fuel)
-		
 @onready var heat = 100:
 	set(value):
 		heat = value
@@ -51,8 +45,6 @@ var is_accelerating = false:
 			if is_accelerating:
 				$Camera2D.add_trauma(1.0)
 				$EngineJoltSound.play()
-			
-			print("setting")
 
 func _ready() -> void:
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
@@ -73,16 +65,21 @@ func _physics_process(delta):
 	if not is_zero_approx(heat):
 		heat -= min(heat, heat_drain_per_second * delta)
 	
+	if world:
+		var gravity = world.get_gravity(global_position)
+		velocity += gravity * delta
+	
+	if velocity.length() > max_speed:
+		$Camera2D.add_trauma(1.0 * delta)
+	
 	look_at(get_global_mouse_position())
 	move_and_slide()
 	
 func accelerate(delta):
-	var dir = (get_global_mouse_position() - global_position).normalized() 
-	velocity += dir * acceleration * delta
-	velocity = velocity.limit_length(max_speed)
-
-	current_fuel -= fuel_cost_per_second * delta
-	#change_fuel(-fuel_cost)
+	var dir = (get_global_mouse_position() - global_position).normalized()
+	var thrust = ship_engine.burn(delta, dir)
+	print(thrust)
+	velocity += thrust
 	
 func shoot():
 	# select cannon point

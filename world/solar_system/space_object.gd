@@ -6,6 +6,8 @@ extends Node2D
 @export var tooltip : String
 @export var no_minerals_tooltip : String
 
+@export var gravity = 100
+
 #var enemy = preload("res://Assets/Enemy/_Scenes/Enemy.tscn")
 var spawned_enemies = false
 var sun_name
@@ -18,10 +20,13 @@ var _amount_of_enemies
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func init(frames : SpriteFrames, amount_of_enemies: int, solar_name: String, minerals: int, new_scale: float = 1):
+	
 	sprite.sprite_frames = frames
 	sprite.set_speed_scale(randi_range(min_animation_speed, max_animation_speed))
-	sprite.set_frame(randi() % (sprite.sprite_frames.get_frame_count("rotate")))
+	
 	sprite.play("rotate")
+	sprite.set_frame(randi() % (sprite.sprite_frames.get_frame_count("rotate")))
+
 	
 	sprite.apply_scale(Vector2(new_scale, new_scale))
 	#$TerminatorSprite.apply_scale(Vector2(scale, scale))
@@ -107,3 +112,5 @@ func get_sun_name():
 func get_planet_name():
 	return ""
 
+func get_gravity():
+	return gravity

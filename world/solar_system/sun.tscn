@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" path="res://world/solar_system/space_object.gd" id="1_u6t43"]
 
-[node name="Sun" type="Node2D"]
+[node name="Sun" type="Node2D" groups=["gravitator", "sun"]]
 script = ExtResource("1_u6t43")
+min_animation_speed = 1.0
+max_animation_speed = 1.5
+gravity = 8
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(4, 4)

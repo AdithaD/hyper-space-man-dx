@@ -14,14 +14,14 @@ repeat_size = Vector2(3840, 2156)
 scale = Vector2(2, 2)
 texture = ExtResource("1_t7s4i")
 
-[node name="SolarSystems" type="Node2D" parent="."]
+[node name="SolarSystemSpawner" type="Node2D" parent="."]
 script = ExtResource("2_kkegu")
 solar_system_scene = ExtResource("3_re62x")
-grid_size = 1250
-min_distance = 6000
-max_distance = 16000
+grid_size = 5000
+min_distance = 24000
+max_distance = 64000
 min_planets = 5
 max_planets = 8
-min_solar_range = 1150
-max_solar_range = 1750
+min_solar_range = 6000
+max_solar_range = 10000
 solar_system_randomness = 0.3

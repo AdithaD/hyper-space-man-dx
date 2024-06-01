@@ -1,13 +1,21 @@
-[gd_scene load_steps=11 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=13 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://player/player.gd" id="1_utgdb"]
 [ext_resource type="Material" uid="uid://c1nu5ip1icxal" path="res://player/engine_particle_process_material.tres" id="2_i7ooq"]
+[ext_resource type="Script" path="res://player/ship_engine.gd" id="2_sgfqe"]
 [ext_resource type="Script" path="res://player/player_camera.gd" id="4_hr172"]
 [ext_resource type="AudioStream" uid="uid://bysiyxxx3rsfd" path="res://player/engine_jolt.wav" id="5_cpwju"]
 [ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://player/engine_sustain.wav" id="6_fatdb"]
 [ext_resource type="AudioStream" uid="uid://dja57jk2rq1h1" path="res://player/cooloff.wav" id="6_ygi07"]
 [ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://player/cannon_shot.wav" id="7_q38qb"]
+
+[sub_resource type="Resource" id="Resource_84uqs"]
+script = ExtResource("2_sgfqe")
+exhaust_velocity = 100000.0
+dry_mass = 50.0
+fuel_capacity = 100.0
+mass_flow_rate = 1.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
 radius = 22.0
@@ -17,6 +25,7 @@ height = 64.0
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points")]
 script = ExtResource("1_utgdb")
+ship_engine = SubResource("Resource_84uqs")
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
@@ -57,7 +66,7 @@ stream = ExtResource("5_cpwju")
 [node name="EngineSustainSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_fatdb")
 
-[node name="CannonCooloffSound" type="AudioStreamPlayer2D" parent="."]
+[node name="CannonCooloffSound" type="AudioStreamPlayer2D" parent="." groups=["player"]]
 stream = ExtResource("6_ygi07")
 
 [node name="CannonShotSound" type="AudioStreamPlayer2D" parent="."]

@@ -4,8 +4,8 @@ extends Node2D
 @export var planet_sprites: Array[SpriteFrames]
 @export var planet_width : int
 
-@export var planet_min : float
-@export var planet_max : float
+@export var planet_min_scale : float
+@export var planet_max_scale : float
 
 @export var planet_randomness : float
 @export var planet_minerals_mean : float
@@ -19,8 +19,8 @@ extends Node2D
 @export var sun_sprites : Array[SpriteFrames]
 @export var sun_width : int
 
-@export var sun_min : float
-@export var sun_max : float
+@export var sun_min_scale : float
+@export var sun_max_scale : float
 
 @export var sun_minerals_mean : float
 @export var sun_minerals_randomness : float
@@ -94,14 +94,14 @@ func init(n, spread, sun_name):
 			
 func spawn_planet(n):
 	var spawn_pos = Vector2(randf_range(-1 * spread, spread), randf_range(-1 * spread, spread))
-	var spawn_grid_pos = (spawn_pos/((planet_width) + (planet_width * planet_randomness))).floor()
+	var spawn_grid_pos = (spawn_pos / ((planet_width) + (planet_width * planet_randomness))).floor()
 	if not planet_grid.has(spawn_grid_pos):
 		
 		planet_grid[spawn_grid_pos] = true
 		
 		var planet = planet_scene.instantiate()
 		add_child(planet)
-		var planet_scale = randf_range(planet_min, planet_max)
+		var planet_scale = randf_range(planet_min_scale, planet_max_scale)
 		var sprite = planet_sprites[randi()%len(planet_sprites)]
 		
 		var amount_of_enemies = int(get_random_from_mean(planet_enemies_mean, planet_enemies_randomness))
@@ -116,7 +116,7 @@ func spawn_planet(n):
 func spawn_sun():
 	sun = sun_scene.instantiate()
 	add_child(sun)
-	var sun_scale = randf_range(sun_min, sun_max)
+	var sun_scale = randf_range(sun_min_scale, sun_max_scale)
 	var sprite = sun_sprites[randi()%len(sun_sprites)]
 	var amount_of_enemies = int(get_random_from_mean(sun_enemies_mean, sun_enemies_randomness))
 	var amount_of_minerals = int(get_random_from_mean(sun_minerals_mean, sun_minerals_randomness))

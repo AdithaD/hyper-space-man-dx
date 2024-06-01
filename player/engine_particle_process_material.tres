@@ -18,7 +18,6 @@ curve = SubResource("Curve_wfnjm")
 particle_flag_disable_z = true
 angle_min = -59.1
 angle_max = 22.9
-inherit_velocity_ratio = 0.464
 direction = Vector3(-1, 0, 0)
 spread = 10.0
 initial_velocity_min = 86.05

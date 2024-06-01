@@ -1,10 +1,16 @@
-[gd_scene load_steps=12 format=3 uid="uid://bpcm5e32ovatf"]
+[gd_scene load_steps=21 format=3 uid="uid://bpcm5e32ovatf"]
 
 [ext_resource type="PackedScene" uid="uid://8lrhxnd33lcm" path="res://world/world.tscn" id="1_534u6"]
+[ext_resource type="Script" path="res://world/world.gd" id="2_mbc0m"]
 [ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://player/player.tscn" id="2_xc4b4"]
 [ext_resource type="Texture2D" uid="uid://bt20iu0kp3cqw" path="res://gui/heat_bar/engine_heat_bar.png" id="3_1t8rx"]
 [ext_resource type="Script" path="res://gui.gd" id="3_t8cht"]
 [ext_resource type="Texture2D" uid="uid://wek4uypm10mf" path="res://gui/heat_bar/fuel_bar.png" id="4_asr30"]
+[ext_resource type="Texture2D" uid="uid://d38dv578bew6h" path="res://gui/heat_bar/speed_bar.png" id="7_o2d8a"]
+[ext_resource type="Script" path="res://LimitedTextureProgressBar.gd" id="8_66gcj"]
+[ext_resource type="AudioStream" uid="uid://dy00nbcu3gtxy" path="res://player/over_speed.wav" id="8_pmg8h"]
+[ext_resource type="Script" path="res://minimap.gd" id="10_rbyyy"]
+[ext_resource type="Script" path="res://minimap_draw.gd" id="11_l3mgi"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vj1n4"]
 atlas = ExtResource("3_1t8rx")
@@ -17,6 +23,18 @@ region = Rect2(0, 8, 48, 8)
 [sub_resource type="AtlasTexture" id="AtlasTexture_282ky"]
 atlas = ExtResource("3_1t8rx")
 region = Rect2(0, 16, 48, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xpoag"]
+atlas = ExtResource("7_o2d8a")
+region = Rect2(0, 32, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6yt8d"]
+atlas = ExtResource("7_o2d8a")
+region = Rect2(0, 0, 48, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmya6"]
+atlas = ExtResource("7_o2d8a")
+region = Rect2(0, 64, 48, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3civj"]
 atlas = ExtResource("4_asr30")
@@ -33,14 +51,18 @@ region = Rect2(0, 10, 48, 5)
 [node name="Main" type="Node"]
 
 [node name="World" parent="." instance=ExtResource("1_534u6")]
+script = ExtResource("2_mbc0m")
+maximum_gravity = 240.0
 
-[node name="Player" parent="." node_paths=PackedStringArray("cannon_points") instance=ExtResource("2_xc4b4")]
+[node name="Player" parent="." node_paths=PackedStringArray("world", "cannon_points") instance=ExtResource("2_xc4b4")]
 motion_mode = 1
+world = NodePath("../World")
+max_speed = 1500.0
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="GUI" type="Control" parent="CanvasLayer"]
+[node name="GUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("player")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -48,38 +70,57 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_t8cht")
+player = NodePath("../../Player")
 
-[node name="Control" type="Control" parent="CanvasLayer/GUI"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 36.0
-offset_top = -134.0
-offset_right = 420.0
-offset_bottom = -52.0
-grow_vertical = 0
+[node name="WarningSound" type="AudioStreamPlayer" parent="CanvasLayer/GUI"]
+stream = ExtResource("8_pmg8h")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/Control"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -82.0
-offset_right = 384.0
-grow_vertical = 0
-
-[node name="WeaponHeatGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/Control/VBoxContainer"]
+[node name="WeaponHeatGauge" type="TextureProgressBar" parent="CanvasLayer/GUI"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(384, 48)
-layout_mode = 2
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 67.0
+offset_top = -104.0
+offset_right = 451.0
+offset_bottom = -56.0
+grow_vertical = 0
 size_flags_horizontal = 0
 nine_patch_stretch = true
 texture_under = SubResource("AtlasTexture_vj1n4")
 texture_over = SubResource("AtlasTexture_ftqa5")
 texture_progress = SubResource("AtlasTexture_282ky")
 
-[node name="FuelGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/Control/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -459.0
+offset_top = -277.0
+offset_right = -75.0
+offset_bottom = -51.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="SpeedGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 192)
+layout_mode = 2
+value = 64.0
+rounded = true
+fill_mode = 3
+nine_patch_stretch = true
+texture_under = SubResource("AtlasTexture_xpoag")
+texture_over = SubResource("AtlasTexture_6yt8d")
+texture_progress = SubResource("AtlasTexture_hmya6")
+script = ExtResource("8_66gcj")
+
+[node name="FuelGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -88,5 +129,33 @@ texture_under = SubResource("AtlasTexture_3civj")
 texture_over = SubResource("AtlasTexture_tuw8f")
 texture_progress = SubResource("AtlasTexture_8qcth")
 
-[connection signal="fuel_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_fuel_changed"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer/GUI"]
+visible = false
+layout_mode = 0
+offset_left = 83.0
+offset_top = 59.0
+offset_right = 337.0
+offset_bottom = 313.0
+
+[node name="SubViewport" type="SubViewport" parent="CanvasLayer/GUI/SubViewportContainer" node_paths=PackedStringArray("world", "player")]
+handle_input_locally = false
+render_target_update_mode = 0
+script = ExtResource("10_rbyyy")
+world = NodePath("../../../../World")
+player = NodePath("../../../../Player")
+
+[node name="Camera2D" type="Camera2D" parent="CanvasLayer/GUI/SubViewportContainer/SubViewport"]
+zoom = Vector2(0.01, 0.01)
+
+[node name="Minimap" type="Control" parent="CanvasLayer/GUI" node_paths=PackedStringArray("player")]
+anchors_preset = 0
+offset_left = 83.0
+offset_top = 59.0
+offset_right = 339.0
+offset_bottom = 315.0
+script = ExtResource("11_l3mgi")
+player = NodePath("../../../Player")
+grid_scale = 512
+grid_size = 64
+
 [connection signal="heat_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_heat_changed"]

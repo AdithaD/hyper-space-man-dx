@@ -111,7 +111,7 @@ func spawn(n, pos, origin, dist):
 			sun_grid[[goal_x_grid, goal_y_grid]] = true
 	
 func start_spawn():
-	spawn(3, Vector2(1, 0), Vector2(0, 0), 5500)
-	spawn(3, Vector2(-1, 0), Vector2(0, 0),5500)
-	spawn(3, Vector2(0, 1), Vector2(0, 0), 5500)
-	spawn(3, Vector2(0,-1), Vector2(0, 0), 5500)
+	spawn(3, Vector2(1, 0), Vector2(0, 0), grid_size * 4)
+	spawn(3, Vector2(-1, 0), Vector2(0, 0),grid_size * 4)
+	spawn(3, Vector2(0, 1), Vector2(0, 0), grid_size * 4)
+	spawn(3, Vector2(0,-1), Vector2(0, 0), grid_size * 4)
