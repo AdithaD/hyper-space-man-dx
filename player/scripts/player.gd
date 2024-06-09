@@ -23,6 +23,9 @@ signal weapon_changed(current_weapon: PlayerWeapon)
 
 @export var cannon_points : Array[Node2D] = []
 
+@export_subgroup("Trade")
+@export var minerals : MineralInventory
+
 # Movement Vectors
 var direction := Vector2.ZERO
 
@@ -57,10 +60,10 @@ var is_accelerating = false:
 				$EngineJoltSound.play()
 
 func _ready() -> void:
+	minerals._init()
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
 
 func _physics_process(delta):
-	
 	#accelerate
 	is_accelerating = Input.is_action_pressed("accelerate") 
 	
@@ -73,7 +76,6 @@ func _physics_process(delta):
 	# shoot
 	if Input.is_action_just_pressed("shoot") and not $HeatCooloffTimer.is_stopped():
 		$CantShootSound.play()
-		print("lol")
 		
 	if Input.is_action_pressed("shoot") and $ShotTimer.is_stopped() and $HeatCooloffTimer.is_stopped():
 		shoot()

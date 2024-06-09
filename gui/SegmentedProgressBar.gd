@@ -13,7 +13,6 @@ func _draw() -> void:
 	
 	for i in range(value):
 		var x := floori(i * (segment_width + separation))
-		print(x)
 		
 		var colour = segment_color
 		if segment_color_gradient:

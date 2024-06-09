@@ -13,7 +13,8 @@ colors = PackedColorArray(0.89, 0.2225, 0.456125, 1, 0.905726, 0.482113, 0.23833
 gradient = SubResource("Gradient_c8itg")
 
 [sub_resource type="Curve" id="Curve_wfnjm"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.675127, 0.797665), 0.0, 0.0, 0, 0, Vector2(0.989848, 0.405642), 0.0, 0.0, 0, 0]
+max_value = 2.0
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(0.501597, 1.17197), -2.72813, -2.72813, 0, 0, Vector2(0.989848, 0.405642), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_xyoix"]
@@ -44,8 +45,9 @@ speed = 1200.0
 acceleration = 3000.0
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
-amount = 16
+amount = 24
 process_material = SubResource("ParticleProcessMaterial_iv0r1")
+lifetime = 0.8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_x2q05")

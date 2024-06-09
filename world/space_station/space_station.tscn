@@ -1,0 +1,27 @@
+[gd_scene load_steps=7 format=3 uid="uid://bi7sudnr12ic4"]
+
+[ext_resource type="Script" path="res://world/space_station.gd" id="1_ie2h8"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/platnium.tres" id="2_ggpxx"]
+[ext_resource type="Texture2D" uid="uid://cqicookwg0jpe" path="res://world/space_station/space_station.png" id="2_i0i4s"]
+[ext_resource type="Script" path="res://world/player_interact_area.gd" id="3_6qpgq"]
+[ext_resource type="Script" path="res://world/discrete_circulating_sprite.gd" id="4_8lxj4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gkv26"]
+radius = 165.511
+
+[node name="SpaceStation" type="Node2D" groups=["space_station"]]
+script = ExtResource("1_ie2h8")
+cost_mineral = ExtResource("2_ggpxx")
+
+[node name="SpaceStation" type="Sprite2D" parent="."]
+texture = ExtResource("2_i0i4s")
+script = ExtResource("4_8lxj4")
+
+[node name="PlayerInteractArea" type="Area2D" parent="."]
+script = ExtResource("3_6qpgq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractArea"]
+shape = SubResource("CircleShape2D_gkv26")
+
+[connection signal="player_entered" from="PlayerInteractArea" to="." method="_on_player_interact_area_player_entered"]
+[connection signal="player_exited" from="PlayerInteractArea" to="." method="_on_player_interact_area_player_exited"]
