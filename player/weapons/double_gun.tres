@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PlayerWeapon" load_steps=4 format=3 uid="uid://bp8nshg7giykd"]
+
+[ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="1_eyipu"]
+[ext_resource type="Texture2D" uid="uid://cuakj7vnl5js2" path="res://gui/weapons/double_gun_icon.tres" id="2_r12gg"]
+[ext_resource type="PackedScene" uid="uid://c7rysefc0f1k0" path="res://player/weapons/double_gun_shot.tscn" id="3_8r5kd"]
+
+[resource]
+script = ExtResource("1_eyipu")
+weapon_name = "Weapon Name"
+weapon_icon = ExtResource("2_r12gg")
+weapon_shot_scene = ExtResource("3_8r5kd")
+shot_cooldown = 0.2
+heat_per_shot = 10.0

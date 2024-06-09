@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://d41xoa4xcojo"]
+
+[ext_resource type="Script" path="res://enemy/Behaviour Tree/PriorityBehaviourTreeNode.gd" id="1_ucbhm"]
+[ext_resource type="Script" path="res://enemy/action_separation.gd" id="2_ca5fr"]
+[ext_resource type="Script" path="res://enemy/action_coherence.gd" id="3_pnx0k"]
+[ext_resource type="Script" path="res://enemy/action_chase_player.gd" id="4_3rsg1"]
+
+[node name="FlockingBehaviour" type="Node"]
+script = ExtResource("1_ucbhm")
+
+[node name="ActionSeparation" type="Node" parent="."]
+script = ExtResource("2_ca5fr")
+maximum_separation_range = 64.0
+force = 2000.0
+
+[node name="ActionCoherence" type="Node" parent="."]
+script = ExtResource("3_pnx0k")
+minimum_coherence_range = 400.0
+maximum_coherence_range = 1500.0
+force = 2000.0
+
+[node name="ActionChasePlayer" type="Node" parent="."]
+script = ExtResource("4_3rsg1")

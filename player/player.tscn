@@ -1,14 +1,22 @@
-[gd_scene load_steps=13 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=22 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
-[ext_resource type="Script" path="res://player/player.gd" id="1_utgdb"]
+[ext_resource type="Script" path="res://player/scripts/player.gd" id="1_utgdb"]
 [ext_resource type="Material" uid="uid://c1nu5ip1icxal" path="res://player/engine_particle_process_material.tres" id="2_i7ooq"]
-[ext_resource type="Script" path="res://player/ship_engine.gd" id="2_sgfqe"]
-[ext_resource type="Script" path="res://player/player_camera.gd" id="4_hr172"]
-[ext_resource type="AudioStream" uid="uid://bysiyxxx3rsfd" path="res://player/engine_jolt.wav" id="5_cpwju"]
-[ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://player/engine_sustain.wav" id="6_fatdb"]
-[ext_resource type="AudioStream" uid="uid://dja57jk2rq1h1" path="res://player/cooloff.wav" id="6_ygi07"]
-[ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://player/cannon_shot.wav" id="7_q38qb"]
+[ext_resource type="Script" path="res://player/scripts/ship_engine.gd" id="2_sgfqe"]
+[ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="3_yws57"]
+[ext_resource type="Script" path="res://player/scripts/player_camera.gd" id="4_hr172"]
+[ext_resource type="Resource" uid="uid://bp8nshg7giykd" path="res://player/weapons/double_gun.tres" id="4_hu4rs"]
+[ext_resource type="AudioStream" uid="uid://bysiyxxx3rsfd" path="res://player/sounds/engine_jolt.wav" id="5_cpwju"]
+[ext_resource type="Resource" uid="uid://b1txmy5n7crai" path="res://player/weapons/missile.tres" id="5_tuqcu"]
+[ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://player/sounds/engine_sustain.wav" id="6_fatdb"]
+[ext_resource type="AudioStream" uid="uid://dja57jk2rq1h1" path="res://player/sounds/cooloff.wav" id="6_ygi07"]
+[ext_resource type="AudioStream" uid="uid://eau201gxxt64" path="res://player/sounds/anti_gravity_on.wav" id="7_gekea"]
+[ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://player/sounds/cannon_shot.wav" id="7_q38qb"]
+[ext_resource type="AudioStream" uid="uid://cna485omiae18" path="res://player/sounds/anti_gravity_off.wav" id="8_j6q3o"]
+[ext_resource type="PackedScene" uid="uid://cxdx6hkb1rpq" path="res://components/hurtbox_component.tscn" id="10_h7v8t"]
+[ext_resource type="PackedScene" uid="uid://bb47cvyg02i4a" path="res://components/health_component.tscn" id="11_amrm5"]
+[ext_resource type="AudioStream" uid="uid://cw2qqjg7kfm2f" path="res://player/sounds/cant_shoot.wav" id="15_4ql6b"]
 
 [sub_resource type="Resource" id="Resource_84uqs"]
 script = ExtResource("2_sgfqe")
@@ -23,9 +31,15 @@ height = 64.0
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_vbycn"]
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points")]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x37x3"]
+radius = 22.0
+height = 64.0
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points") groups=["player"]]
+motion_mode = 1
 script = ExtResource("1_utgdb")
 ship_engine = SubResource("Resource_84uqs")
+weapons = Array[ExtResource("3_yws57")]([ExtResource("4_hu4rs"), ExtResource("5_tuqcu")])
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
@@ -63,14 +77,23 @@ position = Vector2(-15, 25)
 [node name="EngineJoltSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_cpwju")
 
+[node name="AntigravityOnSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_gekea")
+
+[node name="AntigravityOffSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_j6q3o")
+
 [node name="EngineSustainSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_fatdb")
 
-[node name="CannonCooloffSound" type="AudioStreamPlayer2D" parent="." groups=["player"]]
+[node name="CannonCooloffSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_ygi07")
 
 [node name="CannonShotSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_q38qb")
+
+[node name="CantShootSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("15_4ql6b")
 
 [node name="ShotTimer" type="Timer" parent="."]
 wait_time = 0.2
@@ -79,5 +102,17 @@ one_shot = true
 [node name="HeatCooloffTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="HealthComponent" parent="." instance=ExtResource("11_amrm5")]
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("10_h7v8t")]
+collision_layer = 2
+collision_mask = 5
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_x37x3")
+debug_color = Color(0.584159, 0.443576, 0.844739, 0.42)
 
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]

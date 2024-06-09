@@ -1,0 +1,6 @@
+extends ActionCreatureMovement
+
+func update(actor: DynamicCreature, blackboard: BehaviourTreeBlackboard) -> BehaviourState:
+	_move_towards(actor, actor.creature_owner.global_position)
+	return BehaviourState.RUNNING
+

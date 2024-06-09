@@ -1,0 +1,65 @@
+[gd_scene load_steps=11 format=3 uid="uid://cg87houwcn0uk"]
+
+[ext_resource type="Script" path="res://player/scripts/player_shot.gd" id="1_411od"]
+[ext_resource type="Texture2D" uid="uid://dmqbq6pgfmkqn" path="res://player/player_laser_shot.png" id="2_cdn5i"]
+[ext_resource type="PackedScene" uid="uid://0bdiug3nq1yh" path="res://components/hitbox_component.tscn" id="3_uuivf"]
+[ext_resource type="AudioStream" uid="uid://ii5evbgbomm0" path="res://player/sounds/flying_shot.wav" id="4_xfngd"]
+
+[sub_resource type="Gradient" id="Gradient_c8itg"]
+offsets = PackedFloat32Array(0, 0.338798, 1)
+colors = PackedColorArray(0.89, 0.2225, 0.456125, 1, 0.905726, 0.482113, 0.238339, 1, 0.151276, 0.151276, 0.151276, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xo312"]
+gradient = SubResource("Gradient_c8itg")
+
+[sub_resource type="Curve" id="Curve_wfnjm"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.675127, 0.797665), 0.0, 0.0, 0, 0, Vector2(0.989848, 0.405642), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_xyoix"]
+curve = SubResource("Curve_wfnjm")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_iv0r1"]
+particle_flag_disable_z = true
+angle_min = -59.1
+angle_max = 22.9
+direction = Vector3(-1, 0, 0)
+spread = 10.0
+initial_velocity_min = 86.05
+initial_velocity_max = 162.79
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -65.28
+linear_accel_max = -6.98
+scale_max = 3.0
+scale_curve = SubResource("CurveTexture_xyoix")
+color_ramp = SubResource("GradientTexture1D_xo312")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8sm32"]
+size = Vector2(20, 12)
+
+[node name="Shot" type="Node2D"]
+script = ExtResource("1_411od")
+speed = 1200.0
+acceleration = 3000.0
+
+[node name="EngineParticles1" type="GPUParticles2D" parent="."]
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_iv0r1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0.07, 0.07, 1)
+texture = ExtResource("2_cdn5i")
+
+[node name="Hitbox" parent="." instance=ExtResource("3_uuivf")]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_8sm32")
+
+[node name="FlyingShotSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_xfngd")
+autoplay = true
+
+[connection signal="collided" from="Hitbox" to="." method="_on_hitbox_collided"]
