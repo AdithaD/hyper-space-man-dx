@@ -3,6 +3,7 @@ extends Control
 const MINERAL_INVENTORY_ITEM_GUI = preload ("res://gui/mineral_inventory/mineral_inventory_item_gui.tscn")
 
 @export var mineral_inventory: MineralInventory: set = set_mineral_inventory
+@export var mineral_inventory_item_gui: PackedScene = MINERAL_INVENTORY_ITEM_GUI
 
 var mineral_to_child_map = {}
 
@@ -25,7 +26,7 @@ func update():
 		child.queue_free()
 	
 	for m in mineral_inventory.minerals:
-		var item_gui = MINERAL_INVENTORY_ITEM_GUI.instantiate()
+		var item_gui = mineral_inventory_item_gui.instantiate()
 		item_gui.set_mineral(m)
 		item_gui.update(mineral_inventory.get_amount(m))
 		
@@ -38,4 +39,4 @@ func _on_mineral_modified(mineral: Mineral, new_amount: int) -> void:
 	if child:
 		child.update(new_amount)
 	else:
-		push_warning("Tried to modify mineral amount on gui without the mineral!")
+		update()

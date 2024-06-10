@@ -14,3 +14,12 @@ func get_gravity(origin: Vector2) -> Vector2:
 		
 func _newtonian_gravity(origin: Vector2, gravitator_position: Vector2, strength: float) -> Vector2:
 	return origin.direction_to(gravitator_position) * ((gravitational_constant * strength) / max(10, origin.distance_squared_to(gravitator_position)))
+
+func add_mine_anchor(mine_anchor: MineAnchor) -> void:
+	add_child(mine_anchor)
+
+func configure_player(player: Player) -> void:
+	$SolarSystemSpawner.solar_system_spawned.connect(player.mining_interactor._on_solar_system_spawner_solar_system_spawned)
+	
+func start():
+	$SolarSystemSpawner.start_spawn()

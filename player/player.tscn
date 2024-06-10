@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=23 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_utgdb"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://cxdx6hkb1rpq" path="res://components/hurtbox_component.tscn" id="10_h7v8t"]
 [ext_resource type="PackedScene" uid="uid://bb47cvyg02i4a" path="res://components/health_component.tscn" id="11_amrm5"]
 [ext_resource type="AudioStream" uid="uid://cw2qqjg7kfm2f" path="res://player/sounds/cant_shoot.wav" id="15_4ql6b"]
+[ext_resource type="Script" path="res://player/mining_interactor.gd" id="18_byx4j"]
 
 [sub_resource type="Resource" id="Resource_84uqs"]
 script = ExtResource("2_sgfqe")
@@ -114,5 +115,8 @@ health_component = NodePath("../HealthComponent")
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_x37x3")
 debug_color = Color(0.584159, 0.443576, 0.844739, 0.42)
+
+[node name="MiningInteractor" type="Node" parent="."]
+script = ExtResource("18_byx4j")
 
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]

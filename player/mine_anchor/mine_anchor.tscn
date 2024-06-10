@@ -1,13 +1,18 @@
-[gd_scene load_steps=27 format=3 uid="uid://djatwe46ey201"]
+[gd_scene load_steps=30 format=3 uid="uid://djatwe46ey201"]
 
 [ext_resource type="Script" path="res://player/mine_anchor.gd" id="1_pbogc"]
 [ext_resource type="Texture2D" uid="uid://nvlka8ych176" path="res://player/mining_drone-sheet.png" id="2_vl4ha"]
 [ext_resource type="Script" path="res://utils/rotating_sprite.gd" id="3_mbq1v"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="4_nyy14"]
 [ext_resource type="Script" path="res://components/hurtbox_component.gd" id="5_nfyti"]
-[ext_resource type="Texture2D" uid="uid://wek4uypm10mf" path="res://gui/heat_bar/fuel_bar.png" id="6_7cyms"]
+[ext_resource type="Texture2D" uid="uid://byubcpsaimpu3" path="res://gui/progress_bar_under.tres" id="6_s34o7"]
 [ext_resource type="Script" path="res://gui/SegmentedProgressBar.gd" id="7_jyq82"]
+[ext_resource type="Texture2D" uid="uid://co8nv6fvqw7sg" path="res://gui/progress_bar_over.tres" id="8_7jnmf"]
 [ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="8_ut81t"]
+[ext_resource type="Texture2D" uid="uid://c8ebvo6vwcner" path="res://gui/progress_bar_fill.tres" id="9_1agpl"]
+[ext_resource type="Script" path="res://player/mine_anchor/timer_bound_progress_bar.gd" id="10_rb17h"]
+[ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="12_ui8vi"]
+[ext_resource type="PackedScene" uid="uid://ckkl8j31heqfg" path="res://gui/mineral_inventory/mineral_inventory_item_gui_small.tscn" id="13_mib7h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u0cp8"]
 atlas = ExtResource("2_vl4ha")
@@ -111,18 +116,10 @@ scale_curve = SubResource("CurveTexture_updp7")
 color_ramp = SubResource("GradientTexture1D_m2l0k")
 color_initial_ramp = SubResource("GradientTexture1D_gfsxm")
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_3civj"]
-atlas = ExtResource("6_7cyms")
-region = Rect2(0, 0, 48, 5)
-
 [sub_resource type="Gradient" id="Gradient_7g43y"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.33, 0.66)
 colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0.97208, 0.765204, 0.365895, 1, 0.368333, 0.65, 0.325, 1)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tuw8f"]
-atlas = ExtResource("6_7cyms")
-region = Rect2(0, 5, 48, 5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3cak3"]
 radius = 43.33
@@ -177,7 +174,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("AtlasTexture_3civj")
+texture = ExtResource("6_s34o7")
 stretch_mode = 4
 
 [node name="HealthBar" type="Control" parent="Control"]
@@ -203,13 +200,45 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("AtlasTexture_tuw8f")
+texture = ExtResource("8_7jnmf")
 stretch_mode = 4
+
+[node name="PickupProgressBar" type="TextureProgressBar" parent="." node_paths=PackedStringArray("timer")]
+custom_minimum_size = Vector2(76, 8)
+offset_left = -37.0
+offset_top = -51.0
+offset_right = 39.0
+offset_bottom = -43.0
+nine_patch_stretch = true
+texture_under = ExtResource("6_s34o7")
+texture_over = ExtResource("8_7jnmf")
+texture_progress = ExtResource("9_1agpl")
+script = ExtResource("10_rb17h")
+timer = NodePath("../PickupTimer")
 
 [node name="PlayerInteractArea" parent="." instance=ExtResource("8_ut81t")]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractArea"]
 shape = SubResource("CircleShape2D_3cak3")
+
+[node name="PickupTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="MineTickTimer" type="Timer" parent="."]
+
+[node name="MineralInventoryGUI" type="VBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 69.0
+offset_top = -55.0
+offset_right = 220.0
+offset_bottom = 56.0
+grow_horizontal = 0
+theme_override_constants/separation = 8
+script = ExtResource("12_ui8vi")
+mineral_inventory_item_gui = ExtResource("13_mib7h")
 
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]

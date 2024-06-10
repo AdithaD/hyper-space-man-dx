@@ -25,7 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://c18l6140imaie" path="res://gui/heat_bar/heat_bar.png" id="16_e7ib6"]
 [ext_resource type="Texture2D" uid="uid://cuakj7vnl5js2" path="res://gui/weapons/double_gun_icon.tres" id="16_ykoqb"]
 [ext_resource type="Script" path="res://gui/weapon_slot.gd" id="17_kku5o"]
-[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platnium.png" id="21_77f25"]
+[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platinum.png" id="21_77f25"]
 [ext_resource type="Script" path="res://gui/prompt.gd" id="21_w63j5"]
 [ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="25_eg55f"]
 [ext_resource type="Script" path="res://solar_mineral_inventory_gui.gd" id="27_fogyc"]
@@ -106,8 +106,6 @@ solar_system_randomness = 0.3
 
 [node name="SpaceStation" parent="World" instance=ExtResource("3_03o47")]
 
-[node name="MineAnchor" parent="World" instance=ExtResource("5_racmp")]
-
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="EnemyGroup" type="Node2D" parent="Enemies"]
@@ -137,7 +135,8 @@ cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 world = NodePath("../World")
 max_speed = 1500.0
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
-minerals = ExtResource("8_kup1v")
+mineral_inventory = ExtResource("8_kup1v")
+mine_anchor_scene = ExtResource("5_racmp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -430,6 +429,7 @@ label_settings = SubResource("LabelSettings_hd47g")
 
 [node name="MineAnchorPrompt" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -466,16 +466,15 @@ grow_vertical = 2
 
 [node name="SolarObjectNameLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Control"]
 layout_mode = 2
-text = "Terrestria B"
 label_settings = SubResource("LabelSettings_m4m5c")
 
 [node name="SolarMineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/Control" node_paths=PackedStringArray("name_label")]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 script = ExtResource("27_fogyc")
 name_label = NodePath("../SolarObjectNameLabel")
 
-[connection signal="solar_system_spawned" from="World/SolarSystemSpawner" to="CanvasLayer/GUI/MarginContainer/UI/Control/SolarMineralInventoryGUI" method="_on_solar_system_spawner_solar_system_spawned"]
 [connection signal="heat_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_heat_changed"]
 [connection signal="prompt_interacted" from="CanvasLayer/GUI/MarginContainer/UI/Prompt" to="." method="_on_prompt_prompt_interacted"]

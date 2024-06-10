@@ -34,7 +34,6 @@ func init(frames: SpriteFrames, amount_of_enemies: int, p_solar_name: String, p_
 	sprite.apply_scale(Vector2(new_scale, new_scale))
 
 	var radius = sprite.scale.x * sprite.sprite_frames.get_frame_texture("rotate", 0).get_width() / 2
-	prints(sprite.scale, radius)
 	var shape = CircleShape2D.new()
 	shape.radius = radius
 	

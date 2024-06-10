@@ -1,9 +1,0 @@
-[gd_resource type="Resource" script_class="Mineral" load_steps=3 format=3 uid="uid://mrhoq0gx6s8j"]
-
-[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platnium.png" id="1_1i2e2"]
-[ext_resource type="Script" path="res://minerals/mineral.gd" id="1_a1q2b"]
-
-[resource]
-script = ExtResource("1_a1q2b")
-mineral_name = "Platnium"
-mineral_icon = ExtResource("1_1i2e2")

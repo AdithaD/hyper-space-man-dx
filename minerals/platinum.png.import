@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://37ifevu1tidw"
-path="res://.godot/imported/platnium.png-ad46b925b2083ea49d53d4f6a3f61fe7.ctex"
+path="res://.godot/imported/platinum.png-e83259f2a9808b3516c3c42e5b140bf2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://minerals/platnium.png"
-dest_files=["res://.godot/imported/platnium.png-ad46b925b2083ea49d53d4f6a3f61fe7.ctex"]
+source_file="res://minerals/platinum.png"
+dest_files=["res://.godot/imported/platinum.png-e83259f2a9808b3516c3c42e5b140bf2.ctex"]
 
 [params]
 

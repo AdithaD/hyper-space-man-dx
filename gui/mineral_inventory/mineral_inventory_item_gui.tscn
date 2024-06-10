@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7vqiy4suslhd"]
 
 [ext_resource type="Script" path="res://gui/mineral_inventory_item_gui.gd" id="1_k4cys"]
-[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platnium.png" id="2_wq8y1"]
+[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platinum.png" id="2_wq8y1"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hv5px"]
 font_size = 32

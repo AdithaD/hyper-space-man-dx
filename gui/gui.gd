@@ -6,6 +6,7 @@ func _ready() -> void:
 	player.ship_engine.engine_burned.connect(_on_player_engine_burned)
 	player.player_state_changed.connect(_on_player_state_changed)
 	player.get_health_component().health_changed.connect(_on_player_health_changed)
+	player.mining_interactor.stack_changed.connect( %SolarMineralInventoryGUI._on_player_mining_interactor_stack_changed)
 	#intiial state
 	%FuelGauge.ratio = player.ship_engine.get_ratio()
 	

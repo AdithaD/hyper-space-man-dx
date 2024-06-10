@@ -22,7 +22,11 @@ signal weapon_changed(current_weapon: PlayerWeapon)
 @export var cannon_points: Array[Node2D] = []
 
 @export_subgroup("Trade")
-@export var minerals: MineralInventory
+@export var mineral_inventory: MineralInventory
+
+@export_subgroup("Mining")
+@export var mine_anchor_scene: PackedScene
+@export var mine_anchor_pickup_radius = 100
 
 # Movement Vectors
 var direction := Vector2.ZERO
@@ -38,11 +42,6 @@ var current_weapon: PlayerWeapon:
 	get:
 		return weapons[current_weapon_index]
 
-@onready var heat = 0:
-	set(value):
-		heat = value
-		heat_changed.emit(heat, heat / maximum_heat)
-
 var is_accelerating = false:
 	set(new_value):
 		if new_value != is_accelerating:
@@ -57,11 +56,23 @@ var is_accelerating = false:
 				$Camera2D.add_trauma(1.0)
 				$EngineJoltSound.play()
 
+var mine_anchor: MineAnchor = null
+
+var mining_interactor:
+	get:
+		return $MiningInteractor
+
+@onready var heat = 0:
+	set(value):
+		heat = value
+		heat_changed.emit(heat, heat / maximum_heat)
+
 func _ready() -> void:
-	minerals._init(minerals.minerals, minerals.starting_inventory)
+	mineral_inventory._init(mineral_inventory.minerals, mineral_inventory.starting_inventory)
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
 
 func _physics_process(delta):
+
 	#accelerate
 	is_accelerating = Input.is_action_pressed("accelerate")
 	
@@ -70,14 +81,23 @@ func _physics_process(delta):
 	else:
 		if not is_zero_approx(velocity.length()):
 			velocity -= velocity.normalized() * drag * delta
-		
+
+	# mining
+	if Input.is_action_just_pressed("mine"):
+		if mine_anchor == null:
+			if mining_interactor.current_solar_object != null:
+				deploy_mine_anchor()
+		else:
+			if mine_anchor.global_position.distance_to(global_position) < mine_anchor_pickup_radius:
+				mine_anchor.start_pickup_timer()
+
 	# shoot
 	if Input.is_action_just_pressed("shoot") and not $HeatCooloffTimer.is_stopped():
 		$CantShootSound.play()
 		
 	if Input.is_action_pressed("shoot") and $ShotTimer.is_stopped() and $HeatCooloffTimer.is_stopped():
 		shoot()
-	
+
 	if Input.is_action_just_pressed("anti_gravity"):
 		if ship_engine.current_fuel > 0:
 			set_anti_gravity(not is_anti_gravity_on)
@@ -88,11 +108,11 @@ func _physics_process(delta):
 		
 		$ShotTimer.wait_time = current_weapon.shot_cooldown
 		weapon_changed.emit(current_weapon)
-	
+
 	# reduce heat
 	if not is_zero_approx(heat):
 		heat -= min(heat, heat_drain_per_second * delta)
-	
+
 	# apply gravity
 	if world:
 		var gravity = world.get_gravity(global_position)
@@ -102,11 +122,11 @@ func _physics_process(delta):
 		else:
 			# burn fuel equivalent to anti-gravity
 			ship_engine.burn_anti_gravity(gravity * delta)
-	
+
 	# over speed camera shake
 	if velocity.length() > max_speed:
 		$Camera2D.add_trauma(1.0 * delta)
-	
+
 	look_at(get_global_mouse_position())
 	move_and_slide()
 	
@@ -137,6 +157,28 @@ func shoot():
 	_add_heat(current_weapon.heat_per_shot)
 	
 	shot_count += 1
+
+func deploy_mine_anchor():
+	# instantiate
+	mine_anchor = mine_anchor_scene.instantiate()
+	world.add_mine_anchor(mine_anchor)
+	mine_anchor.set_mine_target(mining_interactor.current_solar_object)
+	mine_anchor.pickup.connect(_on_mine_anchor_pickup)
+
+	# tween away from ship
+	var tween = mine_anchor.create_tween()
+	tween.tween_property(mine_anchor, "global_position", global_position + Vector2(128, 0).rotated(2 * PI * randi()), 0.5).from(global_position)
+
+func pickup_mine_anchor():
+	# get resources
+	for mineral in mine_anchor.mineral_inventory.get_minerals():
+		mineral_inventory.add_amount(mineral, mine_anchor.mineral_inventory.get_amount(mineral))
+
+	mine_anchor.queue_free()
+	mine_anchor = null
+
+func _on_mine_anchor_pickup():
+	pickup_mine_anchor()
 
 func _add_heat(amount):
 	heat = heat + amount

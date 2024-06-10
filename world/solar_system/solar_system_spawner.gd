@@ -41,11 +41,8 @@ func generate_sun_names():
 func _ready():
 	randomize()
 	generate_sun_names()
-
 	explored_grid[[0, 0]] = true
 	
-	start_spawn()
-
 func _process(_delta):
 	var full_position = get_node("/root/Main/Player").position
 	var pos = [int(full_position.x / grid_size), int(full_position.y / grid_size)]
