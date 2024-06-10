@@ -157,25 +157,48 @@ func accelerate(delta):
 func shoot():
 	# select cannon point
 	var cannon = cannon_points[shot_count % cannon_points.size()]
+
+	if current_weapon.is_hitscan:
+		_shoot_hitscan(current_weapon, global_position, get_global_mouse_position())
+	else:
+		_shoot_projectile(current_weapon, cannon.global_position, get_global_mouse_position())
+	$CannonShotSound.play()
+	$Camera2D.add_trauma(current_weapon.shot_trauma)
 	
-	# fire shot
-	var new_shot = current_weapon.instantiate_shot()
-	new_shot.global_position = cannon.global_position
+	$ShotTimer.start()
+
+	_add_heat(current_weapon.heat_per_shot)
+	shot_count += 1
+
+func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, mouse_position: Vector2) -> void:
+	var new_shot = weapon.instantiate_shot()
+	new_shot.global_position = origin
 	new_shot.global_rotation = global_rotation
 	
 	if new_shot.has_method("set_target"):
-		new_shot.set_target(get_global_mouse_position(), velocity)
+		new_shot.set_target(mouse_position)
+
+	if new_shot.has_method("set_inherited_velocity"):
+		new_shot.set_inherited_velocity(velocity)
 	
 	$Shots.add_child(new_shot)
+
+func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, mouse_position: Vector2) -> void:
+	var dss = get_world_2d().direct_space_state
+
+	var destination = origin.direction_to(mouse_position) * 2000 + origin
+	var query = PhysicsRayQueryParameters2D.create(origin, destination, 0b1000)
+	query.collide_with_bodies = false
+	query.collide_with_areas = true
 	
-	$CannonShotSound.play()
-	$Camera2D.add_trauma(0.15)
-	
-	$ShotTimer.start()
-	
-	_add_heat(current_weapon.heat_per_shot)
-	
-	shot_count += 1
+	var collision: Dictionary = dss.intersect_ray(query)
+
+	$RayShooter.shoot_ray(origin, destination, 0.3)
+	prints(origin, destination, collision)
+	if collision:
+		var hurtbox = collision.collider as HurtboxComponent
+		hurtbox.take_damage(weapon.weapon_damage)
+		print(hurtbox)
 
 func deploy_mine_anchor():
 	# instantiate
@@ -227,7 +250,9 @@ func queue_death():
 	died.emit()
 
 func _on_health_component_died() -> void:
-	queue_death()
+	if not is_dead:
+		queue_death()
 
 func _on_overspeed_timer_timeout() -> void:
-	queue_death()
+	if not is_dead:
+		queue_death()

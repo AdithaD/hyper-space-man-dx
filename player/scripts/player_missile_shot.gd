@@ -37,5 +37,9 @@ func _physics_process(delta: float) -> void:
 	if _timer > lifetime:
 		queue_free()
 
+func set_target(_new_target: Vector2):
+	pass
+func set_damage(damage: int) -> void:
+	$Hitbox.damage = damage
 func _on_hitbox_collided(_hurtbox: HurtboxComponent) -> void:
 	queue_free()

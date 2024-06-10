@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=33 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_utgdb"]
@@ -10,6 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://bysiyxxx3rsfd" path="res://player/sounds/engine_jolt.wav" id="5_cpwju"]
 [ext_resource type="Resource" uid="uid://b1txmy5n7crai" path="res://player/weapons/missile.tres" id="5_tuqcu"]
 [ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://player/sounds/engine_sustain.wav" id="6_fatdb"]
+[ext_resource type="Script" path="res://player/ray_shooter.gd" id="6_la5jd"]
+[ext_resource type="Resource" uid="uid://p71bsip243lr" path="res://player/weapons/laser.tres" id="6_utjo4"]
 [ext_resource type="AudioStream" uid="uid://dja57jk2rq1h1" path="res://player/sounds/cooloff.wav" id="6_ygi07"]
 [ext_resource type="AudioStream" uid="uid://eau201gxxt64" path="res://player/sounds/anti_gravity_on.wav" id="7_gekea"]
 [ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://player/sounds/cannon_shot.wav" id="7_q38qb"]
@@ -74,8 +76,12 @@ color_initial_ramp = SubResource("GradientTexture1D_xmehm")
 motion_mode = 1
 script = ExtResource("1_utgdb")
 ship_engine = SubResource("Resource_84uqs")
-weapons = Array[ExtResource("3_yws57")]([ExtResource("4_hu4rs"), ExtResource("5_tuqcu")])
+weapons = Array[ExtResource("3_yws57")]([ExtResource("4_hu4rs"), ExtResource("5_tuqcu"), ExtResource("6_utjo4")])
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
+
+[node name="RayShooter" type="Node2D" parent="."]
+script = ExtResource("6_la5jd")
+ray_color = Color(0.25, 0.6875, 1, 1)
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
 position = Vector2(-21, 12)

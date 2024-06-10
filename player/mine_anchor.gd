@@ -23,27 +23,15 @@ var mine_target: SolarObject
 @onready var player: Player = get_tree().get_first_node_in_group("player")
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var pickup_timer: Timer = $PickupTimer
+@onready var pickup_component: PickupComponent = $PickupComponent
 @onready var mine_tick_timer: Timer = $MineTickTimer
 
 func _ready() -> void:
 	activate()
 	
 	$MineralInventoryGUI.set_mineral_inventory(mineral_inventory)
-
-	pickup_timer.timeout.connect(pickup.emit)
-
+	pickup_component.connect_to_pickup(pickup.emit)
 	mine_tick_timer.timeout.connect(do_mine_tick)
-	
-func _process(_delta: float) -> void:
-	if not pickup_timer.is_stopped():
-		if not Input.is_action_pressed("mine") or global_position.distance_to(player.global_position) > pickup_radius:
-			pickup_timer.stop()
-
-func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed("mine"):
-		if global_position.distance_to(player.global_position) < pickup_radius and pickup_timer.is_stopped():
-			pickup_timer.start()
 
 func activate():
 	sprite.rotation_enabled = false
@@ -86,9 +74,6 @@ func _on_health_component_died() -> void:
 	
 	is_broken = true
 	mineral_inventory = MineralInventory.new()
-
-func start_pickup_timer():
-	$PickupTimer.start()
 
 func _on_health_component_health_changed(_amount: int, health: int, maximum_health: int) -> void:
 	%HealthBar.segments = maximum_health

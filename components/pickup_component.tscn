@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://meqghk35mmsf"]
+
+[ext_resource type="Script" path="res://components/pickup_component.gd" id="1_8wk82"]
+[ext_resource type="Texture2D" uid="uid://byubcpsaimpu3" path="res://gui/progress_bar_under.tres" id="2_xa32r"]
+[ext_resource type="Texture2D" uid="uid://co8nv6fvqw7sg" path="res://gui/progress_bar_over.tres" id="3_xeuhk"]
+[ext_resource type="Texture2D" uid="uid://c8ebvo6vwcner" path="res://gui/progress_bar_fill.tres" id="4_ccsad"]
+[ext_resource type="Script" path="res://player/mine_anchor/timer_bound_progress_bar.gd" id="5_pk8po"]
+
+[node name="PickupComponent" type="Node2D"]
+script = ExtResource("1_8wk82")
+
+[node name="PickupProgressBar" type="TextureProgressBar" parent="." node_paths=PackedStringArray("timer")]
+custom_minimum_size = Vector2(76, 8)
+offset_left = -37.0
+offset_top = -51.0
+offset_right = 39.0
+offset_bottom = -43.0
+nine_patch_stretch = true
+texture_under = ExtResource("2_xa32r")
+texture_over = ExtResource("3_xeuhk")
+texture_progress = ExtResource("4_ccsad")
+script = ExtResource("5_pk8po")
+timer = NodePath("../PickupTimer")
+
+[node name="PickupTimer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[connection signal="timeout" from="PickupTimer" to="." method="_on_pickup_timer_timeout"]

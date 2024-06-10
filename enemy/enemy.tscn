@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cupg2res6b0ac"]
+[gd_scene load_steps=34 format=3 uid="uid://cupg2res6b0ac"]
 
 [ext_resource type="Script" path="res://enemy/enemy.gd" id="1_tlc7p"]
 [ext_resource type="Texture2D" uid="uid://bblo0piuybw0q" path="res://enemy/enemy.png" id="2_6w5dx"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bb47cvyg02i4a" path="res://components/health_component.tscn" id="5_edq0i"]
 [ext_resource type="PackedScene" uid="uid://cxdx6hkb1rpq" path="res://components/hurtbox_component.tscn" id="6_pnprs"]
 [ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://player/sounds/engine_sustain.wav" id="7_3gnsj"]
+[ext_resource type="AudioStream" uid="uid://d2e025nibsfry" path="res://player/sounds/death.wav" id="7_cattu"]
 [ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://player/sounds/cannon_shot.wav" id="9_gbbys"]
 [ext_resource type="Script" path="res://enemy/Behaviour Tree/BehaviourTree.gd" id="9_punxm"]
 [ext_resource type="Script" path="res://enemy/Behaviour Tree/PriorityBehaviourTreeNode.gd" id="10_ite0q"]
@@ -150,6 +151,11 @@ stream = ExtResource("7_3gnsj")
 
 [node name="CannonShotSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_gbbys")
+attenuation = 4.75683
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_cattu")
+attenuation = 0.143588
 
 [node name="ShotTimer" type="Timer" parent="."]
 wait_time = 0.2
@@ -158,7 +164,7 @@ one_shot = true
 [node name="HealthComponent" parent="." instance=ExtResource("5_edq0i")]
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("6_pnprs")]
-collision_layer = 4
+collision_layer = 12
 collision_mask = 3
 health_component = NodePath("../HealthComponent")
 

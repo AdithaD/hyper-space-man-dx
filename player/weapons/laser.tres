@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PlayerWeapon" load_steps=3 format=3 uid="uid://p71bsip243lr"]
+
+[ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="1_mv8bd"]
+[ext_resource type="Texture2D" uid="uid://db5oblw47ly30" path="res://player/weapons/icons/laser.tres" id="2_nujmu"]
+
+[resource]
+script = ExtResource("1_mv8bd")
+weapon_name = "Laser"
+weapon_icon = ExtResource("2_nujmu")
+is_hitscan = true
+weapon_damage = 1
+shot_cooldown = 0.2
+heat_per_shot = 10.0
+shot_trauma = 0.05

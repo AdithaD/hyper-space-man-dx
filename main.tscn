@@ -23,7 +23,7 @@
 [ext_resource type="Script" path="res://gui/enemy_radar.gd" id="13_pc41l"]
 [ext_resource type="Script" path="res://gui/weapon_gui.gd" id="16_cnfgi"]
 [ext_resource type="Texture2D" uid="uid://c18l6140imaie" path="res://gui/heat_bar/heat_bar.png" id="16_e7ib6"]
-[ext_resource type="Texture2D" uid="uid://cuakj7vnl5js2" path="res://gui/weapons/double_gun_icon.tres" id="16_ykoqb"]
+[ext_resource type="Texture2D" uid="uid://cuakj7vnl5js2" path="res://player/weapons/icons/double_gun_icon.tres" id="16_ykoqb"]
 [ext_resource type="Script" path="res://gui/weapon_slot.gd" id="17_kku5o"]
 [ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platinum.png" id="21_77f25"]
 [ext_resource type="Script" path="res://gui/prompt.gd" id="21_w63j5"]

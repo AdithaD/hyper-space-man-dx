@@ -1,6 +1,84 @@
-[gd_scene load_steps=2 format=3 uid="uid://cxdx6hkb1rpq"]
+[gd_scene load_steps=10 format=3 uid="uid://cxdx6hkb1rpq"]
 
 [ext_resource type="Script" path="res://components/hurtbox_component.gd" id="1_qs0f4"]
+[ext_resource type="AudioStream" uid="uid://bfbvcyiy4ieuc" path="res://player/sounds/hurt_sound_alt.wav" id="2_r76db"]
+
+[sub_resource type="Gradient" id="Gradient_o44ax"]
+colors = PackedColorArray(0.913031, 0.490712, 0.0671775, 1, 0.686114, 0.0119885, 0.133698, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pmgun"]
+gradient = SubResource("Gradient_o44ax")
+
+[sub_resource type="Gradient" id="Gradient_mr12q"]
+offsets = PackedFloat32Array(0.318548, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_0jrrn"]
+gradient = SubResource("Gradient_mr12q")
+
+[sub_resource type="Curve" id="Curve_fdvbj"]
+min_value = 1.0
+max_value = 5.0
+_data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_tws6c"]
+curve = SubResource("Curve_fdvbj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_skuis"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_tws6c")
+color_ramp = SubResource("GradientTexture1D_0jrrn")
+color_initial_ramp = SubResource("GradientTexture1D_pmgun")
 
 [node name="HurtboxComponent" type="Area2D"]
+collision_layer = 9
 script = ExtResource("1_qs0f4")
+
+[node name="HitParticles" type="Node2D" parent="."]
+
+[node name="HitParticles1" type="GPUParticles2D" parent="HitParticles"]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_skuis")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+randomness = 0.52
+
+[node name="HitParticles2" type="GPUParticles2D" parent="HitParticles"]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_skuis")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+randomness = 0.52
+
+[node name="HitParticles3" type="GPUParticles2D" parent="HitParticles"]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_skuis")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+randomness = 0.52
+
+[node name="HitParticles4" type="GPUParticles2D" parent="HitParticles"]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_skuis")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+randomness = 0.52
+
+[node name="HurtSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_r76db")
+volume_db = 2.0
+attenuation = 0.016176

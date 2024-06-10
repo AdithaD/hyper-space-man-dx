@@ -1,13 +1,16 @@
 [gd_resource type="Resource" script_class="PlayerWeapon" load_steps=4 format=3 uid="uid://b1txmy5n7crai"]
 
 [ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="1_gnkby"]
-[ext_resource type="Texture2D" uid="uid://ctpgguromxsdn" path="res://gui/weapons/missile_icon.tres" id="2_hussx"]
+[ext_resource type="Texture2D" uid="uid://ctpgguromxsdn" path="res://player/weapons/icons/missile_icon.tres" id="2_sa84b"]
 [ext_resource type="PackedScene" uid="uid://11rwbkf8imfj" path="res://player/weapons/missile_shot.tscn" id="3_ymghv"]
 
 [resource]
 script = ExtResource("1_gnkby")
 weapon_name = "Weapon Name"
-weapon_icon = ExtResource("2_hussx")
+weapon_icon = ExtResource("2_sa84b")
 weapon_shot_scene = ExtResource("3_ymghv")
+is_hitscan = false
+weapon_damage = 0
 shot_cooldown = 1.0
 heat_per_shot = 50.0
+shot_trauma = 1.0

@@ -33,8 +33,9 @@ func shoot():
 	var new_shot = ENEMY_SHOT.instantiate()
 	new_shot.global_position = cannon.global_position
 	
-	new_shot.set_target(get_global_mouse_position(), Vector2.ZERO)
-	
+	if new_shot.has_method("set_target"):
+		new_shot.set_target(get_global_mouse_position())
+
 	$Shots.add_child(new_shot)
 	
 	$CannonShotSound.play()
@@ -42,7 +43,9 @@ func shoot():
 	shot_count += 1
 
 func _on_health_component_died() -> void:
-	is_dead = true
-	behaviour_tree.enabled = false
+	if not is_dead:
+		is_dead = true
+		behaviour_tree.enabled = false
+		$Sprite2D.play("death")
+		$DeathSound.play()
 	$DeathParticles.emitting = true
-	$Sprite2D.play("death")
