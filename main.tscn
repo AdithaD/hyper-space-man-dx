@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=3 uid="uid://bpcm5e32ovatf"]
+[gd_scene load_steps=47 format=3 uid="uid://bpcm5e32ovatf"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ukmwj"]
 [ext_resource type="Script" path="res://world/world.gd" id="2_mbc0m"]
@@ -30,6 +30,9 @@
 [ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="25_eg55f"]
 [ext_resource type="Script" path="res://solar_mineral_inventory_gui.gd" id="27_fogyc"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_45yqu"]
+font_color = Color(1, 0, 0, 1)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_xpoag"]
 atlas = ExtResource("7_o2d8a")
 region = Rect2(0, 32, 48, 32)
@@ -46,6 +49,11 @@ region = Rect2(0, 64, 48, 32)
 atlas = ExtResource("4_asr30")
 region = Rect2(0, 0, 48, 5)
 
+[sub_resource type="Gradient" id="Gradient_7g43y"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.33, 0.66)
+colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0.97208, 0.765204, 0.365895, 1, 0.368333, 0.65, 0.325, 1)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_tuw8f"]
 atlas = ExtResource("4_asr30")
 region = Rect2(0, 5, 48, 5)
@@ -53,11 +61,6 @@ region = Rect2(0, 5, 48, 5)
 [sub_resource type="AtlasTexture" id="AtlasTexture_8qcth"]
 atlas = ExtResource("4_asr30")
 region = Rect2(0, 10, 48, 5)
-
-[sub_resource type="Gradient" id="Gradient_7g43y"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.33, 0.66)
-colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0.97208, 0.765204, 0.365895, 1, 0.368333, 0.65, 0.325, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a803g"]
 atlas = ExtResource("16_e7ib6")
@@ -282,6 +285,20 @@ layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
+[node name="OverspeedCautionLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CAUTION: OVERSPEED!"
+label_settings = SubResource("LabelSettings_45yqu")
+horizontal_alignment = 1
+
+[node name="DestructionTimerLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Destruction in 4.0s"
+label_settings = SubResource("LabelSettings_45yqu")
+horizontal_alignment = 1
+
 [node name="SpeedGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(288, 192)
@@ -295,20 +312,20 @@ texture_over = SubResource("AtlasTexture_6yt8d")
 texture_progress = SubResource("AtlasTexture_hmya6")
 script = ExtResource("8_66gcj")
 
-[node name="FuelGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 30)
-layout_mode = 2
-nine_patch_stretch = true
-texture_under = SubResource("AtlasTexture_3civj")
-texture_over = SubResource("AtlasTexture_tuw8f")
-texture_progress = SubResource("AtlasTexture_8qcth")
-
-[node name="Control" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
-custom_minimum_size = Vector2(0, 30)
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
 layout_mode = 2
 
-[node name="Under" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/Control"]
+[node name="Label2" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "HP"
+
+[node name="Control" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Under" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -317,7 +334,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_3civj")
 
-[node name="PlayerHealthBar" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/Control"]
+[node name="PlayerHealthBar" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -332,7 +349,7 @@ grow_vertical = 2
 script = ExtResource("13_h6gs0")
 segment_color_gradient = SubResource("Gradient_7g43y")
 
-[node name="Over" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/Control"]
+[node name="Over" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -340,6 +357,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_tuw8f")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(48, 0)
+layout_mode = 2
+text = "Fuel"
+
+[node name="FuelGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_horizontal = 3
+nine_patch_stretch = true
+texture_under = SubResource("AtlasTexture_3civj")
+texture_over = SubResource("AtlasTexture_tuw8f")
+texture_progress = SubResource("AtlasTexture_8qcth")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole"]
 custom_minimum_size = Vector2(0, 64)

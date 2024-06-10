@@ -29,7 +29,11 @@ func _physics_process(_delta: float) -> void:
 	var speed_ratio = player.velocity.length() / player.max_speed
 	%SpeedGauge.set_ratio(speed_ratio)
 	
-	if speed_ratio > 1.0:
+	%OverspeedCautionLabel.visible = player.is_overspeed
+	%DestructionTimerLabel.visible = player.is_overspeed
+	if player.is_overspeed:
+		%DestructionTimerLabel.text = "Destruction in %s" % str(player.overspeed_timer.time_left)
+
 		if not $WarningSound.playing:
 			$WarningSound.play()
 	else:

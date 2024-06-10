@@ -40,6 +40,10 @@ var is_anti_gravity_on = false
 var current_weapon_index = 0
 var is_dead = false
 
+var is_overspeed:
+	get:
+		return velocity.length() > max_speed
+
 var current_weapon: PlayerWeapon:
 	get:
 		return weapons[current_weapon_index]

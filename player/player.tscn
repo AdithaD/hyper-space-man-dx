@@ -166,7 +166,7 @@ explosiveness = 0.64
 randomness = 0.52
 
 [node name="OverspeedTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 10.0
 one_shot = true
 
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
