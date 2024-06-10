@@ -8,12 +8,16 @@ const ENEMY_SHOT = preload ("res://enemy/enemy_shot.tscn")
 @export var angular_velocity := 4 * PI
 @export var cannon_points: Array[Node2D] = []
 
-var exploration_vector: Vector2
-
 var target: Vector2
 var shot_count = 0
 
 var is_dead = false
+
+var group: EnemyGroup
+
+var exploration_vector: Vector2:
+	get:
+		return group.exploration_vector
 
 @onready var player = get_tree().get_first_node_in_group("player")
 @onready var behaviour_tree: BehaviourTree = $BehaviourTree

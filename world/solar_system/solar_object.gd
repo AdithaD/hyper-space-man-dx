@@ -16,15 +16,13 @@ var mineral_inventory: MineralInventory
 var mine_time
 var mined_level
 
-var _amount_of_enemies
-
 var interact_area:
 	get:
 		return $PlayerInteractArea
 
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
-func init(frames: SpriteFrames, amount_of_enemies: int, p_solar_name: String, p_mineral_inventory: MineralInventory, new_scale: float=1):
+func init(frames: SpriteFrames, p_solar_name: String, p_mineral_inventory: MineralInventory, new_scale: float=1):
 	sprite.sprite_frames = frames
 	sprite.set_speed_scale(randf_range(min_animation_speed, max_animation_speed))
 	
@@ -39,8 +37,6 @@ func init(frames: SpriteFrames, amount_of_enemies: int, p_solar_name: String, p_
 	
 	$PlayerInteractArea/CollisionShape2D.shape = shape
 	
-	_amount_of_enemies = amount_of_enemies
-	
 	solar_name = p_solar_name
 	mineral_inventory = p_mineral_inventory
 		
@@ -51,9 +47,6 @@ func fade(alpha):
 	var tween = get_tree().create_tween()
 	tween.interpolate_property(sprite, "modulate", start_colour, end_colour, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN)
 
-func set_amount_of_enemies(amount):
-	_amount_of_enemies = amount
-	
 func get_minerals():
 	return mineral_inventory
 

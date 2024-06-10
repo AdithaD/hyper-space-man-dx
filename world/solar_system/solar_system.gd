@@ -13,9 +13,6 @@ extends Node2D
 @export var planet_minerals_mean: float
 @export var planet_minerals_randomness: float
 
-@export var planet_enemies_mean: float
-@export var planet_enemies_randomness: float
-
 @export_subgroup("Sun")
 @export var sun_scene: PackedScene
 @export var sun_sprites: Array[SpriteFrames]
@@ -27,8 +24,9 @@ extends Node2D
 @export var sun_minerals_mean: float
 @export var sun_minerals_randomness: float
 
-@export var sun_enemies_mean: float
-@export var sun_enemies_randomness: float
+@export_subgroup("Enemies")
+@export var enemy_amount_curve: Curve
+@export var enemy_scene: PackedScene
 
 @export_subgroup("Fuel Station")
 @export var fuel_station_scene: PackedScene
@@ -71,6 +69,22 @@ func init(n, p_spread, p_sun_name):
 		
 	for x in range(0, n):
 		spawn_planet(x)
+	
+	var amount_of_enemies = enemy_amount_curve.sample(randf())
+	var group = EnemyGroup.new()
+	group.home_solar_system = self
+	
+	$Enemies.add_child(group)
+	
+	for i in range(amount_of_enemies):
+		spawn_enemy(group, Vector2(i * 64, 0))
+		
+func spawn_enemy(group: EnemyGroup, local_position: Vector2):
+	var enemy: Enemy = enemy_scene.instantiate()
+	enemy.group = group
+
+	enemy.global_position = global_position + local_position
+	group.add_child(enemy)
 
 func spawn_space_station():
 	var spawn_pos = Vector2(randf_range( - 1 * spread, spread), randf_range( - 1 * spread, spread))
@@ -99,11 +113,10 @@ func spawn_planet(n):
 		var planet_scale = randf_range(planet_min_scale, planet_max_scale)
 		var sprite = planet_sprites[randi() %len(planet_sprites)]
 		
-		var amount_of_enemies = int(get_random_from_mean(planet_enemies_mean, planet_enemies_randomness))
 		var mineral_weight = randf()
 		var minerals = PLANET_MINERAL_FACTORY.generate_mineral_inventory(mineral_weight)
 		
-		planet.init(sprite, amount_of_enemies, sun_name, minerals, planet_scale)
+		planet.init(sprite, sun_name, minerals, planet_scale)
 		planet.sun_position = sun.position
 		planet.position = spawn_grid_pos * (planet_width + (planet_width * planet_randomness))
 		planet.position += Vector2(get_random(planet_width, planet_randomness), get_random(planet_width, planet_randomness))
@@ -115,10 +128,9 @@ func spawn_sun():
 	add_child(sun)
 	var sun_scale = randf_range(sun_min_scale, sun_max_scale)
 	var sprite = sun_sprites[randi() %len(sun_sprites)]
-	var amount_of_enemies = int(get_random_from_mean(sun_enemies_mean, sun_enemies_randomness))
 	var mineral_weight = randf()
 	var minerals = SUN_MINERAL_FACTORY.generate_mineral_inventory(mineral_weight)
-	sun.init(sprite, amount_of_enemies, sun_name, minerals, sun_scale)
+	sun.init(sprite, sun_name, minerals, sun_scale)
 	
 	sun.position = Vector2(0, 0)
 			

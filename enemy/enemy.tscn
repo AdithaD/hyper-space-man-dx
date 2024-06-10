@@ -183,7 +183,7 @@ script = ExtResource("11_sabhg")
 
 [node name="ConditionDistanceToPlayer" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour"]
 script = ExtResource("12_2c7tb")
-distance_threshold = 3000.0
+distance_threshold = 1600.0
 
 [node name="FlockingBehaviour" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour" instance=ExtResource("13_e8t1m")]
 
