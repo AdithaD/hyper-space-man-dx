@@ -9,11 +9,11 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_qd2nx"]
 radius = 165.511
 
-[node name="SpaceStation" type="Node2D" groups=["space_station"]]
+[node name="FuelStation" type="Node2D" groups=["space_station"]]
 script = ExtResource("1_ie2h8")
 cost_mineral = ExtResource("2_ggpxx")
 
-[node name="SpaceStation" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_i0i4s")
 script = ExtResource("4_8lxj4")
 

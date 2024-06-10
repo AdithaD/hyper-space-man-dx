@@ -104,7 +104,7 @@ min_solar_range = 6000
 max_solar_range = 10000
 solar_system_randomness = 0.3
 
-[node name="SpaceStation" parent="World" instance=ExtResource("3_03o47")]
+[node name="FuelStation" parent="World" instance=ExtResource("3_03o47")]
 
 [node name="Enemies" type="Node2D" parent="."]
 
@@ -177,6 +177,7 @@ script = ExtResource("11_l3mgi")
 player = NodePath("../../../../../Player")
 grid_scale = 512
 grid_size = 64
+space_station_color = Color(0, 0.584314, 0.913725, 1)
 
 [node name="Radar" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI" node_paths=PackedStringArray("player")]
 layout_mode = 2

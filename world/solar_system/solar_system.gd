@@ -30,7 +30,8 @@ extends Node2D
 @export var sun_enemies_mean: float
 @export var sun_enemies_randomness: float
 
-#@export var fuel_station_scene : PackedScene
+@export_subgroup("Fuel Station")
+@export var fuel_station_scene: PackedScene
 
 var spread
 
@@ -42,10 +43,11 @@ var sun
 
 var planet_grid = {}
 
-var solar_objects: Array[SolarObject]:
+var solar_objects:
 	get:
 		var arr: Array[SolarObject] = []
-		arr.assign(get_children())
+		arr.assign(get_children().filter(func(x): return x is SolarObject))
+		
 		return arr
 
 func init(n, p_spread, p_sun_name):
@@ -58,24 +60,25 @@ func init(n, p_spread, p_sun_name):
 			planet_grid[Vector2(i, j)] = true
 	spawn_sun()
 	
-	#spawn_fuel_station()
+	spawn_space_station()
 		
 	for x in range(0, n):
 		spawn_planet(x)
 
-#func spawn_fuel_station():
-	#var spawn_pos = Vector2(randf_range(-1 * spread, spread), randf_range(-1 * spread, spread))
-	#var spawn_grid_pos = (spawn_pos/((planet_width) + (planet_width * planet_randomness))).floor()
-	#if not planet_grid.has(spawn_grid_pos):
-		#
-		#planet_grid[spawn_grid_pos] = true
-		#
-		#var fuel_station = fuel_station_scene.instantiate()
-		#add_child(fuel_station)
+func spawn_space_station():
+	var spawn_pos = Vector2(randf_range( - 1 * spread, spread), randf_range( - 1 * spread, spread))
+	var spawn_grid_pos = (spawn_pos / ((planet_width) + (planet_width * planet_randomness))).floor()
+	if not planet_grid.has(spawn_grid_pos):
+		
+		planet_grid[spawn_grid_pos] = true
+		
+		var fuel_station = fuel_station_scene.instantiate()
+		add_child(fuel_station)
 		#fuel_station.init(sun_name)
-#
-		#fuel_station.position = spawn_grid_pos * (planet_width + (planet_width * (planet_randomness)))
-		#fuel_station.position += Vector2(get_random(planet_width, planet_randomness), get_random(planet_width, planet_randomness))
+
+		fuel_station.position = spawn_grid_pos * (planet_width + (planet_width * (planet_randomness)))
+		fuel_station.position += Vector2(get_random(planet_width, planet_randomness), get_random(planet_width, planet_randomness))
+
 const PLANET_MINERAL_FACTORY = preload ("res://minerals/planet_mineral_factory.tres")
 func spawn_planet(n):
 	var spawn_pos = Vector2(randf_range( - 1 * spread, spread), randf_range( - 1 * spread, spread))
