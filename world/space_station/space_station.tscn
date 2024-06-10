@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bi7sudnr12ic4"]
+[gd_scene load_steps=8 format=3 uid="uid://bi7sudnr12ic4"]
 
 [ext_resource type="Script" path="res://world/space_station.gd" id="1_ie2h8"]
 [ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/platinum.tres" id="2_ggpxx"]
 [ext_resource type="Texture2D" uid="uid://cqicookwg0jpe" path="res://world/space_station/space_station.png" id="2_i0i4s"]
 [ext_resource type="Script" path="res://world/discrete_circulating_sprite.gd" id="4_8lxj4"]
 [ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="5_y3ca2"]
+[ext_resource type="AudioStream" uid="uid://bb1vq11t1jqfl" path="res://world/space_station/space_station_fill.wav" id="6_qtr46"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qd2nx"]
 radius = 165.511
@@ -21,3 +22,6 @@ script = ExtResource("4_8lxj4")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerInteractArea"]
 shape = SubResource("CircleShape2D_qd2nx")
+
+[node name="FillSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_qtr46")
