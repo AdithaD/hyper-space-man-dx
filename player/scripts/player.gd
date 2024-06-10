@@ -1,8 +1,6 @@
 extends CharacterBody2D
 class_name Player
 
-signal acceleration_changed(state:bool)
-
 signal heat_changed(new_amount: int)
 
 signal player_state_changed(anti_gravity: bool)
@@ -12,19 +10,19 @@ signal weapon_changed(current_weapon: PlayerWeapon)
 @export var world: World
 
 @export_subgroup("Engine")
-@export var ship_engine : ShipEngine
+@export var ship_engine: ShipEngine
 @export var max_speed := 500.0
 @export var drag := 10.0
 
 @export_subgroup("Weapons")
-@export var weapons : Array[PlayerWeapon] = []
-@export var maximum_heat : float = 100.0
+@export var weapons: Array[PlayerWeapon] = []
+@export var maximum_heat: float = 100.0
 @export var heat_drain_per_second = 15.0
 
-@export var cannon_points : Array[Node2D] = []
+@export var cannon_points: Array[Node2D] = []
 
 @export_subgroup("Trade")
-@export var minerals : MineralInventory
+@export var minerals: MineralInventory
 
 # Movement Vectors
 var direction := Vector2.ZERO
@@ -60,12 +58,12 @@ var is_accelerating = false:
 				$EngineJoltSound.play()
 
 func _ready() -> void:
-	minerals._init()
+	minerals._init(minerals.minerals, minerals.starting_inventory)
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
 
 func _physics_process(delta):
 	#accelerate
-	is_accelerating = Input.is_action_pressed("accelerate") 
+	is_accelerating = Input.is_action_pressed("accelerate")
 	
 	if is_accelerating:
 		accelerate(delta)
@@ -79,7 +77,6 @@ func _physics_process(delta):
 		
 	if Input.is_action_pressed("shoot") and $ShotTimer.is_stopped() and $HeatCooloffTimer.is_stopped():
 		shoot()
-	
 	
 	if Input.is_action_just_pressed("anti_gravity"):
 		if ship_engine.current_fuel > 0:

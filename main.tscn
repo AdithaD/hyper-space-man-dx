@@ -1,14 +1,17 @@
-[gd_scene load_steps=37 format=3 uid="uid://bpcm5e32ovatf"]
+[gd_scene load_steps=42 format=3 uid="uid://bpcm5e32ovatf"]
 
-[ext_resource type="PackedScene" uid="uid://8lrhxnd33lcm" path="res://world/world.tscn" id="1_534u6"]
 [ext_resource type="Script" path="res://main.gd" id="1_ukmwj"]
 [ext_resource type="Script" path="res://world/world.gd" id="2_mbc0m"]
 [ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://player/player.tscn" id="2_xc4b4"]
 [ext_resource type="PackedScene" uid="uid://bi7sudnr12ic4" path="res://world/space_station/space_station.tscn" id="3_03o47"]
 [ext_resource type="Script" path="res://enemy/enemy_group.gd" id="3_7kv5x"]
+[ext_resource type="Texture2D" uid="uid://dl8swyen5neuw" path="res://world/background.png" id="3_7nbio"]
 [ext_resource type="PackedScene" uid="uid://cupg2res6b0ac" path="res://enemy/enemy.tscn" id="3_aget2"]
 [ext_resource type="Script" path="res://gui/gui.gd" id="3_t8cht"]
 [ext_resource type="Texture2D" uid="uid://wek4uypm10mf" path="res://gui/heat_bar/fuel_bar.png" id="4_asr30"]
+[ext_resource type="Script" path="res://world/solar_system/solar_system_spawner.gd" id="4_xn4gs"]
+[ext_resource type="PackedScene" uid="uid://btum3xqjlqyh7" path="res://world/solar_system/solar_system_scene.tscn" id="5_jmuo8"]
+[ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://player/mine_anchor/mine_anchor.tscn" id="5_racmp"]
 [ext_resource type="Texture2D" uid="uid://d38dv578bew6h" path="res://gui/heat_bar/speed_bar.png" id="7_o2d8a"]
 [ext_resource type="Script" path="res://gui/limited_texture_progress_bar.gd" id="8_66gcj"]
 [ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://minerals/player_inventory.tres" id="8_kup1v"]
@@ -25,6 +28,7 @@
 [ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platnium.png" id="21_77f25"]
 [ext_resource type="Script" path="res://gui/prompt.gd" id="21_w63j5"]
 [ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="25_eg55f"]
+[ext_resource type="Script" path="res://solar_mineral_inventory_gui.gd" id="27_fogyc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xpoag"]
 atlas = ExtResource("7_o2d8a")
@@ -70,14 +74,39 @@ region = Rect2(0, 10, 48, 5)
 [sub_resource type="LabelSettings" id="LabelSettings_hd47g"]
 font_size = 48
 
+[sub_resource type="LabelSettings" id="LabelSettings_m4m5c"]
+font_size = 32
+
 [node name="Main" type="Node"]
 script = ExtResource("1_ukmwj")
 
-[node name="World" parent="." instance=ExtResource("1_534u6")]
+[node name="World" type="Node2D" parent="."]
 script = ExtResource("2_mbc0m")
 maximum_gravity = 240.0
 
+[node name="Parallax2D" type="Parallax2D" parent="World"]
+scroll_scale = Vector2(0.1, 0.1)
+repeat_size = Vector2(3840, 2156)
+
+[node name="Sprite2D" type="Sprite2D" parent="World/Parallax2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("3_7nbio")
+
+[node name="SolarSystemSpawner" type="Node2D" parent="World"]
+script = ExtResource("4_xn4gs")
+solar_system_scene = ExtResource("5_jmuo8")
+grid_size = 5000
+min_distance = 24000
+max_distance = 64000
+min_planets = 5
+max_planets = 8
+min_solar_range = 6000
+max_solar_range = 10000
+solar_system_randomness = 0.3
+
 [node name="SpaceStation" parent="World" instance=ExtResource("3_03o47")]
+
+[node name="MineAnchor" parent="World" instance=ExtResource("5_racmp")]
 
 [node name="Enemies" type="Node2D" parent="."]
 
@@ -370,6 +399,7 @@ script = ExtResource("21_w63j5")
 
 [node name="TradePrompt" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -398,16 +428,18 @@ layout_mode = 2
 text = " per unit fuel ?"
 label_settings = SubResource("LabelSettings_hd47g")
 
-[node name="Control" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI"]
+[node name="MineAnchorPrompt" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt"]
+unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = -216.0
-offset_bottom = 216.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press [F] to pickup mine anchor"
+label_settings = SubResource("LabelSettings_hd47g")
 
-[node name="MineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/Control"]
+[node name="MineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -419,5 +451,31 @@ theme_override_constants/separation = 8
 script = ExtResource("25_eg55f")
 mineral_inventory = ExtResource("8_kup1v")
 
+[node name="Control" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -273.0
+offset_top = -146.5
+offset_bottom = 146.5
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="SolarObjectNameLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Control"]
+layout_mode = 2
+text = "Terrestria B"
+label_settings = SubResource("LabelSettings_m4m5c")
+
+[node name="SolarMineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/Control" node_paths=PackedStringArray("name_label")]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+script = ExtResource("27_fogyc")
+name_label = NodePath("../SolarObjectNameLabel")
+
+[connection signal="solar_system_spawned" from="World/SolarSystemSpawner" to="CanvasLayer/GUI/MarginContainer/UI/Control/SolarMineralInventoryGUI" method="_on_solar_system_spawner_solar_system_spawned"]
 [connection signal="heat_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_heat_changed"]
 [connection signal="prompt_interacted" from="CanvasLayer/GUI/MarginContainer/UI/Prompt" to="." method="_on_prompt_prompt_interacted"]

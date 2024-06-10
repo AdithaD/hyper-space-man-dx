@@ -1,0 +1,25 @@
+[gd_resource type="Resource" load_steps=6 format=3 uid="uid://xmexmd2vellq"]
+
+[ext_resource type="Script" path="res://minerals/mineral_inventory_factory.gd" id="1_sx5ag"]
+[ext_resource type="Script" path="res://minerals/mineral.gd" id="1_xi7uf"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/platnium.tres" id="2_kdu13"]
+
+[sub_resource type="Curve" id="Curve_am4as"]
+min_value = 1.0
+max_value = 4.0
+_data = [Vector2(0, 1), 0.0, 6.42438, 0, 0, Vector2(1, 4), 9.25632, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_hapv0"]
+max_value = 10.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 10), 26.6386, 0.0, 0, 0]
+point_count = 2
+
+[resource]
+script = ExtResource("1_sx5ag")
+minerals = Array[ExtResource("1_xi7uf")]([ExtResource("2_kdu13")])
+mineral_quantity_curves = {
+ExtResource("2_kdu13"): SubResource("Curve_hapv0")
+}
+mineral_amount_scale = 1000
+mineral_amount_curve = SubResource("Curve_am4as")

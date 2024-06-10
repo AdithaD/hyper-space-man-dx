@@ -1,12 +1,23 @@
 extends Control
 
-@export var segments : int = 10
-@export var separation : int = 6
+@export var segments : int = 10:
+	set(value):
+		segments = value
+		queue_redraw()
+@export var separation : int = 6:
+	set(value):
+		separation = value
+		queue_redraw()
 
 @export var segment_color : Color = Color.GREEN
 @export var segment_color_gradient : Gradient
 
-var value : int = 10
+var value : int = 10:
+	set(v):
+		value = v
+		queue_redraw()
+
+
 
 func _draw() -> void:
 	var segment_width = (size.x - (separation * (segments - 1))) / segments

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://brofvfdbhyl6j"]
+[gd_scene load_steps=3 format=3 uid="uid://brofvfdbhyl6j"]
 
 [ext_resource type="Script" path="res://world/solar_system/planet.gd" id="1_ew6kb"]
+[ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="2_5eusg"]
 
 [node name="Planet" type="Node2D" groups=["gravitator", "planet"]]
 script = ExtResource("1_ew6kb")
@@ -10,3 +11,7 @@ gravity = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(4, 4)
+
+[node name="PlayerInteractArea" parent="." instance=ExtResource("2_5eusg")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractArea"]

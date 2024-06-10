@@ -4,19 +4,19 @@ extends Control
 
 @export var enemy_detection_range = 1000.0
 
-@export var marker_size : float = 32
-@export var padding : float = 32
+@export var marker_size: float = 32
+@export var padding: float = 32
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
 	var enemies = get_tree().get_nodes_in_group("enemy") \
-			.filter(func (x): 
+			.filter(func(x):
 				return player.global_position.distance_to(x.global_position) < enemy_detection_range) \
-			.filter(func (x):
-				return not get_rect().has_point(player.global_position - x.global_position + size / 2))\
-			.filter(func (x): return not x.is_dead)
+			.filter(func(x):
+				return not get_rect().has_point(player.global_position - x.global_position + size / 2)) \
+			.filter(func(x): return not x.is_dead)
 			
 	for en in enemies:
 		# get intersection point of border lines
@@ -55,26 +55,26 @@ func _draw() -> void:
 			if tx <= ty:
 				cx = ex
 				cy = y0 + tx * vy
-				angle = 0 if vx > 0 else PI
+				angle = 0.0 if vx > 0 else PI
 			else:
 				cx = x0 + ty * vx
 				cy = ey
-				angle = PI / 2 if vy > 0 else -PI / 2
+				angle = PI / 2 if vy > 0 else - PI / 2
 								
 		#prints("C:", cx, cy)
-		draw_set_transform(Vector2(cx,cy), angle, Vector2.ONE * marker_size)
-		draw_polygon(_draw_triangle(Vector2(),angle), _draw_triangle_colors())
+		draw_set_transform(Vector2(cx, cy), angle, Vector2.ONE * marker_size)
+		draw_polygon(_get_triangle_points(), _get_triangle_colours())
 
-func _draw_triangle(draw_position: Vector2, angle: float  = 0) -> PackedVector2Array:
-	var points : PackedVector2Array = [
-		Vector2(-0.5, -0.5),
-		Vector2(-0.5, 0.5),
+func _get_triangle_points() -> PackedVector2Array:
+	var points: PackedVector2Array = [
+		Vector2( - 0.5, -0.5),
+		Vector2( - 0.5, 0.5),
 		Vector2(0.5, 0)
 	]
 	return points
 	
-func _draw_triangle_colors() -> PackedColorArray:
-	var points : PackedColorArray = [
+func _get_triangle_colours() -> PackedColorArray:
+	var points: PackedColorArray = [
 		Color.RED,
 		Color.RED,
 		Color.RED,

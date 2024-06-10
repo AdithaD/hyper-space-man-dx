@@ -1,6 +1,6 @@
 extends Control
 
-@export var player : Player
+@export var player: Player
 
 func _ready() -> void:
 	player.ship_engine.engine_burned.connect(_on_player_engine_burned)
@@ -18,7 +18,7 @@ func _on_player_engine_burned(_new_amount: int, ratio: float) -> void:
 func _on_player_heat_changed(_new_amount: int, ratio: float) -> void:
 	%WeaponHeatGauge.ratio = ratio
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var speed_ratio = player.velocity.length() / player.max_speed
 	%SpeedGauge.set_ratio(speed_ratio)
 	
@@ -29,7 +29,7 @@ func _physics_process(delta: float) -> void:
 		if $WarningSound.playing:
 			$WarningSound.stop()
 
-func _on_player_health_changed(amount, health, maximum_health):
+func _on_player_health_changed(_amount, health, maximum_health):
 	%PlayerHealthBar.segments = maximum_health
 	%PlayerHealthBar.value = health
 	%PlayerHealthBar.queue_redraw()

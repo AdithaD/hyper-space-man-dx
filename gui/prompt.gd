@@ -10,10 +10,18 @@ func _ready() -> void:
 	var space_stations = get_tree().get_nodes_in_group("space_station")
 	for ss in space_stations:
 		connect_to_space_station(ss)
+	
+	var mine_anchors = get_tree().get_nodes_in_group("mine_anchor")
+	for ma in mine_anchors:
+		connect_to_mine_anchor(ma)
 
 func connect_to_space_station(ss: SpaceStation) -> void:
 	ss.interact_area.player_entered.connect(show_trade_prompt.bind(ss))
 	ss.interact_area.player_exited.connect(pop.bind(ss))
+
+func connect_to_mine_anchor(ma: MineAnchor) -> void:
+	ma.interact_area.player_entered.connect(show_mine_anchor_prompt.bind(ma))
+	ma.interact_area.player_exited.connect(pop.bind(ma))
 	
 func show_trade_prompt(space_station: SpaceStation) -> void:
 	#add to stack
@@ -22,6 +30,11 @@ func show_trade_prompt(space_station: SpaceStation) -> void:
 	%TradeCostLabel.text = str(space_station.cost_per_unit)
 	%TradeMineralTextureRect.texture = space_station.cost_mineral.mineral_icon
 	hide_all_except(%TradePrompt)
+
+func show_mine_anchor_prompt(mine_anchor: MineAnchor) -> void:
+	#add to stack
+	push(mine_anchor, %MineAnchorPrompt)
+	hide_all_except(%MineAnchorPrompt)
 
 func hide_all_except(child: Control) -> void:
 	for c in get_children():
@@ -42,7 +55,7 @@ func pop(source: Object) -> void:
 	
 	if not stack.is_empty(): 
 		var back = stack.back()
-		back.show()
+		back["source"].show()
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact"):

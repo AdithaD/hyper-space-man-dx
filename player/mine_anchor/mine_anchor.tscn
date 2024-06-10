@@ -1,0 +1,217 @@
+[gd_scene load_steps=27 format=3 uid="uid://djatwe46ey201"]
+
+[ext_resource type="Script" path="res://player/mine_anchor.gd" id="1_pbogc"]
+[ext_resource type="Texture2D" uid="uid://nvlka8ych176" path="res://player/mining_drone-sheet.png" id="2_vl4ha"]
+[ext_resource type="Script" path="res://utils/rotating_sprite.gd" id="3_mbq1v"]
+[ext_resource type="Script" path="res://components/health_component.gd" id="4_nyy14"]
+[ext_resource type="Script" path="res://components/hurtbox_component.gd" id="5_nfyti"]
+[ext_resource type="Texture2D" uid="uid://wek4uypm10mf" path="res://gui/heat_bar/fuel_bar.png" id="6_7cyms"]
+[ext_resource type="Script" path="res://gui/SegmentedProgressBar.gd" id="7_jyq82"]
+[ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="8_ut81t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u0cp8"]
+atlas = ExtResource("2_vl4ha")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahyba"]
+atlas = ExtResource("2_vl4ha")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhdy3"]
+atlas = ExtResource("2_vl4ha")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66avg"]
+atlas = ExtResource("2_vl4ha")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2scjv"]
+atlas = ExtResource("2_vl4ha")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o5cgj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u0cp8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahyba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhdy3")
+}, {
+"duration": 0.7,
+"texture": SubResource("AtlasTexture_66avg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhdy3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahyba")
+}],
+"loop": true,
+"name": &"active",
+"speed": 9.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u0cp8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahyba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhdy3")
+}, {
+"duration": 0.7,
+"texture": SubResource("AtlasTexture_66avg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2scjv")
+}],
+"loop": false,
+"name": &"startup",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_peqte"]
+radius = 26.0192
+
+[sub_resource type="Gradient" id="Gradient_mak0c"]
+colors = PackedColorArray(0.913031, 0.490712, 0.0671775, 1, 0.686114, 0.0119885, 0.133698, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gfsxm"]
+gradient = SubResource("Gradient_mak0c")
+
+[sub_resource type="Gradient" id="Gradient_ir4ir"]
+offsets = PackedFloat32Array(0.318548, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_m2l0k"]
+gradient = SubResource("Gradient_ir4ir")
+
+[sub_resource type="Curve" id="Curve_bx5t6"]
+min_value = 1.0
+max_value = 20.0
+_data = [Vector2(0.00362319, 20), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_updp7"]
+curve = SubResource("Curve_bx5t6")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xj72v"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_updp7")
+color_ramp = SubResource("GradientTexture1D_m2l0k")
+color_initial_ramp = SubResource("GradientTexture1D_gfsxm")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3civj"]
+atlas = ExtResource("6_7cyms")
+region = Rect2(0, 0, 48, 5)
+
+[sub_resource type="Gradient" id="Gradient_7g43y"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.33, 0.66)
+colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0.97208, 0.765204, 0.365895, 1, 0.368333, 0.65, 0.325, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tuw8f"]
+atlas = ExtResource("6_7cyms")
+region = Rect2(0, 5, 48, 5)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3cak3"]
+radius = 43.33
+
+[node name="MineAnchor" type="Node2D" groups=["mine_anchor"]]
+position = Vector2(207, 144)
+script = ExtResource("1_pbogc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+rotation = 1.79594
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_o5cgj")
+animation = &"active"
+frame_progress = 0.543447
+script = ExtResource("3_mbq1v")
+rotation_speed = 6.283
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("4_nyy14")
+maximum_health = 5
+
+[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("5_nfyti")
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CircleShape2D_peqte")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_xj72v")
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.64
+randomness = 0.52
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -37.0
+offset_top = -41.0
+offset_right = 39.0
+offset_bottom = -33.0
+
+[node name="Under" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_3civj")
+stretch_mode = 4
+
+[node name="HealthBar" type="Control" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_jyq82")
+separation = 2
+segment_color_gradient = SubResource("Gradient_7g43y")
+
+[node name="Over" type="TextureRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_tuw8f")
+stretch_mode = 4
+
+[node name="PlayerInteractArea" parent="." instance=ExtResource("8_ut81t")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractArea"]
+shape = SubResource("CircleShape2D_3cak3")
+
+[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
+[connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]
+[connection signal="player_entered" from="PlayerInteractArea" to="." method="_on_player_interact_area_player_entered"]
+[connection signal="player_exited" from="PlayerInteractArea" to="." method="_on_player_interact_area_player_exited"]

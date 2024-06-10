@@ -1,14 +1,14 @@
 extends CharacterBody2D
 class_name Enemy
 
-const ENEMY_SHOT = preload("res://enemy/enemy_shot.tscn")
+const ENEMY_SHOT = preload ("res://enemy/enemy_shot.tscn")
 
 @export var max_speed := 500.0
 @export var acceleration := 500.0
 @export var angular_velocity := 4 * PI
-@export var cannon_points : Array[Node2D] = []
+@export var cannon_points: Array[Node2D] = []
 
-var exploration_vector : Vector2
+var exploration_vector: Vector2
 
 var target: Vector2
 var shot_count = 0
@@ -22,7 +22,7 @@ var is_dead = false
 func _ready() -> void:
 	behaviour_tree.blackboard.set_value("player", player)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func shoot():

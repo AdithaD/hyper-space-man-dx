@@ -9,6 +9,9 @@ signal died
 
 @onready var current_health : int = maximum_health
 
+func _ready() -> void:
+	health_changed.emit(0, current_health, maximum_health)
+
 func take_damage(amount: int):
 	current_health = max(0, current_health - abs(amount))
 	health_changed.emit(amount, current_health, maximum_health)

@@ -1,10 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://8lrhxnd33lcm"]
+[gd_scene load_steps=5 format=3 uid="uid://8lrhxnd33lcm"]
 
+[ext_resource type="Script" path="res://world/world.gd" id="1_3w0gw"]
 [ext_resource type="Texture2D" uid="uid://dl8swyen5neuw" path="res://world/background.png" id="1_t7s4i"]
 [ext_resource type="Script" path="res://world/solar_system/solar_system_spawner.gd" id="2_kkegu"]
 [ext_resource type="PackedScene" uid="uid://btum3xqjlqyh7" path="res://world/solar_system/solar_system_scene.tscn" id="3_re62x"]
 
 [node name="World" type="Node2D"]
+script = ExtResource("1_3w0gw")
+maximum_gravity = 240.0
 
 [node name="Parallax2D" type="Parallax2D" parent="."]
 scroll_scale = Vector2(0.1, 0.1)

@@ -20,8 +20,8 @@ func _accelerate(actor: Enemy, delta: float):
 	
 func _turn_towards(actor: Enemy, location: Vector2, delta: float):
 	var angle_diff = actor.global_position.angle_to_point(location)
-	var rotation =signf(angle_diff) * min(abs(angle_diff), actor.angular_velocity * delta)
+	var rotation = signf(angle_diff) * min(abs(angle_diff), actor.angular_velocity * delta)
 	actor.rotate(rotation)
 
-func _get_dir_to_target(actor: Enemy, blackboard: BehaviourTreeBlackboard):
+func _get_dir_to_target(actor: Enemy, _blackboard: BehaviourTreeBlackboard):
 	return actor.global_position.direction_to(actor.player.global_position)
