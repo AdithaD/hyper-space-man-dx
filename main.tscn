@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://bpcm5e32ovatf"]
+[gd_scene load_steps=46 format=3 uid="uid://bpcm5e32ovatf"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ukmwj"]
 [ext_resource type="Script" path="res://world/world.gd" id="2_mbc0m"]
@@ -77,6 +77,84 @@ font_size = 48
 [sub_resource type="LabelSettings" id="LabelSettings_m4m5c"]
 font_size = 32
 
+[sub_resource type="LabelSettings" id="LabelSettings_yikrg"]
+font_size = 96
+
+[sub_resource type="Animation" id="Animation_eqs4c"]
+resource_name = "game_over"
+length = 2.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"die"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/GUI/GameOverScreen:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4329),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/GUI/GameOverScreen:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.433333, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_xccdn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/GUI/GameOverScreen:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/GUI/GameOverScreen:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wlqpe"]
+_data = {
+"RESET": SubResource("Animation_xccdn"),
+"game_over": SubResource("Animation_eqs4c")
+}
+
 [node name="Main" type="Node"]
 script = ExtResource("1_ukmwj")
 
@@ -93,6 +171,7 @@ scale = Vector2(2, 2)
 texture = ExtResource("3_7nbio")
 
 [node name="SolarSystemSpawner" type="Node2D" parent="World"]
+unique_name_in_owner = true
 script = ExtResource("4_xn4gs")
 solar_system_scene = ExtResource("5_jmuo8")
 grid_size = 5000
@@ -112,22 +191,12 @@ solar_system_randomness = 0.3
 script = ExtResource("3_7kv5x")
 
 [node name="Enemy" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("cannon_points") instance=ExtResource("3_aget2")]
-position = Vector2(461, 0)
+position = Vector2(2226, -921)
 motion_mode = 1
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 
 [node name="Enemy2" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("cannon_points") instance=ExtResource("3_aget2")]
-position = Vector2(328, 46)
-motion_mode = 1
-cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
-
-[node name="Enemy3" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("cannon_points") instance=ExtResource("3_aget2")]
-position = Vector2(477, 148)
-motion_mode = 1
-cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
-
-[node name="Enemy4" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("cannon_points") instance=ExtResource("3_aget2")]
-position = Vector2(363, -94)
+position = Vector2(2093, -875)
 motion_mode = 1
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 
@@ -140,7 +209,7 @@ mine_anchor_scene = ExtResource("5_racmp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="GUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("player")]
+[node name="GUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("player", "world")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -149,6 +218,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_t8cht")
 player = NodePath("../../Player")
+world = NodePath("../../World")
 
 [node name="WarningSound" type="AudioStreamPlayer" parent="CanvasLayer/GUI"]
 stream = ExtResource("8_pmg8h")
@@ -387,6 +457,7 @@ texture_over = SubResource("AtlasTexture_v5rp7")
 texture_progress = SubResource("AtlasTexture_iah6k")
 
 [node name="Prompt" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI"]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -437,7 +508,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Press [F] to pickup mine anchor"
+text = "Hold [Space] to pickup mine anchor"
 label_settings = SubResource("LabelSettings_hd47g")
 
 [node name="MineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
@@ -477,5 +548,55 @@ theme_override_constants/separation = 8
 script = ExtResource("27_fogyc")
 name_label = NodePath("../SolarObjectNameLabel")
 
+[node name="GameOverScreen" type="Control" parent="CanvasLayer/GUI"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GUI/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -254.0
+offset_top = -83.0
+offset_right = 254.0
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI/GameOverScreen/VBoxContainer"]
+layout_mode = 2
+text = "You died...."
+label_settings = SubResource("LabelSettings_yikrg")
+
+[node name="Button" type="Button" parent="CanvasLayer/GUI/GameOverScreen/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 36
+text = "Restart"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_wlqpe")
+}
+
 [connection signal="heat_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_heat_changed"]
 [connection signal="prompt_interacted" from="CanvasLayer/GUI/MarginContainer/UI/Prompt" to="." method="_on_prompt_prompt_interacted"]
+[connection signal="pressed" from="CanvasLayer/GUI/GameOverScreen/VBoxContainer/Button" to="." method="_on_restart_button_pressed"]

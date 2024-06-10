@@ -1,6 +1,8 @@
 extends Node2D
 class_name World
 
+signal mine_anchor_created(mine_anchor: MineAnchor)
+
 @export var gravity_cutoff = 1000
 @export var gravitational_constant = 10000000
 @export var maximum_gravity = 40.0
@@ -17,6 +19,7 @@ func _newtonian_gravity(origin: Vector2, gravitator_position: Vector2, strength:
 
 func add_mine_anchor(mine_anchor: MineAnchor) -> void:
 	add_child(mine_anchor)
+	mine_anchor_created.emit(mine_anchor)
 
 func configure_player(player: Player) -> void:
 	$SolarSystemSpawner.solar_system_spawned.connect(player.mining_interactor._on_solar_system_spawner_solar_system_spawned)

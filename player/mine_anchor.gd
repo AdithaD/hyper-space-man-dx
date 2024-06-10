@@ -5,11 +5,10 @@ signal pickup
 signal harvested(assortment: Dictionary)
 
 @export var harvest_rate: int = 100
+
 @export var maximum_storage: int = 3000
 
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var pickup_timer: Timer = $PickupTimer
-@onready var mine_tick_timer: Timer = $MineTickTimer
+@export var pickup_radius = 100
 
 var is_broken = false
 
@@ -21,6 +20,12 @@ var mineral_inventory: MineralInventory = MineralInventory.new()
 
 var mine_target: SolarObject
 
+@onready var player: Player = get_tree().get_first_node_in_group("player")
+
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var pickup_timer: Timer = $PickupTimer
+@onready var mine_tick_timer: Timer = $MineTickTimer
+
 func _ready() -> void:
 	activate()
 	
@@ -31,8 +36,14 @@ func _ready() -> void:
 	mine_tick_timer.timeout.connect(do_mine_tick)
 	
 func _process(_delta: float) -> void:
-	if not pickup_timer.is_stopped() and not Input.is_action_pressed("mine"):
-		pickup_timer.stop()
+	if not pickup_timer.is_stopped():
+		if not Input.is_action_pressed("mine") or global_position.distance_to(player.global_position) > pickup_radius:
+			pickup_timer.stop()
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("mine"):
+		if global_position.distance_to(player.global_position) < pickup_radius and pickup_timer.is_stopped():
+			pickup_timer.start()
 
 func activate():
 	sprite.rotation_enabled = false

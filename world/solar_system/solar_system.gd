@@ -47,7 +47,14 @@ var solar_objects:
 	get:
 		var arr: Array[SolarObject] = []
 		arr.assign(get_children().filter(func(x): return x is SolarObject))
+
+		return arr
 		
+var space_stations:
+	get:
+		var arr: Array[SpaceStation] = []
+		arr.assign(get_children().filter(func(x): return x is SpaceStation))
+
 		return arr
 
 func init(n, p_spread, p_sun_name):

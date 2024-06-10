@@ -7,6 +7,8 @@ signal player_state_changed(anti_gravity: bool)
 
 signal weapon_changed(current_weapon: PlayerWeapon)
 
+signal died
+
 @export var world: World
 
 @export_subgroup("Engine")
@@ -26,7 +28,6 @@ signal weapon_changed(current_weapon: PlayerWeapon)
 
 @export_subgroup("Mining")
 @export var mine_anchor_scene: PackedScene
-@export var mine_anchor_pickup_radius = 100
 
 # Movement Vectors
 var direction := Vector2.ZERO
@@ -37,6 +38,7 @@ var shot_count = 0
 var is_mining := false
 var is_anti_gravity_on = false
 var current_weapon_index = 0
+var is_dead = false
 
 var current_weapon: PlayerWeapon:
 	get:
@@ -67,6 +69,8 @@ var mining_interactor:
 		heat = value
 		heat_changed.emit(heat, heat / maximum_heat)
 
+@onready var overspeed_timer = $OverspeedTimer
+
 func _ready() -> void:
 	mineral_inventory._init(mineral_inventory.minerals, mineral_inventory.starting_inventory)
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
@@ -87,9 +91,6 @@ func _physics_process(delta):
 		if mine_anchor == null:
 			if mining_interactor.current_solar_object != null:
 				deploy_mine_anchor()
-		else:
-			if mine_anchor.global_position.distance_to(global_position) < mine_anchor_pickup_radius:
-				mine_anchor.start_pickup_timer()
 
 	# shoot
 	if Input.is_action_just_pressed("shoot") and not $HeatCooloffTimer.is_stopped():
@@ -125,11 +126,25 @@ func _physics_process(delta):
 
 	# over speed camera shake
 	if velocity.length() > max_speed:
+		if overspeed_timer.is_stopped() and not is_dead:
+			overspeed_timer.start()
+
 		$Camera2D.add_trauma(1.0 * delta)
+	else:
+		if not overspeed_timer.is_stopped():
+			overspeed_timer.stop()
 
 	look_at(get_global_mouse_position())
 	move_and_slide()
 	
+func die():
+	$DeathParticles.emitting = true
+	$Camera2D.top_level = true
+	$Camera2D.global_position = global_position
+	$DeathSound.play()
+
+	is_dead = true
+
 func accelerate(delta):
 	var dir = (get_global_mouse_position() - global_position).normalized()
 	var thrust = ship_engine.burn(delta, dir)
@@ -161,6 +176,7 @@ func shoot():
 func deploy_mine_anchor():
 	# instantiate
 	mine_anchor = mine_anchor_scene.instantiate()
+	mine_anchor.player = self
 	world.add_mine_anchor(mine_anchor)
 	mine_anchor.set_mine_target(mining_interactor.current_solar_object)
 	mine_anchor.pickup.connect(_on_mine_anchor_pickup)
@@ -201,3 +217,13 @@ func set_anti_gravity(is_on: bool) -> void:
 
 func get_health_component():
 	return $HealthComponent
+
+func queue_death():
+	is_dead = true
+	died.emit()
+
+func _on_health_component_died() -> void:
+	queue_death()
+
+func _on_overspeed_timer_timeout() -> void:
+	queue_death()

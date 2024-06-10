@@ -71,14 +71,14 @@ animations = [{
 [sub_resource type="Gradient" id="Gradient_h0rl1"]
 colors = PackedColorArray(0.913031, 0.490712, 0.0671775, 1, 0.686114, 0.0119885, 0.133698, 1)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_xmehm"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vyu34"]
 gradient = SubResource("Gradient_h0rl1")
 
 [sub_resource type="Gradient" id="Gradient_o26tk"]
 offsets = PackedFloat32Array(0.318548, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_7iriw"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_aruuo"]
 gradient = SubResource("Gradient_o26tk")
 
 [sub_resource type="Curve" id="Curve_tvaqd"]
@@ -87,7 +87,7 @@ max_value = 20.0
 _data = [Vector2(0.00362319, 20), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_2k8vr"]
+[sub_resource type="CurveTexture" id="CurveTexture_cs07t"]
 curve = SubResource("Curve_tvaqd")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ahid0"]
@@ -97,9 +97,9 @@ initial_velocity_min = 100.0
 initial_velocity_max = 150.0
 gravity = Vector3(0, 0, 0)
 scale_max = 1.5
-scale_curve = SubResource("CurveTexture_2k8vr")
-color_ramp = SubResource("GradientTexture1D_7iriw")
-color_initial_ramp = SubResource("GradientTexture1D_xmehm")
+scale_curve = SubResource("CurveTexture_cs07t")
+color_ramp = SubResource("GradientTexture1D_aruuo")
+color_initial_ramp = SubResource("GradientTexture1D_vyu34")
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points") groups=["enemy"]]
 collision_layer = 4
@@ -168,7 +168,6 @@ shape = SubResource("CapsuleShape2D_t7nkm")
 
 [node name="BehaviourTree" type="Node" parent="."]
 script = ExtResource("9_punxm")
-enabled = false
 
 [node name="PriorityBehaviourTreeNode" type="Node" parent="BehaviourTree"]
 script = ExtResource("10_ite0q")
