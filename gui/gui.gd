@@ -32,7 +32,7 @@ func _physics_process(_delta: float) -> void:
 	%OverspeedCautionLabel.visible = player.is_overspeed
 	%DestructionTimerLabel.visible = player.is_overspeed
 	if player.is_overspeed:
-		%DestructionTimerLabel.text = "Destruction in %s" % str(player.overspeed_timer.time_left)
+		%DestructionTimerLabel.text = "Estimated destruction in %1.1fs" % player.overspeed_timer.time_left
 
 		if not $WarningSound.playing:
 			$WarningSound.play()

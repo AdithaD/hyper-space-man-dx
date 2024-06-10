@@ -30,9 +30,6 @@
 [ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="25_eg55f"]
 [ext_resource type="Script" path="res://solar_mineral_inventory_gui.gd" id="27_fogyc"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_45yqu"]
-font_color = Color(1, 0, 0, 1)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_xpoag"]
 atlas = ExtResource("7_o2d8a")
 region = Rect2(0, 32, 48, 32)
@@ -79,6 +76,10 @@ font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_m4m5c"]
 font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_45yqu"]
+font_size = 32
+font_color = Color(1, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_yikrg"]
 font_size = 96
@@ -284,20 +285,6 @@ layout_mode = 2
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 0
-
-[node name="OverspeedCautionLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "CAUTION: OVERSPEED!"
-label_settings = SubResource("LabelSettings_45yqu")
-horizontal_alignment = 1
-
-[node name="DestructionTimerLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Destruction in 4.0s"
-label_settings = SubResource("LabelSettings_45yqu")
-horizontal_alignment = 1
 
 [node name="SpeedGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
 unique_name_in_owner = true
@@ -582,6 +569,38 @@ size_flags_vertical = 3
 theme_override_constants/separation = 8
 script = ExtResource("27_fogyc")
 name_label = NodePath("../SolarObjectNameLabel")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -87.5
+offset_top = -25.0
+offset_right = 87.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="OverspeedCautionLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CAUTION: OVERSPEED!"
+label_settings = SubResource("LabelSettings_45yqu")
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/VBoxContainer"]
+custom_minimum_size = Vector2(0, 72)
+layout_mode = 2
+
+[node name="DestructionTimerLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Destruction in 4.0s"
+label_settings = SubResource("LabelSettings_45yqu")
+horizontal_alignment = 1
 
 [node name="GameOverScreen" type="Control" parent="CanvasLayer/GUI"]
 visible = false
