@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://nvlka8ych176" path="res://player/mining_drone-sheet.png" id="2_vl4ha"]
 [ext_resource type="Script" path="res://utils/rotating_sprite.gd" id="3_mbq1v"]
 [ext_resource type="Script" path="res://components/health_component.gd" id="4_nyy14"]
-[ext_resource type="Script" path="res://components/hurtbox_component.gd" id="5_nfyti"]
+[ext_resource type="PackedScene" uid="uid://cxdx6hkb1rpq" path="res://components/hurtbox_component.tscn" id="6_8e08h"]
 [ext_resource type="Texture2D" uid="uid://byubcpsaimpu3" path="res://gui/progress_bar_under.tres" id="6_s34o7"]
 [ext_resource type="Script" path="res://gui/SegmentedProgressBar.gd" id="7_jyq82"]
 [ext_resource type="Texture2D" uid="uid://co8nv6fvqw7sg" path="res://gui/progress_bar_over.tres" id="8_7jnmf"]
@@ -143,10 +143,9 @@ rotation_speed = 6.283
 script = ExtResource("4_nyy14")
 maximum_health = 5
 
-[node name="HurtboxComponent" type="Area2D" parent="." node_paths=PackedStringArray("health_component")]
-collision_layer = 2
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("6_8e08h")]
+z_index = 9
 collision_mask = 5
-script = ExtResource("5_nfyti")
 health_component = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]

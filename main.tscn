@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://bpcm5e32ovatf"]
+[gd_scene load_steps=51 format=3 uid="uid://bpcm5e32ovatf"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ukmwj"]
 [ext_resource type="Script" path="res://world/world.gd" id="2_mbc0m"]
@@ -28,7 +28,10 @@
 [ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platinum.png" id="21_77f25"]
 [ext_resource type="Script" path="res://gui/prompt.gd" id="21_w63j5"]
 [ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="25_eg55f"]
+[ext_resource type="Script" path="res://gui/weapon_heat_gauge.gd" id="26_dxaop"]
 [ext_resource type="Script" path="res://solar_mineral_inventory_gui.gd" id="27_fogyc"]
+[ext_resource type="Script" path="res://gui/divergent_crosshair.gd" id="31_qwv8n"]
+[ext_resource type="Texture2D" uid="uid://dpbntvvqgumu2" path="res://player/crosshair_gray.png" id="32_4w470"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xpoag"]
 atlas = ExtResource("7_o2d8a")
@@ -70,6 +73,10 @@ region = Rect2(0, 5, 48, 5)
 [sub_resource type="AtlasTexture" id="AtlasTexture_iah6k"]
 atlas = ExtResource("16_e7ib6")
 region = Rect2(0, 10, 48, 5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qtqti"]
+atlas = ExtResource("16_e7ib6")
+region = Rect2(0, 15, 48, 5)
 
 [sub_resource type="LabelSettings" id="LabelSettings_hd47g"]
 font_size = 48
@@ -469,14 +476,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WeaponHeatGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole"]
+[node name="Control" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/Control"]
+layout_mode = 2
+text = "Heat"
+
+[node name="WeaponHeatGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/Control"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
+size_flags_horizontal = 3
 nine_patch_stretch = true
 texture_under = SubResource("AtlasTexture_a803g")
 texture_over = SubResource("AtlasTexture_v5rp7")
 texture_progress = SubResource("AtlasTexture_iah6k")
+script = ExtResource("26_dxaop")
+overheat_progress_texture = SubResource("AtlasTexture_qtqti")
+normal_progress_texture = SubResource("AtlasTexture_iah6k")
+
+[node name="CoolingOffLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/Control/WeaponHeatGauge"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Cooling Off"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Prompt" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI"]
 unique_name_in_owner = true
@@ -497,7 +527,8 @@ layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Label" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt/TradePrompt"]
+[node name="PreCostTextLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt/TradePrompt"]
+unique_name_in_owner = true
 layout_mode = 2
 text = "Trade  "
 label_settings = SubResource("LabelSettings_hd47g")
@@ -516,7 +547,8 @@ texture = ExtResource("21_77f25")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="Label2" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt/TradePrompt"]
+[node name="PostCostTextLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt/TradePrompt"]
+unique_name_in_owner = true
 layout_mode = 2
 text = " per unit fuel ?"
 label_settings = SubResource("LabelSettings_hd47g")
@@ -645,6 +677,14 @@ layout_mode = 2
 size_flags_vertical = 3
 theme_override_font_sizes/font_size = 36
 text = "Restart"
+
+[node name="DivergentCrosshair" type="Control" parent="CanvasLayer/GUI" node_paths=PackedStringArray("player")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("31_qwv8n")
+player = NodePath("../../../Player")
+crosshair_texture = ExtResource("32_4w470")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

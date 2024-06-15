@@ -73,6 +73,7 @@ color_ramp = SubResource("GradientTexture1D_7iriw")
 color_initial_ramp = SubResource("GradientTexture1D_xmehm")
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points") groups=["player"]]
+z_index = 11
 motion_mode = 1
 script = ExtResource("1_utgdb")
 ship_engine = SubResource("Resource_84uqs")

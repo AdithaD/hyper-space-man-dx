@@ -13,6 +13,7 @@ radius = 165.511
 [node name="FuelStation" type="Node2D" groups=["space_station"]]
 script = ExtResource("1_ie2h8")
 cost_mineral = ExtResource("2_ggpxx")
+prompt = "Trade fuel for_ minerals"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_i0i4s")

@@ -28,8 +28,8 @@ extends Node2D
 @export var enemy_amount_curve: Curve
 @export var enemy_scene: PackedScene
 
-@export_subgroup("Fuel Station")
-@export var fuel_station_scene: PackedScene
+@export_subgroup("Space Station")
+@export var space_station_scenes: Array[PackedScene]
 
 var spread
 
@@ -93,12 +93,12 @@ func spawn_space_station():
 		
 		planet_grid[spawn_grid_pos] = true
 		
-		var fuel_station = fuel_station_scene.instantiate()
-		add_child(fuel_station)
-		#fuel_station.init(sun_name)
+		var space_station = space_station_scenes.pick_random().instantiate()
+		add_child(space_station)
+		#space_station.init(sun_name)
 
-		fuel_station.position = spawn_grid_pos * (planet_width + (planet_width * (planet_randomness)))
-		fuel_station.position += Vector2(get_random(planet_width, planet_randomness), get_random(planet_width, planet_randomness))
+		space_station.position = spawn_grid_pos * (planet_width + (planet_width * (planet_randomness)))
+		space_station.position += Vector2(get_random(planet_width, planet_randomness), get_random(planet_width, planet_randomness))
 
 const PLANET_MINERAL_FACTORY = preload ("res://minerals/planet_mineral_factory.tres")
 func spawn_planet(n):

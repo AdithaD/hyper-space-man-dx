@@ -4,6 +4,8 @@ extends Node2D
 @export var cost_per_unit: float = 10
 @export var cost_mineral: Mineral
 
+@export var prompt = "Trade_per unit fuel"
+
 var interact_area:
 	get:
 		return $PlayerInteractArea

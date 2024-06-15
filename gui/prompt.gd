@@ -28,6 +28,11 @@ func show_trade_prompt(space_station: SpaceStation) -> void:
 	#add to stack
 	push(space_station, %TradePrompt)
 	
+	var sections = space_station.prompt.split("_")
+
+	%PreCostTextLabel.text = sections[0]
+	%PostCostTextLabel.text = sections[1]
+
 	%TradeCostLabel.text = str(space_station.cost_per_unit)
 	%TradeMineralTextureRect.texture = space_station.cost_mineral.mineral_icon
 	hide_all_except( %TradePrompt)

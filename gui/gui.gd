@@ -24,6 +24,7 @@ func _on_player_engine_burned(_new_amount: int, ratio: float) -> void:
 
 func _on_player_heat_changed(_new_amount: int, ratio: float) -> void:
 	%WeaponHeatGauge.ratio = ratio
+	%WeaponHeatGauge.set_overheat_mode(player.is_overheated)
 
 func _physics_process(_delta: float) -> void:
 	var speed_ratio = player.velocity.length() / player.max_speed

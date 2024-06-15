@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=3 uid="uid://qs6pc3sk1exf"]
+
+[ext_resource type="Script" path="res://world/space_station/space_station_health.gd" id="1_dr35w"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/platinum.tres" id="2_p7heb"]
+[ext_resource type="Texture2D" uid="uid://cqicookwg0jpe" path="res://world/space_station/space_station.png" id="3_1q85l"]
+[ext_resource type="Script" path="res://world/discrete_circulating_sprite.gd" id="4_0wjwi"]
+[ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="5_s1xkl"]
+[ext_resource type="AudioStream" uid="uid://bb1vq11t1jqfl" path="res://world/space_station/space_station_fill.wav" id="6_sw4yu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qd2nx"]
+radius = 165.511
+
+[node name="SpaceStationHealth" type="Node2D" groups=["space_station"]]
+script = ExtResource("1_dr35w")
+cost_per_unit = 1000.0
+cost_mineral = ExtResource("2_p7heb")
+prompt = "Restore HP for_minerals"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.33, 1, 0.553333, 1)
+texture = ExtResource("3_1q85l")
+script = ExtResource("4_0wjwi")
+
+[node name="PlayerInteractArea" parent="." instance=ExtResource("5_s1xkl")]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerInteractArea"]
+shape = SubResource("CircleShape2D_qd2nx")
+
+[node name="FillSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_sw4yu")

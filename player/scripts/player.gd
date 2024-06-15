@@ -68,6 +68,10 @@ var mining_interactor:
 	get:
 		return $MiningInteractor
 
+var is_overheated: bool:
+	get:
+		return not $HeatCooloffTimer.is_stopped()
+
 @onready var heat = 0:
 	set(value):
 		heat = value
@@ -80,66 +84,66 @@ func _ready() -> void:
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
 
 func _physics_process(delta):
-
-	#accelerate
-	is_accelerating = Input.is_action_pressed("accelerate")
-	
-	if is_accelerating:
-		accelerate(delta)
-	else:
-		if not is_zero_approx(velocity.length()):
-			velocity -= velocity.normalized() * drag * delta
-
-	# mining
-	if Input.is_action_just_pressed("mine"):
-		if mine_anchor == null:
-			if mining_interactor.current_solar_object != null:
-				deploy_mine_anchor()
-
-	# shoot
-	if Input.is_action_just_pressed("shoot") and not $HeatCooloffTimer.is_stopped():
-		$CantShootSound.play()
+	if not is_dead:
+		#accelerate
+		is_accelerating = Input.is_action_pressed("accelerate")
 		
-	if Input.is_action_pressed("shoot") and $ShotTimer.is_stopped() and $HeatCooloffTimer.is_stopped():
-		shoot()
-
-	if Input.is_action_just_pressed("anti_gravity"):
-		if ship_engine.current_fuel > 0:
-			set_anti_gravity(not is_anti_gravity_on)
-	
-	if Input.is_action_just_pressed("cycle_weapon"):
-		var new_index = (current_weapon_index + 1) % weapons.size()
-		current_weapon_index = new_index
-		
-		$ShotTimer.wait_time = current_weapon.shot_cooldown
-		weapon_changed.emit(current_weapon)
-
-	# reduce heat
-	if not is_zero_approx(heat):
-		heat -= min(heat, heat_drain_per_second * delta)
-
-	# apply gravity
-	if world:
-		var gravity = world.get_gravity(global_position)
-		
-		if not is_anti_gravity_on:
-			velocity += gravity * delta
+		if is_accelerating:
+			accelerate(delta)
 		else:
-			# burn fuel equivalent to anti-gravity
-			ship_engine.burn_anti_gravity(gravity * delta)
+			if not is_zero_approx(velocity.length()):
+				velocity -= velocity.normalized() * drag * delta
 
-	# over speed camera shake
-	if velocity.length() > max_speed:
-		if overspeed_timer.is_stopped() and not is_dead:
-			overspeed_timer.start()
+		# mining
+		if Input.is_action_just_pressed("mine"):
+			if mine_anchor == null:
+				if mining_interactor.current_solar_object != null:
+					deploy_mine_anchor()
 
-		$Camera2D.add_trauma(1.0 * delta)
-	else:
-		if not overspeed_timer.is_stopped():
-			overspeed_timer.stop()
+		# shoot
+		if Input.is_action_just_pressed("shoot") and not $HeatCooloffTimer.is_stopped():
+			$CantShootSound.play()
+			
+		if Input.is_action_pressed("shoot") and $ShotTimer.is_stopped() and $HeatCooloffTimer.is_stopped():
+			shoot()
 
-	look_at(get_global_mouse_position())
-	move_and_slide()
+		if Input.is_action_just_pressed("anti_gravity"):
+			if ship_engine.current_fuel > 0:
+				set_anti_gravity(not is_anti_gravity_on)
+		
+		if Input.is_action_just_pressed("cycle_weapon"):
+			var new_index = (current_weapon_index + 1) % weapons.size()
+			current_weapon_index = new_index
+			
+			$ShotTimer.wait_time = current_weapon.shot_cooldown
+			weapon_changed.emit(current_weapon)
+
+		# reduce heat
+		if not is_zero_approx(heat):
+			heat -= min(heat, heat_drain_per_second * delta)
+
+		# apply gravity
+		if world:
+			var gravity = world.get_gravity(global_position)
+			
+			if not is_anti_gravity_on:
+				velocity += gravity * delta
+			else:
+				# burn fuel equivalent to anti-gravity
+				ship_engine.burn_anti_gravity(gravity * delta)
+
+		# over speed camera shake
+		if velocity.length() > max_speed:
+			if overspeed_timer.is_stopped() and not is_dead:
+				overspeed_timer.start()
+
+			$Camera2D.add_trauma(1.0 * delta)
+		else:
+			if not overspeed_timer.is_stopped():
+				overspeed_timer.stop()
+
+		look_at(get_global_mouse_position())
+		move_and_slide()
 	
 func die():
 	$DeathParticles.emitting = true
@@ -161,7 +165,7 @@ func shoot():
 	if current_weapon.is_hitscan:
 		_shoot_hitscan(current_weapon, global_position, get_global_mouse_position())
 	else:
-		_shoot_projectile(current_weapon, cannon.global_position, get_global_mouse_position())
+		_shoot_projectile(current_weapon, cannon.global_position, cannon.global_position + transform.x * 100)
 	$CannonShotSound.play()
 	$Camera2D.add_trauma(current_weapon.shot_trauma)
 	
@@ -170,23 +174,23 @@ func shoot():
 	_add_heat(current_weapon.heat_per_shot)
 	shot_count += 1
 
-func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, mouse_position: Vector2) -> void:
+func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> void:
 	var new_shot = weapon.instantiate_shot()
 	new_shot.global_position = origin
 	new_shot.global_rotation = global_rotation
 	
 	if new_shot.has_method("set_target"):
-		new_shot.set_target(mouse_position)
+		new_shot.set_target(target)
 
 	if new_shot.has_method("set_inherited_velocity"):
 		new_shot.set_inherited_velocity(velocity)
 	
 	$Shots.add_child(new_shot)
 
-func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, mouse_position: Vector2) -> void:
+func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> void:
 	var dss = get_world_2d().direct_space_state
 
-	var destination = origin.direction_to(mouse_position) * 2000 + origin
+	var destination = origin.direction_to(target) * 2000 + origin
 	var query = PhysicsRayQueryParameters2D.create(origin, destination, 0b1000)
 	query.collide_with_bodies = false
 	query.collide_with_areas = true
@@ -242,7 +246,7 @@ func set_anti_gravity(is_on: bool) -> void:
 	
 	player_state_changed.emit(is_anti_gravity_on)
 
-func get_health_component():
+func get_health_component() -> HealthComponent:
 	return $HealthComponent
 
 func queue_death():
