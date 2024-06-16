@@ -9,11 +9,13 @@ signal weapon_changed(current_weapon: PlayerWeapon)
 
 signal died
 
+signal upgraded
+
 @export var world: World
+@export var upgrades: Array[TieredUpgrade]
 
 @export_subgroup("Engine")
 @export var ship_engine: ShipEngine
-@export var max_speed := 500.0
 @export var drag := 10.0
 
 @export_subgroup("Weapons")
@@ -39,6 +41,11 @@ var is_mining := false
 var is_anti_gravity_on = false
 var current_weapon_index = 0
 var is_dead = false
+var has_control = true
+
+var max_speed := 500.0
+
+var upgrade_tier: Dictionary
 
 var is_overspeed:
 	get:
@@ -80,11 +87,16 @@ var is_overheated: bool:
 @onready var overspeed_timer = $OverspeedTimer
 
 func _ready() -> void:
-	mineral_inventory._init(mineral_inventory.minerals, mineral_inventory.starting_inventory)
+	ship_engine.reset_state()
+	
+	for upgrade in upgrades:
+		apply_upgrade(upgrade, false)
+
+	mineral_inventory._init(mineral_inventory.starting_inventory)
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
 
 func _physics_process(delta):
-	if not is_dead:
+	if not is_dead and has_control:
 		#accelerate
 		is_accelerating = Input.is_action_pressed("accelerate")
 		
@@ -95,10 +107,10 @@ func _physics_process(delta):
 				velocity -= velocity.normalized() * drag * delta
 
 		# mining
-		if Input.is_action_just_pressed("mine"):
-			if mine_anchor == null:
-				if mining_interactor.current_solar_object != null:
-					deploy_mine_anchor()
+		# if Input.is_action_just_pressed("mine"):
+		# 	if mine_anchor == null:
+		# 		if mining_interactor.current_solar_object != null:
+		# 			deploy_mine_anchor()
 
 		# shoot
 		if Input.is_action_just_pressed("shoot") and not $HeatCooloffTimer.is_stopped():
@@ -107,16 +119,16 @@ func _physics_process(delta):
 		if Input.is_action_pressed("shoot") and $ShotTimer.is_stopped() and $HeatCooloffTimer.is_stopped():
 			shoot()
 
-		if Input.is_action_just_pressed("anti_gravity"):
-			if ship_engine.current_fuel > 0:
-				set_anti_gravity(not is_anti_gravity_on)
+		# if Input.is_action_just_pressed("anti_gravity"):
+		# 	if ship_engine.current_fuel > 0:
+		# 		set_anti_gravity(not is_anti_gravity_on)
 		
-		if Input.is_action_just_pressed("cycle_weapon"):
-			var new_index = (current_weapon_index + 1) % weapons.size()
-			current_weapon_index = new_index
+		# if Input.is_action_just_pressed("cycle_weapon"):
+		# 	var new_index = (current_weapon_index + 1) % weapons.size()
+		# 	current_weapon_index = new_index
 			
-			$ShotTimer.wait_time = current_weapon.shot_cooldown
-			weapon_changed.emit(current_weapon)
+		# 	$ShotTimer.wait_time = current_weapon.shot_cooldown
+		# 	weapon_changed.emit(current_weapon)
 
 		# reduce heat
 		if not is_zero_approx(heat):
@@ -144,7 +156,25 @@ func _physics_process(delta):
 
 		look_at(get_global_mouse_position())
 		move_and_slide()
-	
+
+func _unhandled_input(event):
+	if has_control:
+		if event.is_action_pressed("mine"):
+			if mine_anchor == null:
+				if mining_interactor.current_solar_object != null:
+					deploy_mine_anchor()
+
+		if event.is_action_pressed("anti_gravity"):
+			if ship_engine.current_fuel > 0:
+				set_anti_gravity(not is_anti_gravity_on)
+		
+		if Input.is_action_pressed("cycle_weapon"):
+			var new_index = (current_weapon_index + 1) % weapons.size()
+			current_weapon_index = new_index
+			
+			$ShotTimer.wait_time = current_weapon.shot_cooldown
+			weapon_changed.emit(current_weapon)
+
 func die():
 	$DeathParticles.emitting = true
 	$Camera2D.top_level = true
@@ -223,6 +253,31 @@ func pickup_mine_anchor():
 
 	mine_anchor.queue_free()
 	mine_anchor = null
+
+func apply_upgrade(upgrade: TieredUpgrade, level_up=true) -> void:
+
+	if level_up:
+		if upgrade.get_max_tier() > get_tier(upgrade):
+			upgrade_tier[upgrade] = get_tier(upgrade) + 1
+
+	var value = upgrade.get_tier_value(get_tier(upgrade))
+	match upgrade.upgrade_id:
+		&"max_speed":
+			max_speed = value
+		&"fuel_capacity":
+			ship_engine.fuel_capacity = value
+		&"mass_flow":
+			ship_engine.mass_flow_rate = value
+		&"exhaust_velocity":
+			ship_engine.exhaust_velocity = value
+
+	upgraded.emit()
+
+func can_upgrade(upgrade: TieredUpgrade) -> bool:
+	return upgrade.get_max_tier() > get_tier(upgrade) and mineral_inventory.is_superset(upgrade.get_tier_cost(get_tier(upgrade)))
+
+func get_tier(upgrade: TieredUpgrade) -> int:
+	return upgrade_tier.get_or_add(upgrade, 0)
 
 func _on_mine_anchor_pickup():
 	pickup_mine_anchor()

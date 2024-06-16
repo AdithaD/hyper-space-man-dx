@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=8 format=3 uid="uid://bagxliwk2vv7t"]
+
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="1_clnxl"]
+[ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_4o8xr"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/mineral_platinum.tres" id="3_b75g0"]
+[ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://minerals/mineral_forged_carbon_fiber.tres" id="4_8jrsv"]
+
+[sub_resource type="Resource" id="Resource_jxndf"]
+script = ExtResource("2_4o8xr")
+starting_inventory = {
+ExtResource("3_b75g0"): 10000,
+ExtResource("4_8jrsv"): 5000
+}
+
+[sub_resource type="Resource" id="Resource_xhsw8"]
+script = ExtResource("2_4o8xr")
+starting_inventory = {
+ExtResource("3_b75g0"): 40000,
+ExtResource("4_8jrsv"): 20000
+}
+
+[sub_resource type="Resource" id="Resource_uwrns"]
+script = ExtResource("2_4o8xr")
+starting_inventory = {
+ExtResource("3_b75g0"): 100000,
+ExtResource("4_8jrsv"): 40000
+}
+
+[resource]
+script = ExtResource("1_clnxl")
+upgrade_id = &"exhaust_velocity"
+upgrade_name = "Exhaust Velocity"
+tier_costs = Array[ExtResource("2_4o8xr")]([SubResource("Resource_jxndf"), SubResource("Resource_xhsw8"), SubResource("Resource_uwrns")])
+tier_values = Array[float]([100000.0, 200000.0, 400000.0, 1.6e+06])

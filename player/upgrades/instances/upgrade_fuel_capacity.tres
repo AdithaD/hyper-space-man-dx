@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=7 format=3 uid="uid://dibq5dh0oh5cp"]
+
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="1_bg8q0"]
+[ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_scldy"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/mineral_platinum.tres" id="3_d5tgf"]
+
+[sub_resource type="Resource" id="Resource_miomb"]
+script = ExtResource("2_scldy")
+starting_inventory = {
+ExtResource("3_d5tgf"): 1000
+}
+
+[sub_resource type="Resource" id="Resource_omx85"]
+script = ExtResource("2_scldy")
+starting_inventory = {
+ExtResource("3_d5tgf"): 4000
+}
+
+[sub_resource type="Resource" id="Resource_0mfty"]
+script = ExtResource("2_scldy")
+starting_inventory = {
+ExtResource("3_d5tgf"): 16000
+}
+
+[resource]
+script = ExtResource("1_bg8q0")
+upgrade_id = &"fuel_capacity"
+upgrade_name = "Fuel Capacity"
+tier_costs = Array[ExtResource("2_scldy")]([SubResource("Resource_miomb"), SubResource("Resource_omx85"), SubResource("Resource_0mfty")])
+tier_values = Array[float]([100.0, 200.0, 800.0, 1600.0])

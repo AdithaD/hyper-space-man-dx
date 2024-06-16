@@ -45,3 +45,8 @@ func _on_player_health_changed(_amount, health, maximum_health):
 	%PlayerHealthBar.segments = maximum_health
 	%PlayerHealthBar.value = health
 	%PlayerHealthBar.queue_redraw()
+
+func _unhandled_key_input(event):
+	if event.is_action_released("toggle_upgrade_screen"):
+		$UpgradeScreen.visible = not $UpgradeScreen.visible
+		player.has_control = not $UpgradeScreen.visible

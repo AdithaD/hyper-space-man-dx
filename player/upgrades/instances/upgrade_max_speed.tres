@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=7 format=3 uid="uid://dky8iehrf2ndd"]
+
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="1_wwxgv"]
+[ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_xvioj"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/mineral_platinum.tres" id="3_4u73h"]
+
+[sub_resource type="Resource" id="Resource_miomb"]
+script = ExtResource("2_xvioj")
+starting_inventory = {
+ExtResource("3_4u73h"): 1000
+}
+
+[sub_resource type="Resource" id="Resource_omx85"]
+script = ExtResource("2_xvioj")
+starting_inventory = {
+ExtResource("3_4u73h"): 4000
+}
+
+[sub_resource type="Resource" id="Resource_0mfty"]
+script = ExtResource("2_xvioj")
+starting_inventory = {
+ExtResource("3_4u73h"): 16000
+}
+
+[resource]
+script = ExtResource("1_wwxgv")
+upgrade_id = &"max_speed"
+upgrade_name = "Maximum Speed"
+tier_costs = Array[ExtResource("2_xvioj")]([SubResource("Resource_miomb"), SubResource("Resource_omx85"), SubResource("Resource_0mfty")])
+tier_values = Array[float]([1000.0, 2000.0, 4000.0, 8000.0])

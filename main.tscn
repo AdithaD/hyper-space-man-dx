@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://bpcm5e32ovatf"]
+[gd_scene load_steps=64 format=3 uid="uid://bpcm5e32ovatf"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ukmwj"]
 [ext_resource type="Script" path="res://world/world.gd" id="2_mbc0m"]
@@ -16,6 +16,8 @@
 [ext_resource type="Script" path="res://gui/limited_texture_progress_bar.gd" id="8_66gcj"]
 [ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://minerals/player_inventory.tres" id="8_kup1v"]
 [ext_resource type="AudioStream" uid="uid://dy00nbcu3gtxy" path="res://player/sounds/over_speed.wav" id="8_pmg8h"]
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="10_ef6fc"]
+[ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="11_d1h5m"]
 [ext_resource type="Script" path="res://gui/minimap_draw.gd" id="11_l3mgi"]
 [ext_resource type="Texture2D" uid="uid://cl1g7x0odqejy" path="res://gui/anti_gravity/anti_gravity_toggle2.png" id="11_s7rj3"]
 [ext_resource type="Texture2D" uid="uid://dhh2oe2wvvy4n" path="res://gui/anti_gravity/anti_gravity_toggle1.png" id="12_7i28v"]
@@ -32,6 +34,12 @@
 [ext_resource type="Script" path="res://solar_mineral_inventory_gui.gd" id="27_fogyc"]
 [ext_resource type="Script" path="res://gui/divergent_crosshair.gd" id="31_qwv8n"]
 [ext_resource type="Texture2D" uid="uid://dpbntvvqgumu2" path="res://player/crosshair_gray.png" id="32_4w470"]
+[ext_resource type="Script" path="res://gui/item_list_container.gd" id="33_cvp1t"]
+[ext_resource type="Script" path="res://gui/upgrade_screen.gd" id="33_xht05"]
+[ext_resource type="PackedScene" uid="uid://ckyjqpfv6fvvp" path="res://gui/upgrade_panel.tscn" id="34_4lral"]
+[ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://player/upgrades/instances/upgrade_exhaust_velocity.tres" id="37_mv157"]
+[ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://player/upgrades/instances/upgrade_mass_flow.tres" id="38_uq4g4"]
+[ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://player/upgrades/instances/upgrade_fuel_capacity.tres" id="39_ch2cl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xpoag"]
 atlas = ExtResource("7_o2d8a")
@@ -90,6 +98,57 @@ font_color = Color(1, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_yikrg"]
 font_size = 96
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kda2p"]
+bg_color = Color(0.352941, 0.411765, 0.533333, 1)
+skew = Vector2(0.2, 0)
+border_width_bottom = 4
+border_color = Color(0.227451, 0.266667, 0.4, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kndhl"]
+bg_color = Color(0.352941, 0.411765, 0.533333, 1)
+skew = Vector2(0.2, 0)
+border_width_bottom = 4
+border_color = Color(0.0705882, 0.305882, 0.537255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xubqq"]
+bg_color = Color(0, 0.623529, 0.913725, 1)
+skew = Vector2(0.2, 0)
+border_width_bottom = 4
+border_color = Color(0.0705882, 0.305882, 0.537255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_baiif"]
+bg_color = Color(0.0705882, 0.305882, 0.537255, 1)
+skew = Vector2(0.2, 0)
+border_width_bottom = 4
+border_color = Color(0.0705882, 0.305882, 0.537255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="Theme" id="Theme_ymudb"]
+Button/styles/disabled = SubResource("StyleBoxFlat_kda2p")
+Button/styles/hover = SubResource("StyleBoxFlat_kndhl")
+Button/styles/normal = SubResource("StyleBoxFlat_xubqq")
+Button/styles/pressed = SubResource("StyleBoxFlat_baiif")
+MarginContainer/constants/margin_bottom = 32
+MarginContainer/constants/margin_left = 32
+MarginContainer/constants/margin_right = 32
+MarginContainer/constants/margin_top = 32
 
 [sub_resource type="Animation" id="Animation_xccdn"]
 length = 0.001
@@ -213,7 +272,7 @@ cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 
 [node name="Player" parent="." node_paths=PackedStringArray("world", "cannon_points") instance=ExtResource("2_xc4b4")]
 world = NodePath("../World")
-max_speed = 1500.0
+upgrades = Array[ExtResource("10_ef6fc")]([ExtResource("11_d1h5m"), ExtResource("37_mv157"), ExtResource("39_ch2cl"), ExtResource("38_uq4g4")])
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 mineral_inventory = ExtResource("8_kup1v")
 mine_anchor_scene = ExtResource("5_racmp")
@@ -234,7 +293,7 @@ world = NodePath("../../World")
 [node name="WarningSound" type="AudioStreamPlayer" parent="CanvasLayer/GUI"]
 stream = ExtResource("8_pmg8h")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GUI"]
+[node name="HUD" type="MarginContainer" parent="CanvasLayer/GUI"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -246,10 +305,10 @@ theme_override_constants/margin_top = 16
 theme_override_constants/margin_right = 16
 theme_override_constants/margin_bottom = 16
 
-[node name="UI" type="Control" parent="CanvasLayer/GUI/MarginContainer"]
+[node name="UI" type="Control" parent="CanvasLayer/GUI/HUD"]
 layout_mode = 2
 
-[node name="Minimap" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI" node_paths=PackedStringArray("player")]
+[node name="Minimap" type="Control" parent="CanvasLayer/GUI/HUD/UI" node_paths=PackedStringArray("player")]
 layout_mode = 1
 anchors_preset = 0
 offset_right = 256.0
@@ -260,7 +319,7 @@ grid_scale = 512
 grid_size = 64
 space_station_color = Color(0, 0.584314, 0.913725, 1)
 
-[node name="Radar" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI" node_paths=PackedStringArray("player")]
+[node name="Radar" type="Control" parent="CanvasLayer/GUI/HUD/UI" node_paths=PackedStringArray("player")]
 layout_mode = 2
 anchors_preset = 0
 offset_right = 1888.0
@@ -271,7 +330,7 @@ script = ExtResource("13_pc41l")
 player = NodePath("../../../../../Player")
 enemy_detection_range = 10000.0
 
-[node name="CentreConsole" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
+[node name="CentreConsole" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -284,16 +343,16 @@ offset_right = 212.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/CentreConsole"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI/CentreConsole"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="SpeedGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
+[node name="SpeedGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(288, 192)
 layout_mode = 2
@@ -306,20 +365,20 @@ texture_over = SubResource("AtlasTexture_6yt8d")
 texture_progress = SubResource("AtlasTexture_hmya6")
 script = ExtResource("8_66gcj")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer"]
+[node name="Label2" type="Label" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "HP"
 
-[node name="Control" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Under" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
+[node name="Under" type="TextureRect" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -328,7 +387,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_3civj")
 
-[node name="PlayerHealthBar" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
+[node name="PlayerHealthBar" type="Control" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -343,7 +402,7 @@ grow_vertical = 2
 script = ExtResource("13_h6gs0")
 segment_color_gradient = SubResource("Gradient_7g43y")
 
-[node name="Over" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
+[node name="Over" type="TextureRect" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer/HBoxContainer/Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -352,15 +411,15 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_tuw8f")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer2"]
+[node name="Label" type="Label" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(48, 0)
 layout_mode = 2
 text = "Fuel"
 
-[node name="FuelGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/VBoxContainer/HBoxContainer2"]
+[node name="FuelGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/VBoxContainer/HBoxContainer2"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -370,11 +429,11 @@ texture_under = SubResource("AtlasTexture_3civj")
 texture_over = SubResource("AtlasTexture_tuw8f")
 texture_progress = SubResource("AtlasTexture_8qcth")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/CentreConsole"]
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 
-[node name="AntiGravityButton" type="TextureButton" parent="CanvasLayer/GUI/MarginContainer/UI/CentreConsole/HBoxContainer"]
+[node name="AntiGravityButton" type="TextureButton" parent="CanvasLayer/GUI/HUD/UI/CentreConsole/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
@@ -384,7 +443,7 @@ texture_normal = ExtResource("11_s7rj3")
 texture_pressed = ExtResource("12_7i28v")
 stretch_mode = 4
 
-[node name="WeaponConsole" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
+[node name="WeaponConsole" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -396,18 +455,18 @@ offset_top = -172.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="WeaponGUI" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole" node_paths=PackedStringArray("player")]
+[node name="WeaponGUI" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole" node_paths=PackedStringArray("player")]
 layout_mode = 2
 script = ExtResource("16_cnfgi")
 player = NodePath("../../../../../../Player")
 
-[node name="WeaponSlot" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI"]
+[node name="WeaponSlot" type="Control" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI"]
 clip_contents = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 script = ExtResource("17_kku5o")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI/WeaponSlot"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI/WeaponSlot"]
 clip_children = 2
 layout_mode = 1
 anchors_preset = 15
@@ -417,7 +476,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("16_ykoqb")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI/WeaponSlot/TextureRect"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI/WeaponSlot/TextureRect"]
 modulate = Color(0, 0, 0, 0.760784)
 layout_mode = 1
 anchors_preset = 15
@@ -426,13 +485,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WeaponSlot2" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI"]
+[node name="WeaponSlot2" type="Control" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI"]
 clip_contents = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 script = ExtResource("17_kku5o")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI/WeaponSlot2"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI/WeaponSlot2"]
 clip_children = 2
 layout_mode = 1
 anchors_preset = 15
@@ -442,7 +501,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("16_ykoqb")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI/WeaponSlot2/TextureRect"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI/WeaponSlot2/TextureRect"]
 modulate = Color(0, 0, 0, 0.760784)
 layout_mode = 1
 anchors_preset = 15
@@ -451,13 +510,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WeaponSlot3" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI"]
+[node name="WeaponSlot3" type="Control" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI"]
 clip_contents = true
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 script = ExtResource("17_kku5o")
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI/WeaponSlot3"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI/WeaponSlot3"]
 clip_children = 2
 layout_mode = 1
 anchors_preset = 15
@@ -467,7 +526,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("16_ykoqb")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/WeaponGUI/WeaponSlot3/TextureRect"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI/WeaponSlot3/TextureRect"]
 modulate = Color(0, 0, 0, 0.760784)
 layout_mode = 1
 anchors_preset = 15
@@ -476,14 +535,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Control" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole"]
+[node name="Control" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/Control"]
+[node name="Label" type="Label" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/Control"]
 layout_mode = 2
 text = "Heat"
 
-[node name="WeaponHeatGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/Control"]
+[node name="WeaponHeatGauge" type="TextureProgressBar" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/Control"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
@@ -496,7 +555,7 @@ script = ExtResource("26_dxaop")
 overheat_progress_texture = SubResource("AtlasTexture_qtqti")
 normal_progress_texture = SubResource("AtlasTexture_iah6k")
 
-[node name="CoolingOffLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/WeaponConsole/Control/WeaponHeatGauge"]
+[node name="CoolingOffLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/Control/WeaponHeatGauge"]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -508,7 +567,7 @@ text = "Cooling Off"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Prompt" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI"]
+[node name="Prompt" type="Control" parent="CanvasLayer/GUI/HUD/UI"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 5
@@ -520,26 +579,26 @@ offset_bottom = 71.0
 grow_horizontal = 2
 script = ExtResource("21_w63j5")
 
-[node name="TradePrompt" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt"]
+[node name="TradePrompt" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/Prompt"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="PreCostTextLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt/TradePrompt"]
+[node name="PreCostTextLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/Prompt/TradePrompt"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Trade  "
 label_settings = SubResource("LabelSettings_hd47g")
 
-[node name="TradeCostLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt/TradePrompt"]
+[node name="TradeCostLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/Prompt/TradePrompt"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "XX"
 label_settings = SubResource("LabelSettings_hd47g")
 
-[node name="TradeMineralTextureRect" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt/TradePrompt"]
+[node name="TradeMineralTextureRect" type="TextureRect" parent="CanvasLayer/GUI/HUD/UI/Prompt/TradePrompt"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
@@ -547,13 +606,13 @@ texture = ExtResource("21_77f25")
 expand_mode = 2
 stretch_mode = 4
 
-[node name="PostCostTextLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt/TradePrompt"]
+[node name="PostCostTextLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/Prompt/TradePrompt"]
 unique_name_in_owner = true
 layout_mode = 2
 text = " per unit fuel ?"
 label_settings = SubResource("LabelSettings_hd47g")
 
-[node name="MineAnchorPrompt" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Prompt"]
+[node name="MineAnchorPrompt" type="Label" parent="CanvasLayer/GUI/HUD/UI/Prompt"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -565,7 +624,7 @@ grow_vertical = 2
 text = "Hold [Space] to pickup mine anchor"
 label_settings = SubResource("LabelSettings_hd47g")
 
-[node name="MineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
+[node name="MineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -577,7 +636,7 @@ theme_override_constants/separation = 8
 script = ExtResource("25_eg55f")
 mineral_inventory = ExtResource("8_kup1v")
 
-[node name="Control" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
+[node name="Control" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI"]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -590,11 +649,11 @@ offset_bottom = 146.5
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="SolarObjectNameLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/Control"]
+[node name="SolarObjectNameLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/Control"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_m4m5c")
 
-[node name="SolarMineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI/Control" node_paths=PackedStringArray("name_label")]
+[node name="SolarMineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI/Control" node_paths=PackedStringArray("name_label")]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -602,7 +661,7 @@ theme_override_constants/separation = 8
 script = ExtResource("27_fogyc")
 name_label = NodePath("../SolarObjectNameLabel")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/UI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -616,18 +675,18 @@ offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="OverspeedCautionLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/VBoxContainer"]
+[node name="OverspeedCautionLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "CAUTION: OVERSPEED!"
 label_settings = SubResource("LabelSettings_45yqu")
 horizontal_alignment = 1
 
-[node name="Control" type="Control" parent="CanvasLayer/GUI/MarginContainer/UI/VBoxContainer"]
+[node name="Control" type="Control" parent="CanvasLayer/GUI/HUD/UI/VBoxContainer"]
 custom_minimum_size = Vector2(0, 72)
 layout_mode = 2
 
-[node name="DestructionTimerLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/UI/VBoxContainer"]
+[node name="DestructionTimerLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Destruction in 4.0s"
@@ -686,11 +745,96 @@ script = ExtResource("31_qwv8n")
 player = NodePath("../../../Player")
 crosshair_texture = ExtResource("32_4w470")
 
+[node name="UpgradeScreen" type="PanelContainer" parent="CanvasLayer/GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_ymudb")
+script = ExtResource("33_xht05")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GUI/UpgradeScreen"]
+layout_mode = 2
+
+[node name="ItemListContainer" type="HBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer"]
+layout_mode = 2
+script = ExtResource("33_cvp1t")
+
+[node name="ItemList" type="ItemList" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer"]
+custom_minimum_size = Vector2(256, 224)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 48
+
+[node name="ItemListControls" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Flight" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Upgrades" type="HBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MaxSpeed" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("11_d1h5m")
+
+[node name="ExhaustVelocity" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("37_mv157")
+
+[node name="MassFlowRate" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("38_uq4g4")
+
+[node name="FuelCapacity" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("39_ch2cl")
+
+[node name="Weapons" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Mining" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_wlqpe")
 }
 
 [connection signal="heat_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_heat_changed"]
-[connection signal="prompt_interacted" from="CanvasLayer/GUI/MarginContainer/UI/Prompt" to="." method="_on_prompt_prompt_interacted"]
+[connection signal="prompt_interacted" from="CanvasLayer/GUI/HUD/UI/Prompt" to="." method="_on_prompt_prompt_interacted"]
 [connection signal="pressed" from="CanvasLayer/GUI/GameOverScreen/VBoxContainer/Button" to="." method="_on_restart_button_pressed"]

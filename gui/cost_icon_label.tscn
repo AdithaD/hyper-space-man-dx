@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://jpahl7oca5lr"]
+
+[ext_resource type="Script" path="res://gui/cost_icon_label.gd" id="1_iy0ti"]
+[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platinum.png" id="2_d7xqe"]
+
+[node name="CostIconLabel" type="HBoxContainer"]
+script = ExtResource("1_iy0ti")
+
+[node name="UpgradeCostLabel" type="Label" parent="."]
+layout_mode = 2
+text = "30"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_d7xqe")
+expand_mode = 2
+stretch_mode = 5

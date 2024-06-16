@@ -1,9 +1,11 @@
-[gd_scene load_steps=33 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=35 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_utgdb"]
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="2_4i6i5"]
 [ext_resource type="Material" uid="uid://c1nu5ip1icxal" path="res://player/engine_particle_process_material.tres" id="2_i7ooq"]
 [ext_resource type="Script" path="res://player/scripts/ship_engine.gd" id="2_sgfqe"]
+[ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="3_rxdoq"]
 [ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="3_yws57"]
 [ext_resource type="Script" path="res://player/scripts/player_camera.gd" id="4_hr172"]
 [ext_resource type="Resource" uid="uid://bp8nshg7giykd" path="res://player/weapons/double_gun.tres" id="4_hu4rs"]
@@ -76,6 +78,7 @@ color_initial_ramp = SubResource("GradientTexture1D_xmehm")
 z_index = 11
 motion_mode = 1
 script = ExtResource("1_utgdb")
+upgrades = Array[ExtResource("2_4i6i5")]([ExtResource("3_rxdoq")])
 ship_engine = SubResource("Resource_84uqs")
 weapons = Array[ExtResource("3_yws57")]([ExtResource("4_hu4rs"), ExtResource("5_tuqcu"), ExtResource("6_utjo4")])
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]

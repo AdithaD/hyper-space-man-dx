@@ -6,6 +6,8 @@ extends Node2D
 @export var action: StringName = &"interact"
 @export var wait_time: float = 1.0
 
+var enabled = true
+
 @onready var player: Player = get_tree().get_first_node_in_group("player")
 
 @onready var timer = $PickupTimer
@@ -22,7 +24,7 @@ func _process(_delta: float) -> void:
 			timer.stop()
 
 func _unhandled_key_input(event: InputEvent) -> void:
-	if event.is_action_pressed(action):
+	if event.is_action_pressed(action) and enabled:
 		if global_position.distance_to(player.global_position) < pickup_range and timer.is_stopped():
 			timer.start()
 			

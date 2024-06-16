@@ -3,23 +3,19 @@ extends Resource
 
 signal mineral_modified(mineral: Mineral, new_amount: int)
 
-@export var minerals: Array[Mineral]
-@export var starting_inventory = {}
+@export var starting_inventory = {}: set = _init
 
 var inventory := {}
 
-func _init(p_minerals: Array[Mineral]=[], p_starting_inventory=null) -> void:
-	minerals = p_minerals
+func _init(p_starting_inventory=null) -> void:
 	starting_inventory = p_starting_inventory
-	
-	for m in minerals:
-		inventory[m] = starting_inventory.get(m, 0)
-		mineral_modified.emit(m, inventory[m])
+
+	if starting_inventory:
+		for m in starting_inventory.keys():
+			inventory[m] = starting_inventory.get(m, 0)
+			mineral_modified.emit(m, inventory[m])
 		
 func add_amount(mineral: Mineral, amount: int):
-	if not minerals.has(mineral):
-		minerals.append(mineral)
-	
 	inventory[mineral] = inventory.get(mineral, 0) + amount
 	mineral_modified.emit(mineral, inventory[mineral])
 
@@ -40,11 +36,11 @@ func get_minerals():
 	return inventory.keys()
 
 func get_total_minerals() -> int:
-	return minerals.reduce(func(sum, m): return sum + get_amount(m), 0)
+	return inventory.keys().reduce(func(sum, m): return sum + get_amount(m), 0)
 	
 func generate_assortment(amount: int) -> Dictionary:
 	var remaining = amount
-	var _minerals = minerals.duplicate()
+	var _minerals = inventory.keys().duplicate()
 	_minerals.shuffle()
 
 	var take = {}
@@ -57,3 +53,10 @@ func generate_assortment(amount: int) -> Dictionary:
 		remaining -= actual_take
 	
 	return take
+
+func is_superset(other: MineralInventory) -> bool:
+	return other.get_minerals().reduce(func(acc, m): return acc and has_amount(m, other.get_amount(m)), true)
+
+func remove_subset(other: MineralInventory):
+	for mineral in other.get_minerals():
+		remove_amount(mineral, other.get_amount(mineral))

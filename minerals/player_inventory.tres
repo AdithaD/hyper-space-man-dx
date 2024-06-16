@@ -1,12 +1,10 @@
-[gd_resource type="Resource" script_class="MineralInventory" load_steps=4 format=3 uid="uid://ccdhhwo57ccca"]
+[gd_resource type="Resource" script_class="MineralInventory" load_steps=3 format=3 uid="uid://ccdhhwo57ccca"]
 
-[ext_resource type="Script" path="res://minerals/mineral.gd" id="1_po1nc"]
 [ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_gsg4w"]
-[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/platinum.tres" id="2_kqbp3"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/mineral_platinum.tres" id="2_kqbp3"]
 
 [resource]
 script = ExtResource("2_gsg4w")
-minerals = Array[ExtResource("1_po1nc")]([ExtResource("2_kqbp3")])
 starting_inventory = {
 ExtResource("2_kqbp3"): 10000
 }

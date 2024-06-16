@@ -25,7 +25,7 @@ func update():
 	for child in get_children():
 		child.queue_free()
 	
-	for m in mineral_inventory.minerals:
+	for m in mineral_inventory.get_minerals():
 		var item_gui = mineral_inventory_item_gui.instantiate()
 		item_gui.set_mineral(m)
 		item_gui.update(mineral_inventory.get_amount(m))

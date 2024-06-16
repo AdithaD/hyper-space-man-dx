@@ -14,14 +14,12 @@ func generate_mineral_inventory(weight) -> MineralInventory:
 	var amount_of_minerals = roundi(mineral_amount_curve.sample(randf_range(weight, 1.0)))
 	amount_of_minerals = min(minerals.size(), amount_of_minerals)
 	
-	var mineral_amounts = {}
-	var _minerals: Array[Mineral] = []
+	var mineral_amounts := {}
 	for i in range(amount_of_minerals):
-		var mineral = minerals.filter(func(m): return not _minerals.has(m)).pick_random()
-		_minerals.append(mineral)
+		var mineral = minerals.filter(func(m): return not mineral_amounts.keys().has(m)).pick_random()
 
 		var amount = mineral_quantity_curves.get(mineral, Curve.new()).sample(randf_range(weight, 1.0)) * mineral_amount_scale
 		mineral_amounts[mineral] = amount
 	
-	var mineral_inventory = MineralInventory.new(_minerals, mineral_amounts)
+	var mineral_inventory = MineralInventory.new(mineral_amounts)
 	return mineral_inventory

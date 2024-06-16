@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Mineral" load_steps=3 format=3 uid="uid://dyj0gpvi5o7kp"]
+
+[ext_resource type="Texture2D" uid="uid://i8lpoyc7tc3r" path="res://minerals/forged_carbon_fiber.png" id="1_to05y"]
+[ext_resource type="Script" path="res://minerals/mineral.gd" id="2_cjjj3"]
+
+[resource]
+script = ExtResource("2_cjjj3")
+mineral_name = "Forged Carbon Fibers"
+mineral_icon = ExtResource("1_to05y")

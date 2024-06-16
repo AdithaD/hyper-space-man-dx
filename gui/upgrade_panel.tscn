@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckyjqpfv6fvvp"]
+
+[ext_resource type="Script" path="res://gui/upgrade_panel.gd" id="1_stdwk"]
+[ext_resource type="PackedScene" uid="uid://jpahl7oca5lr" path="res://gui/cost_icon_label.tscn" id="2_0s7p1"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_yq5k8"]
+font_size = 20
+
+[node name="UpgradePanel" type="PanelContainer"]
+script = ExtResource("1_stdwk")
+cost_label_scene = ExtResource("2_0s7p1")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="Upgrade" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/Upgrade"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Max Speed"
+label_settings = SubResource("LabelSettings_yq5k8")
+horizontal_alignment = 1
+
+[node name="UpgradeData" type="VBoxContainer" parent="MarginContainer/Upgrade"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/Upgrade/UpgradeData"]
+layout_mode = 2
+alignment = 1
+
+[node name="FromCostLabel" type="Label" parent="MarginContainer/Upgrade/UpgradeData/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "30"
+
+[node name="Label2" type="Label" parent="MarginContainer/Upgrade/UpgradeData/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "=>"
+horizontal_alignment = 1
+
+[node name="ToCostLabel" type="Label" parent="MarginContainer/Upgrade/UpgradeData/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "60"
+
+[node name="Control" type="Control" parent="MarginContainer/Upgrade/UpgradeData"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="CostIconParent" type="HBoxContainer" parent="MarginContainer/Upgrade/UpgradeData"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="UpgradeButton" type="Button" parent="MarginContainer/Upgrade/UpgradeData"]
+unique_name_in_owner = true
+layout_mode = 2
+focus_mode = 1
+text = "Upgrade"
+
+[node name="MaxedOutLabel" type="Label" parent="MarginContainer/Upgrade"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "MAXED OUT"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="MarginContainer/Upgrade/UpgradeData/UpgradeButton" to="." method="_on_upgrade_button_pressed"]
