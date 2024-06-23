@@ -37,7 +37,7 @@ sun=""
 player=""
 enemy=""
 space_station=""
-mine_anchor=""
+mining_drone=""
 
 [input]
 

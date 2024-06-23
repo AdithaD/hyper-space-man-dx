@@ -11,7 +11,7 @@ func _ready() -> void:
 	
 	# Prompt
 	%SolarSystemSpawner.solar_system_spawned.connect( %Prompt.update.unbind(1))
-	world.mine_anchor_created.connect( %Prompt.update.unbind(1))
+	world.mining_drone_created.connect( %Prompt.update.unbind(1))
 	
 	#intiial state
 	%FuelGauge.ratio = player.ship_engine.get_ratio()

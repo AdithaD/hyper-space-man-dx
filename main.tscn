@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://bpcm5e32ovatf"]
+[gd_scene load_steps=70 format=3 uid="uid://bpcm5e32ovatf"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ukmwj"]
 [ext_resource type="Script" path="res://world/world.gd" id="2_mbc0m"]
@@ -11,12 +11,11 @@
 [ext_resource type="Texture2D" uid="uid://wek4uypm10mf" path="res://gui/heat_bar/fuel_bar.png" id="4_asr30"]
 [ext_resource type="Script" path="res://world/solar_system/solar_system_spawner.gd" id="4_xn4gs"]
 [ext_resource type="PackedScene" uid="uid://btum3xqjlqyh7" path="res://world/solar_system/solar_system_scene.tscn" id="5_jmuo8"]
-[ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://player/mine_anchor/mine_anchor.tscn" id="5_racmp"]
+[ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://player/mining_drone/mine_drone.tscn" id="5_racmp"]
 [ext_resource type="Texture2D" uid="uid://d38dv578bew6h" path="res://gui/heat_bar/speed_bar.png" id="7_o2d8a"]
 [ext_resource type="Script" path="res://gui/limited_texture_progress_bar.gd" id="8_66gcj"]
 [ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://minerals/player_inventory.tres" id="8_kup1v"]
 [ext_resource type="AudioStream" uid="uid://dy00nbcu3gtxy" path="res://player/sounds/over_speed.wav" id="8_pmg8h"]
-[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="10_ef6fc"]
 [ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="11_d1h5m"]
 [ext_resource type="Script" path="res://gui/minimap_draw.gd" id="11_l3mgi"]
 [ext_resource type="Texture2D" uid="uid://cl1g7x0odqejy" path="res://gui/anti_gravity/anti_gravity_toggle2.png" id="11_s7rj3"]
@@ -40,6 +39,11 @@
 [ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://player/upgrades/instances/upgrade_exhaust_velocity.tres" id="37_mv157"]
 [ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://player/upgrades/instances/upgrade_mass_flow.tres" id="38_uq4g4"]
 [ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://player/upgrades/instances/upgrade_fuel_capacity.tres" id="39_ch2cl"]
+[ext_resource type="Resource" uid="uid://bwrrlxod04vrt" path="res://player/upgrades/instances/upgrade_cooling_speed.tres" id="41_v6g3b"]
+[ext_resource type="Resource" uid="uid://dxdxfxkg840io" path="res://player/upgrades/instances/upgrade_max_heat.tres" id="42_my6in"]
+[ext_resource type="Resource" uid="uid://b7pgt7osoqsa7" path="res://player/upgrades/instances/upgrade_drone_speed.tres" id="43_fchjx"]
+[ext_resource type="Resource" uid="uid://dswdnjmewv6a" path="res://player/upgrades/instances/upgrade_drone_amount.tres" id="43_o34gm"]
+[ext_resource type="Resource" uid="uid://cjlpan1sn0r48" path="res://player/upgrades/instances/upgrade_drone_storage.tres" id="43_yj5fg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xpoag"]
 atlas = ExtResource("7_o2d8a")
@@ -280,10 +284,9 @@ cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 
 [node name="Player" parent="." node_paths=PackedStringArray("world", "cannon_points") instance=ExtResource("2_xc4b4")]
 world = NodePath("../World")
-upgrades = Array[ExtResource("10_ef6fc")]([ExtResource("11_d1h5m"), ExtResource("37_mv157"), ExtResource("39_ch2cl"), ExtResource("38_uq4g4")])
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 mineral_inventory = ExtResource("8_kup1v")
-mine_anchor_scene = ExtResource("5_racmp")
+mining_drone_scene = ExtResource("5_racmp")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -635,7 +638,7 @@ layout_mode = 2
 text = " per unit fuel ?"
 label_settings = SubResource("LabelSettings_hd47g")
 
-[node name="MineAnchorPrompt" type="Label" parent="CanvasLayer/GUI/HUD/UI/Prompt"]
+[node name="MiningDronePrompt" type="Label" parent="CanvasLayer/GUI/HUD/UI/Prompt"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -644,7 +647,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Hold [Space] to pickup mine anchor"
+text = "Hold [Space] to pickup mining drone"
 label_settings = SubResource("LabelSettings_hd47g")
 
 [node name="MineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI"]
@@ -845,6 +848,28 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Weapons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Upgrades" type="HBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Weapons/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="CoolingSpeed" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Weapons/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("41_v6g3b")
+
+[node name="MaxHeat" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Weapons/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("42_my6in")
+
 [node name="Mining" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls"]
 visible = false
 layout_mode = 1
@@ -853,6 +878,33 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Upgrades" type="HBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DroneAmount" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("43_o34gm")
+
+[node name="DroneStorage" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("43_yj5fg")
+
+[node name="DroneSpeed" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("34_4lral")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("43_fchjx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

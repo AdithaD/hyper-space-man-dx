@@ -1,4 +1,4 @@
-class_name MineAnchor
+class_name MiningDrone
 extends Node2D
 
 signal pickup

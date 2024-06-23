@@ -3,6 +3,8 @@ class_name HurtboxComponent
 
 @export var health_component: HealthComponent
 
+var active = true
+
 @onready var hit_particles = $HitParticles.get_children()
 
 func _ready() -> void:

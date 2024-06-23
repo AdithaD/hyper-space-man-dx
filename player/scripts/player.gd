@@ -29,7 +29,7 @@ signal upgraded
 @export var mineral_inventory: MineralInventory
 
 @export_subgroup("Mining")
-@export var mine_anchor_scene: PackedScene
+@export var mining_drone_scene: PackedScene
 
 # Movement Vectors
 var direction := Vector2.ZERO
@@ -69,7 +69,12 @@ var is_accelerating = false:
 				$Camera2D.add_trauma(1.0)
 				$EngineJoltSound.play()
 
-var mine_anchor: MineAnchor = null
+var maximum_drone_amount = 1
+var drone_harvest_rate = 100
+var drone_storage_amount = 2000
+
+# needs to be an array
+var mining_drones: Array[MiningDrone] = []
 
 var mining_interactor:
 	get:
@@ -95,6 +100,8 @@ func _ready() -> void:
 
 	mineral_inventory._init(mineral_inventory.starting_inventory)
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
+	
+	switch_to_weapon(current_weapon)
 
 func _physics_process(delta):
 	if not is_dead and has_control:
@@ -107,29 +114,12 @@ func _physics_process(delta):
 			if not is_zero_approx(velocity.length()):
 				velocity -= velocity.normalized() * drag * delta
 
-		# mining
-		# if Input.is_action_just_pressed("mine"):
-		# 	if mine_anchor == null:
-		# 		if mining_interactor.current_solar_object != null:
-		# 			deploy_mine_anchor()
-
 		# shoot
 		if Input.is_action_just_pressed("shoot") and not $HeatCooloffTimer.is_stopped():
 			$CantShootSound.play()
 			
 		if Input.is_action_pressed("shoot") and $ShotTimer.is_stopped() and $HeatCooloffTimer.is_stopped():
 			shoot()
-
-		# if Input.is_action_just_pressed("anti_gravity"):
-		# 	if ship_engine.current_fuel > 0:
-		# 		set_anti_gravity(not is_anti_gravity_on)
-		
-		# if Input.is_action_just_pressed("cycle_weapon"):
-		# 	var new_index = (current_weapon_index + 1) % weapons.size()
-		# 	current_weapon_index = new_index
-			
-		# 	$ShotTimer.wait_time = current_weapon.shot_cooldown
-		# 	weapon_changed.emit(current_weapon)
 
 		# reduce heat
 		if not is_zero_approx(heat):
@@ -161,9 +151,9 @@ func _physics_process(delta):
 func _unhandled_input(event):
 	if has_control:
 		if event.is_action_pressed("mine"):
-			if mine_anchor == null:
+			if mining_drones.size() < maximum_drone_amount:
 				if mining_interactor.current_solar_object != null:
-					deploy_mine_anchor()
+					_deploy_mining_drone()
 
 		if event.is_action_pressed("anti_gravity"):
 			if ship_engine.current_fuel > 0:
@@ -172,9 +162,13 @@ func _unhandled_input(event):
 		if Input.is_action_pressed("cycle_weapon"):
 			var new_index = (current_weapon_index + 1) % weapons.size()
 			current_weapon_index = new_index
-			
-			$ShotTimer.wait_time = current_weapon.shot_cooldown
-			weapon_changed.emit(current_weapon)
+			switch_to_weapon(current_weapon)
+
+func switch_to_weapon(weapon: PlayerWeapon):
+	$ShotTimer.wait_time = weapon.shot_cooldown
+	$TargetLockAcquirer.set_enabled(weapon.is_lock_required)
+
+	weapon_changed.emit(weapon)
 
 func die():
 	$DeathParticles.emitting = true
@@ -241,27 +235,36 @@ func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> v
 		hurtbox.take_damage(weapon.weapon_damage)
 		print(hurtbox)
 
-func deploy_mine_anchor():
+func _deploy_mining_drone():
 	# instantiate
-	mine_anchor = mine_anchor_scene.instantiate()
-	mine_anchor.player = self
-	world.add_mine_anchor(mine_anchor)
-	mine_anchor.set_mine_target(mining_interactor.current_solar_object)
-	mine_anchor.pickup.connect(_on_mine_anchor_pickup)
+	var mining_drone = mining_drone_scene.instantiate()
+	
+	# apply upgrades
+	mining_drone.harvest_rate = drone_harvest_rate
+	mining_drone.maximum_storage = drone_storage_amount
+
+	mining_drone.player = self
+	world.add_mining_drone(mining_drone)
+	mining_drone.set_mine_target(mining_interactor.current_solar_object)
+	mining_drone.pickup.connect(_pickup_mining_drone.bind(mining_drone))
 
 	# tween away from ship
-	var tween = mine_anchor.create_tween()
-	tween.tween_property(mine_anchor, "global_position", global_position + Vector2(128, 0).rotated(2 * PI * randi()), 0.5).from(global_position)
+	var tween = mining_drone.create_tween()
+	tween.tween_property(mining_drone, "global_position", global_position + Vector2(128, 0).rotated(2 * PI * randi()), 0.5).from(global_position)
+	
+	mining_drones.append(mining_drone)
 
-func pickup_mine_anchor():
+func _pickup_mining_drone(mining_drone: MiningDrone):
 	# get resources
-	for mineral in mine_anchor.mineral_inventory.get_minerals():
-		mineral_inventory.add_amount(mineral, mine_anchor.mineral_inventory.get_amount(mineral))
+	for mineral in mining_drone.mineral_inventory.get_minerals():
+		mineral_inventory.add_amount(mineral, mining_drone.mineral_inventory.get_amount(mineral))
 
-	mine_anchor.queue_free()
-	mine_anchor = null
+	mining_drones.erase(mining_drone)
+	mining_drone.queue_free()
+	mining_drone = null
 
 func apply_upgrade(upgrade: TieredUpgrade, level_up=true) -> void:
+	mineral_inventory.remove_subset(upgrade.get_tier_cost(upgrade_tier.get_or_add(upgrade, 0)))
 
 	if level_up:
 		if upgrade.get_max_tier() > get_tier(upgrade):
@@ -277,6 +280,16 @@ func apply_upgrade(upgrade: TieredUpgrade, level_up=true) -> void:
 			ship_engine.mass_flow_rate = value
 		&"exhaust_velocity":
 			ship_engine.exhaust_velocity = value
+		&"max_heat":
+			maximum_heat = value
+		&"cooling_speed":
+			heat_drain_per_second = value
+		&"drone_amount":
+			maximum_drone_amount = value
+		&"harvest_rate":
+			drone_harvest_rate = value
+		&"drone_storage":
+			drone_storage_amount = value
 
 	upgraded.emit()
 
@@ -285,9 +298,6 @@ func can_upgrade(upgrade: TieredUpgrade) -> bool:
 
 func get_tier(upgrade: TieredUpgrade) -> int:
 	return upgrade_tier.get_or_add(upgrade, 0)
-
-func _on_mine_anchor_pickup():
-	pickup_mine_anchor()
 
 func _add_heat(amount):
 	heat = heat + amount

@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=3 uid="uid://djatwe46ey201"]
 
-[ext_resource type="Script" path="res://player/mine_anchor.gd" id="1_pbogc"]
+[ext_resource type="Script" path="res://player/mining_drone.gd" id="1_pbogc"]
 [ext_resource type="PackedScene" uid="uid://meqghk35mmsf" path="res://components/pickup_component.tscn" id="2_mat0r"]
 [ext_resource type="Texture2D" uid="uid://nvlka8ych176" path="res://player/mining_drone-sheet.png" id="2_vl4ha"]
 [ext_resource type="Script" path="res://utils/rotating_sprite.gd" id="3_mbq1v"]
@@ -123,7 +123,7 @@ colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0.97208, 0.765204, 0.
 [sub_resource type="CircleShape2D" id="CircleShape2D_3cak3"]
 radius = 43.33
 
-[node name="MineAnchor" type="Node2D" groups=["mine_anchor"]]
+[node name="MiningDrone" type="Node2D" groups=["mining_drone"]]
 position = Vector2(207, 144)
 script = ExtResource("1_pbogc")
 

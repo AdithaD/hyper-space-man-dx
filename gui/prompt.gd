@@ -12,8 +12,8 @@ func _ready() -> void:
 func connect_to_space_station(ss: SpaceStation) -> void:
 	_bind_to_player(ss, show_trade_prompt.bind(ss))
 
-func connect_to_mine_anchor(ma: MineAnchor) -> void:
-	_bind_to_player(ma, show_mine_anchor_prompt.bind(ma))
+func connect_to_mining_drone(ma: MiningDrone) -> void:
+	_bind_to_player(ma, show_mining_drone_prompt.bind(ma))
 
 func _bind_to_player(object: Node2D, entered_callable: Callable):
 	var ia = object.interact_area
@@ -37,10 +37,10 @@ func show_trade_prompt(space_station: SpaceStation) -> void:
 	%TradeMineralTextureRect.texture = space_station.cost_mineral.mineral_icon
 	hide_all_except( %TradePrompt)
 
-func show_mine_anchor_prompt(mine_anchor: MineAnchor) -> void:
+func show_mining_drone_prompt(mining_drone: MiningDrone) -> void:
 	#add to stack
-	push(mine_anchor, %MineAnchorPrompt)
-	hide_all_except( %MineAnchorPrompt)
+	push(mining_drone, %MiningDronePrompt)
+	hide_all_except(%MiningDronePrompt)
 
 func hide_all_except(child: Control) -> void:
 	for c in get_children():
@@ -72,6 +72,6 @@ func update():
 	for ss in space_stations:
 		connect_to_space_station(ss)
 	
-	var mine_anchors = get_tree().get_nodes_in_group("mine_anchor")
-	for ma in mine_anchors:
-		connect_to_mine_anchor(ma)
+	var mining_drones = get_tree().get_nodes_in_group("mining_drone")
+	for ma in mining_drones:
+		connect_to_mining_drone(ma)

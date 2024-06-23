@@ -21,9 +21,9 @@ func _draw() -> void:
 	for en in enemies:
 		draw_vec(en.global_position, Color.RED)
 
-	if player.mine_anchor:
-		if not is_on_screen(player.mine_anchor.global_position):
-			draw_vec(player.mine_anchor.global_position, Color.GREEN)
+	for mining_drone in player.mining_drones:
+		if not is_on_screen(mining_drone.global_position):
+			draw_vec(mining_drone.global_position, Color.GREEN)
 
 func draw_vec(location: Vector2, color: Color):
 	var vec = player.global_position.direction_to(location)

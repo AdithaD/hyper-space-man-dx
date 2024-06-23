@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://byubcpsaimpu3" path="res://gui/progress_bar_under.tres" id="2_xa32r"]
 [ext_resource type="Texture2D" uid="uid://co8nv6fvqw7sg" path="res://gui/progress_bar_over.tres" id="3_xeuhk"]
 [ext_resource type="Texture2D" uid="uid://c8ebvo6vwcner" path="res://gui/progress_bar_fill.tres" id="4_ccsad"]
-[ext_resource type="Script" path="res://player/mine_anchor/timer_bound_progress_bar.gd" id="5_pk8po"]
+[ext_resource type="Script" path="res://player/mining_drone/timer_bound_progress_bar.gd" id="5_pk8po"]
 
 [node name="PickupComponent" type="Node2D"]
 script = ExtResource("1_8wk82")

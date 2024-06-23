@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=7 format=3 uid="uid://dswdnjmewv6a"]
+
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="1_uxrwx"]
+[ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_201ix"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/mineral_platinum.tres" id="3_a21nv"]
+
+[sub_resource type="Resource" id="Resource_miomb"]
+script = ExtResource("2_201ix")
+starting_inventory = {
+ExtResource("3_a21nv"): 1000
+}
+
+[sub_resource type="Resource" id="Resource_omx85"]
+script = ExtResource("2_201ix")
+starting_inventory = {
+ExtResource("3_a21nv"): 4000
+}
+
+[sub_resource type="Resource" id="Resource_0mfty"]
+script = ExtResource("2_201ix")
+starting_inventory = {
+ExtResource("3_a21nv"): 16000
+}
+
+[resource]
+script = ExtResource("1_uxrwx")
+upgrade_id = &"drone_amount"
+upgrade_name = "Amount of Drones"
+tier_costs = Array[ExtResource("2_201ix")]([SubResource("Resource_miomb"), SubResource("Resource_omx85"), SubResource("Resource_0mfty")])
+tier_values = Array[float]([1.0, 2.0, 3.0, 4.0])
