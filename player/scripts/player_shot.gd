@@ -9,6 +9,7 @@ var dir: Vector2
 var inherited_velocity: Vector2 = Vector2.ZERO;
 var local_speed: float = 0.0;
 
+var player: Player
 var _timer = 0.0
 
 func set_target(new_target: Vector2):

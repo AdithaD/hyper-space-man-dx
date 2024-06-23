@@ -12,16 +12,17 @@ var local_speed: float = 0.0;
 
 var _timer = 0.0
 
+var player: Player
+
 var target_body: Node2D
 
 func _ready() -> void:
-	var nearest_body = get_tree().get_nodes_in_group(target_group) \
-		.reduce(func(nearest, x): return nearest if nearest.global_position.distance_to(global_position) < x.global_position.distance_to(global_position) else x)
-	target_body = nearest_body as Node2D
+	target_body = player.target_lock.get_current_target()
 
 func _physics_process(delta: float) -> void:
 	if target_body:
 		dir = global_position.direction_to(target_body.global_position)
+		#dir = global_position.direction_to(get_global_mouse_position())
 		var percent_of_max_speed = local_speed / speed
 		var angle = transform.x.angle_to(dir)
 		angle = sign(angle) * min(angular_speed * delta * percent_of_max_speed, abs(angle))

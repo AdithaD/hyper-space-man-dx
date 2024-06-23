@@ -43,6 +43,7 @@ script = ExtResource("1_tyjsv")
 target_group = &"enemy"
 speed = 1200.0
 acceleration = 3000.0
+angular_speed = 6.283
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
 amount = 24

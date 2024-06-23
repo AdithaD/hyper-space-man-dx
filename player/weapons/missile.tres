@@ -10,6 +10,7 @@ weapon_name = "Weapon Name"
 weapon_icon = ExtResource("2_sa84b")
 weapon_shot_scene = ExtResource("3_ymghv")
 is_hitscan = false
+is_lock_required = true
 weapon_damage = 0
 shot_cooldown = 1.0
 heat_per_shot = 50.0

@@ -85,6 +85,7 @@ var is_overheated: bool:
 		heat_changed.emit(heat, heat / maximum_heat)
 
 @onready var overspeed_timer = $OverspeedTimer
+@onready var target_lock = $TargetLockAcquirer
 
 func _ready() -> void:
 	ship_engine.reset_state()
@@ -192,6 +193,10 @@ func shoot():
 	# select cannon point
 	var cannon = cannon_points[shot_count % cannon_points.size()]
 
+	# weapons requiring lock needs a lock target
+	if current_weapon.is_lock_required and target_lock.get_current_target() == null:
+		return
+
 	if current_weapon.is_hitscan:
 		_shoot_hitscan(current_weapon, global_position, get_global_mouse_position())
 	else:
@@ -208,6 +213,8 @@ func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -
 	var new_shot = weapon.instantiate_shot()
 	new_shot.global_position = origin
 	new_shot.global_rotation = global_rotation
+	
+	new_shot.player = self
 	
 	if new_shot.has_method("set_target"):
 		new_shot.set_target(target)

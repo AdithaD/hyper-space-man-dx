@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://bpcm5e32ovatf"]
+[gd_scene load_steps=66 format=3 uid="uid://bpcm5e32ovatf"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_ukmwj"]
 [ext_resource type="Script" path="res://world/world.gd" id="2_mbc0m"]
@@ -69,6 +69,14 @@ region = Rect2(0, 5, 48, 5)
 [sub_resource type="AtlasTexture" id="AtlasTexture_8qcth"]
 atlas = ExtResource("4_asr30")
 region = Rect2(0, 10, 48, 5)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yxctl"]
+font_size = 32
+font_color = Color(0, 1, 0.35, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2mors"]
+font_size = 32
+font_color = Color(0.231417, 0.245108, 0.239267, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a803g"]
 atlas = ExtResource("16_e7ib6")
@@ -443,7 +451,7 @@ texture_normal = ExtResource("11_s7rj3")
 texture_pressed = ExtResource("12_7i28v")
 stretch_mode = 4
 
-[node name="WeaponConsole" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI"]
+[node name="WeaponConsole" type="VBoxContainer" parent="CanvasLayer/GUI/HUD/UI" node_paths=PackedStringArray("player")]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -454,11 +462,26 @@ offset_left = -414.0
 offset_top = -172.0
 grow_horizontal = 0
 grow_vertical = 0
-
-[node name="WeaponGUI" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole" node_paths=PackedStringArray("player")]
-layout_mode = 2
 script = ExtResource("16_cnfgi")
-player = NodePath("../../../../../../Player")
+player = NodePath("../../../../../Player")
+
+[node name="LockAcquiredLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "LOCK ACQUIRED"
+label_settings = SubResource("LabelSettings_yxctl")
+horizontal_alignment = 1
+
+[node name="NoLockLabel" type="Label" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "NO LOCK"
+label_settings = SubResource("LabelSettings_2mors")
+horizontal_alignment = 1
+
+[node name="WeaponGUI" type="HBoxContainer" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole"]
+layout_mode = 2
 
 [node name="WeaponSlot" type="Control" parent="CanvasLayer/GUI/HUD/UI/WeaponConsole/WeaponGUI"]
 clip_contents = true
@@ -746,6 +769,7 @@ player = NodePath("../../../Player")
 crosshair_texture = ExtResource("32_4w470")
 
 [node name="UpgradeScreen" type="PanelContainer" parent="CanvasLayer/GUI"]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

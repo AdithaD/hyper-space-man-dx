@@ -178,6 +178,7 @@ shape = SubResource("CapsuleShape2D_t7nkm")
 
 [node name="BehaviourTree" type="Node" parent="."]
 script = ExtResource("9_punxm")
+enabled = false
 
 [node name="PriorityBehaviourTreeNode" type="Node" parent="BehaviourTree"]
 script = ExtResource("10_ite0q")

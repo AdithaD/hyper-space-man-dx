@@ -6,6 +6,7 @@ class_name PlayerWeapon
 
 @export var weapon_shot_scene: PackedScene
 @export var is_hitscan: bool = false
+@export var is_lock_required: bool = false
 
 @export var weapon_damage: int
 
