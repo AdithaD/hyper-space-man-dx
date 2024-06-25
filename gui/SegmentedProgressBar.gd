@@ -12,12 +12,13 @@ extends Control
 @export var segment_color : Color = Color.GREEN
 @export var segment_color_gradient : Gradient
 
-var value : int = 10:
+@onready var value : int = segments:
 	set(v):
 		value = v
 		queue_redraw()
 
-
+func set_ratio(ratio):
+	value = ceili(ratio * segments)
 
 func _draw() -> void:
 	var segment_width = (size.x - (separation * (segments - 1))) / segments

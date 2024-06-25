@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PlayerWeapon" load_steps=5 format=3 uid="uid://bp8nshg7giykd"]
+
+[ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="1_0eyha"]
+[ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://player/sounds/cannon_shot.wav" id="2_h17y2"]
+[ext_resource type="Texture2D" uid="uid://cuakj7vnl5js2" path="res://player/weapons/icons/double_gun_icon.tres" id="3_uv2sm"]
+[ext_resource type="PackedScene" uid="uid://c7rysefc0f1k0" path="res://player/weapons/cannon_shot.tscn" id="4_2kdlk"]
+
+[resource]
+script = ExtResource("1_0eyha")
+weapon_name = "Cannon"
+weapon_icon = ExtResource("3_uv2sm")
+shoot_sound = ExtResource("2_h17y2")
+weapon_shot_scene = ExtResource("4_2kdlk")
+is_hitscan = false
+is_lock_required = false
+weapon_damage = 3
+shot_cooldown = 0.4
+heat_per_shot = 15.0
+shot_trauma = 0.15

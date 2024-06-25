@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="PlayerWeapon" load_steps=5 format=3 uid="uid://b1txmy5n7crai"]
+
+[ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="1_pqvdc"]
+[ext_resource type="AudioStream" uid="uid://cpe4n4xw85tqw" path="res://player/sounds/missile_shot.wav" id="2_slltm"]
+[ext_resource type="Texture2D" uid="uid://ctpgguromxsdn" path="res://player/weapons/icons/missile_icon.tres" id="3_qa33h"]
+[ext_resource type="PackedScene" uid="uid://11rwbkf8imfj" path="res://player/weapons/missile_shot.tscn" id="4_sdn4c"]
+
+[resource]
+script = ExtResource("1_pqvdc")
+weapon_name = "Missile"
+weapon_icon = ExtResource("3_qa33h")
+shoot_sound = ExtResource("2_slltm")
+weapon_shot_scene = ExtResource("4_sdn4c")
+is_hitscan = false
+is_lock_required = true
+weapon_damage = 5
+shot_cooldown = 1.0
+heat_per_shot = 50.0
+shot_trauma = 1.0

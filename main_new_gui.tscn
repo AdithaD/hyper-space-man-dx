@@ -1,0 +1,913 @@
+[gd_scene load_steps=67 format=3 uid="uid://dxo17ebgranxt"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_tgsu5"]
+[ext_resource type="Script" path="res://world/world.gd" id="2_wy77q"]
+[ext_resource type="Texture2D" uid="uid://dl8swyen5neuw" path="res://world/background.png" id="3_x8lud"]
+[ext_resource type="Script" path="res://world/solar_system/solar_system_spawner.gd" id="4_w3ij2"]
+[ext_resource type="PackedScene" uid="uid://btum3xqjlqyh7" path="res://world/solar_system/solar_system_scene.tscn" id="5_7bfjq"]
+[ext_resource type="PackedScene" uid="uid://bi7sudnr12ic4" path="res://world/space_station/space_station.tscn" id="6_hs43v"]
+[ext_resource type="Script" path="res://enemy/enemy_group.gd" id="7_eclf6"]
+[ext_resource type="PackedScene" uid="uid://cupg2res6b0ac" path="res://enemy/enemy.tscn" id="8_cxk1i"]
+[ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://player/player.tscn" id="9_hq3w5"]
+[ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://minerals/player_inventory.tres" id="10_wjjcp"]
+[ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://player/mining_drone/mine_drone.tscn" id="11_kmxs3"]
+[ext_resource type="Script" path="res://gui/gui.gd" id="12_ar618"]
+[ext_resource type="FontFile" uid="uid://bfgk2vjjebhfo" path="res://gui/4x5 Font.ttf" id="12_uneeb"]
+[ext_resource type="AudioStream" uid="uid://dy00nbcu3gtxy" path="res://player/sounds/over_speed.wav" id="13_qr3no"]
+[ext_resource type="Texture2D" uid="uid://em41dl2fg08m" path="res://gui/gui_outline.png" id="15_55n0g"]
+[ext_resource type="Script" path="res://gui/minimap_draw.gd" id="16_hieb5"]
+[ext_resource type="Script" path="res://gui/enemy_radar.gd" id="17_cmm5f"]
+[ext_resource type="Script" path="res://gui/SegmentedProgressBar.gd" id="21_f3e6b"]
+[ext_resource type="Script" path="res://gui/weapon_gui.gd" id="24_st0nx"]
+[ext_resource type="Script" path="res://gui/weapon_heat_gauge.gd" id="28_8l26f"]
+[ext_resource type="Script" path="res://gui/prompt.gd" id="29_6qsuj"]
+[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platinum.png" id="30_cagdv"]
+[ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="31_mkbtq"]
+[ext_resource type="Script" path="res://gui/divergent_crosshair.gd" id="31_x64d5"]
+[ext_resource type="Texture2D" uid="uid://dpbntvvqgumu2" path="res://player/crosshair_gray.png" id="32_2dtma"]
+[ext_resource type="Script" path="res://gui/solar_mineral_inventory_gui.gd" id="32_dri58"]
+[ext_resource type="LabelSettings" uid="uid://cj4mpabajipwp" path="res://minerals/gui_large_light_blue_label_settings.tres" id="32_n128g"]
+[ext_resource type="Texture2D" uid="uid://g8ejp83rvnjx" path="res://gui/mini_map_mask.png" id="33_q20b3"]
+[ext_resource type="Script" path="res://gui/upgrade_screen.gd" id="33_yjlof"]
+[ext_resource type="PackedScene" uid="uid://dmsffwaoycujk" path="res://gui/mineral_inventory/mineral_inventory_item_gui_new.tscn" id="34_2rmpe"]
+[ext_resource type="Script" path="res://gui/item_list_container.gd" id="34_ws8e0"]
+[ext_resource type="PackedScene" uid="uid://ckyjqpfv6fvvp" path="res://gui/upgrade_panel.tscn" id="35_knb3f"]
+[ext_resource type="Script" path="res://gui/solar_object_panel.gd" id="36_awl53"]
+[ext_resource type="Texture2D" uid="uid://db1052oft6efj" path="res://gui/mineral_inventory_outline.png" id="36_eu3rl"]
+[ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="36_vol1o"]
+[ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://player/upgrades/instances/upgrade_exhaust_velocity.tres" id="37_s6ah3"]
+[ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://player/upgrades/instances/upgrade_mass_flow.tres" id="38_d7kch"]
+[ext_resource type="Script" path="res://gui/TwoStateLabel.gd" id="38_l0s64"]
+[ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://player/upgrades/instances/upgrade_fuel_capacity.tres" id="39_cupmb"]
+[ext_resource type="Texture2D" uid="uid://iuuhf0k5xwnu" path="res://gui/speedbar_fill.png" id="39_wuxjw"]
+[ext_resource type="Resource" uid="uid://bwrrlxod04vrt" path="res://player/upgrades/instances/upgrade_cooling_speed.tres" id="40_4kxel"]
+[ext_resource type="Resource" uid="uid://dxdxfxkg840io" path="res://player/upgrades/instances/upgrade_max_heat.tres" id="41_0akk4"]
+[ext_resource type="Resource" uid="uid://dswdnjmewv6a" path="res://player/upgrades/instances/upgrade_drone_amount.tres" id="42_maqn3"]
+[ext_resource type="Resource" uid="uid://cjlpan1sn0r48" path="res://player/upgrades/instances/upgrade_drone_storage.tres" id="43_u02ci"]
+[ext_resource type="Resource" uid="uid://b7pgt7osoqsa7" path="res://player/upgrades/instances/upgrade_drone_speed.tres" id="44_d80h3"]
+
+[sub_resource type="Theme" id="Theme_30r5o"]
+default_font = ExtResource("12_uneeb")
+VBoxContainer/constants/separation = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_aapjq"]
+font_size = 64
+font_color = Color(0.894118, 0.231373, 0.266667, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5uvkm"]
+font_size = 32
+font_color = Color(0.894118, 0.231373, 0.266667, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qsgsc"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_shv1g"]
+font_size = 64
+font_color = Color(0.388235, 0.780392, 0.301961, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_j0ln0"]
+font_size = 64
+font_color = Color(0.352941, 0.411765, 0.533333, 1)
+
+[sub_resource type="Gradient" id="Gradient_cw53y"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_v5k8b"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.33, 0.66)
+colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0.97208, 0.765204, 0.365895, 1, 0.368333, 0.65, 0.325, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0e54q"]
+font_size = 64
+
+[sub_resource type="Gradient" id="Gradient_h6qck"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.221053)
+colors = PackedColorArray(0.894118, 0.231373, 0.266667, 1, 0, 0.584314, 0.913725, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_p7gjj"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_p6hxc"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_yikrg"]
+font_size = 96
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kda2p"]
+bg_color = Color(0.352941, 0.411765, 0.533333, 1)
+skew = Vector2(0.2, 0)
+border_width_bottom = 4
+border_color = Color(0.227451, 0.266667, 0.4, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kndhl"]
+bg_color = Color(0.352941, 0.411765, 0.533333, 1)
+skew = Vector2(0.2, 0)
+border_width_bottom = 4
+border_color = Color(0.0705882, 0.305882, 0.537255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xubqq"]
+bg_color = Color(0, 0.623529, 0.913725, 1)
+skew = Vector2(0.2, 0)
+border_width_bottom = 4
+border_color = Color(0.0705882, 0.305882, 0.537255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_baiif"]
+bg_color = Color(0.0705882, 0.305882, 0.537255, 1)
+skew = Vector2(0.2, 0)
+border_width_bottom = 4
+border_color = Color(0.0705882, 0.305882, 0.537255, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="Theme" id="Theme_ymudb"]
+Button/styles/disabled = SubResource("StyleBoxFlat_kda2p")
+Button/styles/hover = SubResource("StyleBoxFlat_kndhl")
+Button/styles/normal = SubResource("StyleBoxFlat_xubqq")
+Button/styles/pressed = SubResource("StyleBoxFlat_baiif")
+MarginContainer/constants/margin_bottom = 32
+MarginContainer/constants/margin_left = 32
+MarginContainer/constants/margin_right = 32
+MarginContainer/constants/margin_top = 32
+
+[sub_resource type="Animation" id="Animation_xccdn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/GUI/GameOverScreen:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/GUI/GameOverScreen:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_eqs4c"]
+resource_name = "game_over"
+length = 2.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Player")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"die"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/GUI/GameOverScreen:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4329),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/GUI/GameOverScreen:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.433333, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wlqpe"]
+_data = {
+"RESET": SubResource("Animation_xccdn"),
+"game_over": SubResource("Animation_eqs4c")
+}
+
+[node name="Main" type="Node"]
+script = ExtResource("1_tgsu5")
+
+[node name="World" type="Node2D" parent="."]
+script = ExtResource("2_wy77q")
+maximum_gravity = 240.0
+
+[node name="Parallax2D" type="Parallax2D" parent="World"]
+scroll_scale = Vector2(0.1, 0.1)
+repeat_size = Vector2(3840, 2156)
+
+[node name="Sprite2D" type="Sprite2D" parent="World/Parallax2D"]
+scale = Vector2(2, 2)
+texture = ExtResource("3_x8lud")
+
+[node name="SolarSystemSpawner" type="Node2D" parent="World"]
+unique_name_in_owner = true
+script = ExtResource("4_w3ij2")
+solar_system_scene = ExtResource("5_7bfjq")
+grid_size = 5000
+min_distance = 24000
+max_distance = 64000
+min_planets = 5
+max_planets = 8
+min_solar_range = 6000
+max_solar_range = 10000
+solar_system_randomness = 0.3
+
+[node name="FuelStation" parent="World" instance=ExtResource("6_hs43v")]
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="EnemyGroup" type="Node2D" parent="Enemies"]
+script = ExtResource("7_eclf6")
+
+[node name="Enemy" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("cannon_points") instance=ExtResource("8_cxk1i")]
+position = Vector2(2226, -921)
+motion_mode = 1
+cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
+
+[node name="Enemy2" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("cannon_points") instance=ExtResource("8_cxk1i")]
+position = Vector2(2093, -875)
+motion_mode = 1
+cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
+
+[node name="Player" parent="." node_paths=PackedStringArray("world", "cannon_points") instance=ExtResource("9_hq3w5")]
+world = NodePath("../World")
+cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
+mineral_inventory = ExtResource("10_wjjcp")
+mining_drone_scene = ExtResource("11_kmxs3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" type="Control" parent="CanvasLayer" node_paths=PackedStringArray("player", "world")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_30r5o")
+script = ExtResource("12_ar618")
+player = NodePath("../../Player")
+world = NodePath("../../World")
+
+[node name="WarningSound" type="AudioStreamPlayer" parent="CanvasLayer/GUI"]
+stream = ExtResource("13_qr3no")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("15_55n0g")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="HUD" type="Control" parent="CanvasLayer/GUI/MarginContainer"]
+layout_mode = 2
+
+[node name="Radar" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD" node_paths=PackedStringArray("player")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -156.0
+offset_right = 320.0
+offset_bottom = 164.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("17_cmm5f")
+player = NodePath("../../../../../Player")
+enemy_detection_range = 10000.0
+marker_size = 16.0
+
+[node name="Minimap" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+clip_children = 1
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 352.0
+offset_bottom = 352.0
+texture = ExtResource("33_q20b3")
+
+[node name="Minimap" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD/Minimap" node_paths=PackedStringArray("player")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 344.0
+offset_bottom = 344.0
+script = ExtResource("16_hieb5")
+player = NodePath("../../../../../../Player")
+grid_scale = 512
+grid_size = 64
+space_station_color = Color(0, 0.584314, 0.913725, 1)
+
+[node name="PlayerInventory" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 56.0
+offset_top = -256.0
+offset_right = 288.0
+offset_bottom = -40.0
+grow_vertical = 0
+script = ExtResource("31_mkbtq")
+mineral_inventory = ExtResource("10_wjjcp")
+mineral_inventory_item_gui = ExtResource("34_2rmpe")
+
+[node name="SolarObjectPanel" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD" node_paths=PackedStringArray("name_label", "mineral_inventory_gui")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 24.0
+offset_top = -156.0
+offset_right = 368.0
+offset_bottom = 140.0
+grow_vertical = 2
+script = ExtResource("36_awl53")
+name_label = NodePath("Control2/SolarObjectNameLabel")
+mineral_inventory_gui = NodePath("Control2/SolarMineralInventoryGUI")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/HUD/SolarObjectPanel"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -240.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("36_eu3rl")
+stretch_mode = 4
+
+[node name="Control2" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/HUD/SolarObjectPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SolarObjectNameLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/SolarObjectPanel/Control2"]
+layout_mode = 2
+label_settings = ExtResource("32_n128g")
+clip_text = true
+
+[node name="SolarMineralInventoryGUI" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/HUD/SolarObjectPanel/Control2" node_paths=PackedStringArray("name_label")]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 8
+script = ExtResource("32_dri58")
+name_label = NodePath("../SolarObjectNameLabel")
+mineral_inventory_item_gui = ExtResource("34_2rmpe")
+
+[node name="OverspeedCautionLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.0
+offset_top = 48.0
+offset_right = 280.0
+offset_bottom = 112.0
+grow_horizontal = 2
+text = "WARNING: OVERSPEED"
+label_settings = SubResource("LabelSettings_aapjq")
+
+[node name="TopCenterPrompts" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -272.0
+offset_top = 136.0
+offset_right = 272.0
+offset_bottom = 224.0
+grow_horizontal = 2
+
+[node name="DestructionTimerLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/TopCenterPrompts"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Destruction in 4.0s"
+label_settings = SubResource("LabelSettings_5uvkm")
+horizontal_alignment = 1
+uppercase = true
+
+[node name="Prompt" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD/TopCenterPrompts"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("29_6qsuj")
+
+[node name="TradePrompt" type="HBoxContainer" parent="CanvasLayer/GUI/MarginContainer/HUD/TopCenterPrompts/Prompt"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PreCostTextLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/TopCenterPrompts/Prompt/TradePrompt"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Trade  "
+label_settings = SubResource("LabelSettings_qsgsc")
+
+[node name="TradeCostLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/TopCenterPrompts/Prompt/TradePrompt"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "XX"
+label_settings = SubResource("LabelSettings_qsgsc")
+
+[node name="TradeMineralTextureRect" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/HUD/TopCenterPrompts/Prompt/TradePrompt"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+texture = ExtResource("30_cagdv")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="PostCostTextLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/TopCenterPrompts/Prompt/TradePrompt"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " per unit fuel ?"
+label_settings = SubResource("LabelSettings_qsgsc")
+
+[node name="MiningDronePrompt" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/TopCenterPrompts/Prompt"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Hold [Space] to pickup mining drone"
+label_settings = SubResource("LabelSettings_qsgsc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Control" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -432.0
+offset_top = -232.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Control" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD/Control"]
+anchors_preset = 0
+offset_right = 424.0
+offset_bottom = 64.0
+
+[node name="LockAcquiredLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/Control/Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 424.0
+offset_bottom = 64.0
+text = "LOCK ACQUIRED"
+label_settings = SubResource("LabelSettings_shv1g")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NoLockLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/Control/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 424.0
+offset_bottom = 64.0
+text = "NO LOCK"
+label_settings = SubResource("LabelSettings_j0ln0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeaponConsole" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD/Control" node_paths=PackedStringArray("player")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -216.0
+offset_top = -160.0
+offset_right = 212.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("24_st0nx")
+player = NodePath("../../../../../../Player")
+
+[node name="WeaponName" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/Control/WeaponConsole"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 8.0
+offset_right = 248.0
+offset_bottom = 72.0
+text = "MISSILE"
+label_settings = ExtResource("32_n128g")
+
+[node name="WeaponHeatGauge" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD/Control/WeaponConsole"]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_left = 24.0
+offset_top = 96.0
+offset_right = 256.0
+offset_bottom = 144.0
+script = ExtResource("28_8l26f")
+cooling_off_gradient = SubResource("Gradient_cw53y")
+
+[node name="SegmentedProgressBar" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD/Control/WeaponConsole/WeaponHeatGauge"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_f3e6b")
+segments = 15
+separation = 8
+segment_color_gradient = SubResource("Gradient_v5k8b")
+
+[node name="CoolingOffLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/Control/WeaponConsole/WeaponHeatGauge/SegmentedProgressBar"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Cooling Off"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WeaponIconTextureRect" type="TextureRect" parent="CanvasLayer/GUI/MarginContainer/HUD/Control/WeaponConsole"]
+layout_mode = 0
+offset_left = 280.0
+offset_top = 8.0
+offset_right = 424.0
+offset_bottom = 152.0
+stretch_mode = 4
+
+[node name="AntiGravityLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -128.0
+offset_top = -48.0
+offset_right = 128.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "ANTI GRAV"
+label_settings = SubResource("LabelSettings_0e54q")
+script = ExtResource("38_l0s64")
+enabled_color = Color(0.996078, 0.905882, 0.380392, 1)
+disabled_color = Color(0.227451, 0.266667, 0.4, 1)
+
+[node name="FuelBar" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -80.0
+offset_right = 336.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+rotation = -1.5708
+script = ExtResource("21_f3e6b")
+separation = 8
+segment_color = Color(0, 0.584314, 0.913725, 1)
+segment_color_gradient = SubResource("Gradient_h6qck")
+
+[node name="HullBar" type="Control" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -216.0
+offset_top = -80.0
+offset_right = -80.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+rotation = -1.5708
+script = ExtResource("21_f3e6b")
+separation = 8
+segment_color_gradient = SubResource("Gradient_v5k8b")
+
+[node name="SpeedBar" type="TextureProgressBar" parent="CanvasLayer/GUI/MarginContainer/HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 824.0
+offset_top = 848.0
+offset_right = -824.0
+offset_bottom = -64.0
+grow_horizontal = 2
+grow_vertical = 2
+min_value = 10.0
+max_value = 116.98
+step = 3.0
+value = 100.0
+fill_mode = 4
+radial_initial_angle = 270.0
+radial_fill_degrees = 180.0
+radial_center_offset = Vector2(0, 72)
+nine_patch_stretch = true
+texture_progress = ExtResource("39_wuxjw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/MarginContainer/HUD/SpeedBar"]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 48.0
+offset_right = 188.0
+offset_bottom = 136.0
+theme_override_constants/separation = -2
+alignment = 1
+
+[node name="SpeedLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/SpeedBar/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "123.1k"
+label_settings = SubResource("LabelSettings_p7gjj")
+horizontal_alignment = 1
+
+[node name="SpeedUnitLabel" type="Label" parent="CanvasLayer/GUI/MarginContainer/HUD/SpeedBar/VBoxContainer"]
+layout_mode = 2
+text = "KM / S"
+label_settings = SubResource("LabelSettings_p6hxc")
+horizontal_alignment = 1
+
+[node name="GameOverScreen" type="Control" parent="CanvasLayer/GUI"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/GUI/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/GameOverScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -254.0
+offset_top = -83.0
+offset_right = 254.0
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI/GameOverScreen/VBoxContainer"]
+layout_mode = 2
+text = "You died...."
+label_settings = SubResource("LabelSettings_yikrg")
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/GUI/GameOverScreen/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 36
+text = "Restart"
+
+[node name="DivergentCrosshair" type="Control" parent="CanvasLayer/GUI" node_paths=PackedStringArray("player")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("31_x64d5")
+player = NodePath("../../../Player")
+crosshair_texture = ExtResource("32_2dtma")
+
+[node name="UpgradeScreen" type="PanelContainer" parent="CanvasLayer/GUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_ymudb")
+script = ExtResource("33_yjlof")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/GUI/UpgradeScreen"]
+layout_mode = 2
+
+[node name="ItemListContainer" type="HBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer"]
+layout_mode = 2
+script = ExtResource("34_ws8e0")
+
+[node name="ItemList" type="ItemList" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer"]
+custom_minimum_size = Vector2(256, 224)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 48
+
+[node name="ItemListControls" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Flight" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Upgrades" type="HBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MaxSpeed" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("36_vol1o")
+
+[node name="ExhaustVelocity" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("37_s6ah3")
+
+[node name="MassFlowRate" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("38_d7kch")
+
+[node name="FuelCapacity" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Flight/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("39_cupmb")
+
+[node name="Weapons" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Weapons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Upgrades" type="HBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Weapons/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="CoolingSpeed" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Weapons/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("40_4kxel")
+
+[node name="MaxHeat" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Weapons/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("41_0akk4")
+
+[node name="Mining" type="Control" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Upgrades" type="HBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining/CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="DroneAmount" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("42_maqn3")
+
+[node name="DroneStorage" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("43_u02ci")
+
+[node name="DroneSpeed" parent="CanvasLayer/GUI/UpgradeScreen/MarginContainer/ItemListContainer/ItemListControls/Mining/CenterContainer/Upgrades" node_paths=PackedStringArray("player") instance=ExtResource("35_knb3f")]
+layout_mode = 2
+player = NodePath("../../../../../../../../../../Player")
+upgrade = ExtResource("44_d80h3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_wlqpe")
+}
+
+[connection signal="heat_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_heat_changed"]
+[connection signal="pressed" from="CanvasLayer/GUI/GameOverScreen/VBoxContainer/Button" to="." method="_on_restart_button_pressed"]

@@ -89,7 +89,7 @@ var is_overheated: bool:
 		heat = value
 		heat_changed.emit(heat, heat / maximum_heat)
 
-@onready var overspeed_timer = $OverspeedTimer
+@onready var overspeed_timer: Timer = $OverspeedTimer
 @onready var target_lock = $TargetLockAcquirer
 
 func _ready() -> void:
@@ -101,7 +101,7 @@ func _ready() -> void:
 	mineral_inventory._init(mineral_inventory.starting_inventory)
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
 	
-	switch_to_weapon(current_weapon)
+	_set_weapon(current_weapon)
 
 func _physics_process(delta):
 	if not is_dead and has_control:
@@ -164,11 +164,15 @@ func _unhandled_input(event):
 			current_weapon_index = new_index
 			switch_to_weapon(current_weapon)
 
-func switch_to_weapon(weapon: PlayerWeapon):
+func _set_weapon(weapon: PlayerWeapon):
 	$ShotTimer.wait_time = weapon.shot_cooldown
-	$TargetLockAcquirer.set_enabled(weapon.is_lock_required)
-
+	$WeaponShotSound.stream = weapon.shoot_sound
+	#$TargetLockAcquirer.set_enabled(weapon.is_lock_required)
 	weapon_changed.emit(weapon)
+	
+func switch_to_weapon(weapon: PlayerWeapon):
+	_set_weapon(weapon)
+	$SwitchWeaponSound.play()
 
 func die():
 	$DeathParticles.emitting = true
@@ -195,7 +199,7 @@ func shoot():
 		_shoot_hitscan(current_weapon, global_position, get_global_mouse_position())
 	else:
 		_shoot_projectile(current_weapon, cannon.global_position, cannon.global_position + transform.x * 100)
-	$CannonShotSound.play()
+	$WeaponShotSound.play()
 	$Camera2D.add_trauma(current_weapon.shot_trauma)
 	
 	$ShotTimer.start()
@@ -264,9 +268,9 @@ func _pickup_mining_drone(mining_drone: MiningDrone):
 	mining_drone = null
 
 func apply_upgrade(upgrade: TieredUpgrade, level_up=true) -> void:
-	mineral_inventory.remove_subset(upgrade.get_tier_cost(upgrade_tier.get_or_add(upgrade, 0)))
 
 	if level_up:
+		mineral_inventory.remove_subset(upgrade.get_tier_cost(upgrade_tier.get_or_add(upgrade, 0)))
 		if upgrade.get_max_tier() > get_tier(upgrade):
 			upgrade_tier[upgrade] = get_tier(upgrade) + 1
 

@@ -3,6 +3,7 @@ class_name PlayerWeapon
 
 @export var weapon_name: String = "Weapon Name"
 @export var weapon_icon: Texture2D
+@export var shoot_sound : AudioStream
 
 @export var weapon_shot_scene: PackedScene
 @export var is_hitscan: bool = false

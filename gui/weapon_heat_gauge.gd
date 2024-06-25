@@ -1,8 +1,13 @@
-extends TextureProgressBar
+extends Control
 
-@export var overheat_progress_texture: Texture2D
-@export var normal_progress_texture: Texture2D
+@export var cooling_off_gradient : Gradient
+
+@onready var segmented_progress_bar: Control = $SegmentedProgressBar
+@onready var default_gradient :Gradient = segmented_progress_bar.segment_color_gradient
 
 func set_overheat_mode(is_overheated: bool) -> void:
-    texture_progress = overheat_progress_texture if is_overheated else normal_progress_texture
-    $CoolingOffLabel.visible = is_overheated
+	$SegmentedProgressBar.segment_color_gradient = cooling_off_gradient if is_overheated else default_gradient
+	$SegmentedProgressBar/CoolingOffLabel.visible = is_overheated
+	
+func set_ratio(ratio):
+	$SegmentedProgressBar.set_ratio(ratio)

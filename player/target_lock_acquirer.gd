@@ -5,14 +5,14 @@ signal lock_lost
 
 @export var lock_time: float
 @export var forgiveness_time: float
+@export var enabled = false
+
 
 var acquired_target: Node2D
 
 var _tracking_target: Node2D
 
 var _forgiveness_timer = 0.0
-
-var enabled = false
 
 @onready var target_lock_timer: Timer = $TargetLockTimer
 @onready var dss: PhysicsDirectSpaceState2D = get_world_2d().direct_space_state
@@ -33,6 +33,9 @@ func _physics_process(delta: float) -> void:
 			var hurtbox = collisions.front().collider
 			var target = hurtbox.get_parent()
 			
+			if not target.is_in_group("enemy"):
+				return
+				
 			if target.is_dead:
 				return
 

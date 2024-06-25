@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="PlayerWeapon" load_steps=4 format=3 uid="uid://p71bsip243lr"]
+
+[ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="1_24o00"]
+[ext_resource type="AudioStream" uid="uid://cobhxahikk4mc" path="res://player/sounds/laser_shot.wav" id="2_4v45a"]
+[ext_resource type="Texture2D" uid="uid://db5oblw47ly30" path="res://player/weapons/icons/laser.tres" id="3_ppa7a"]
+
+[resource]
+script = ExtResource("1_24o00")
+weapon_name = "Laser"
+weapon_icon = ExtResource("3_ppa7a")
+shoot_sound = ExtResource("2_4v45a")
+is_hitscan = true
+is_lock_required = false
+weapon_damage = 1
+shot_cooldown = 0.2
+heat_per_shot = 10.0
+shot_trauma = 0.05
