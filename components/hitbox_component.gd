@@ -3,10 +3,10 @@ class_name HitboxComponent
 
 signal collided(hurtbox: HurtboxComponent)
 
-@export var damage := 1.0
+@export var damage := 1
 
-func get_damage():
+func get_damage() -> int:
 	return damage
 
-func collide(hurtbox: HurtboxComponent):
+func collide(hurtbox: HurtboxComponent) -> void:
 	collided.emit(hurtbox)

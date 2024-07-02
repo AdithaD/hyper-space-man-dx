@@ -3,9 +3,9 @@ extends TextureProgressBar
 @export var timer: Timer
 
 ## Hide the progress bar when the timer isn't running
-@export var hide_when_stopped = true
+@export var hide_when_stopped := true
 
-func _process(_delta):
+func _process(_delta: float) -> void:
 	if not timer.is_stopped():
 		if not visible:
 			show()

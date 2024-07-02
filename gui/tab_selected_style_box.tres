@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://1o2irf2sobl6"]
+
+[ext_resource type="Texture2D" uid="uid://tksv0oalc1rn" path="res://gui/selected_tab.png" id="1_05qqu"]
+
+[resource]
+content_margin_left = 16.0
+content_margin_right = 16.0
+texture = ExtResource("1_05qqu")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0

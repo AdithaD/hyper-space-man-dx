@@ -5,23 +5,20 @@ extends Control
 
 var _solar_object : SolarObject
 
-func set_solar_object(solar_object : SolarObject):
-	pass
-	
-func display(solar_object: SolarObject):
+func display(solar_object: SolarObject) -> void:
 	name_label.text = solar_object.solar_name
 	mineral_inventory_gui.set_mineral_inventory(solar_object.mineral_inventory)
 	_show()
 
-func _hide():
+func _hide() -> void:
 	hide()
 	name_label.hide()
 
-func _show():
+func _show() -> void:
 	show()
 	name_label.show()
 
-func _on_player_mining_interactor_stack_changed(top) -> void:
+func _on_player_mining_interactor_stack_changed(top: SolarObject) -> void:
 	if top:
 		display(top)
 	else:

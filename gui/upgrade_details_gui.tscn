@@ -1,0 +1,119 @@
+[gd_scene load_steps=8 format=3 uid="uid://cstly2aocvviu"]
+
+[ext_resource type="Script" path="res://gui/upgrade_details_gui.gd" id="1_j1t7b"]
+[ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="1_yq2fy"]
+[ext_resource type="Texture2D" uid="uid://b48up1slyjnnv" path="res://gui/item_list_large_style.png" id="2_f8gfh"]
+[ext_resource type="Texture2D" uid="uid://ccmxjk5x0uyu5" path="res://gui/arrow.png" id="3_68ac3"]
+[ext_resource type="PackedScene" uid="uid://cbluksrlr5gxw" path="res://gui/mineral_cost_item.tscn" id="5_vptmq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ityno"]
+font_size = 72
+font_color = Color(0.172549, 0.909804, 0.960784, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_v7y7n"]
+font_size = 80
+
+[node name="UpgradeDetailsGUI" type="VBoxContainer"]
+offset_right = 448.0
+offset_bottom = 440.0
+size_flags_horizontal = 3
+theme = ExtResource("1_yq2fy")
+theme_override_constants/separation = 16
+alignment = 1
+script = ExtResource("1_j1t7b")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = -8
+
+[node name="UpgradeNameLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "UPGRADE NAME"
+label_settings = SubResource("LabelSettings_ityno")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="UpgradeLevelLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1 > 2"
+label_settings = SubResource("LabelSettings_v7y7n")
+horizontal_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer"]
+modulate = Color(0.0705882, 0.305882, 0.537255, 1)
+layout_mode = 2
+texture = ExtResource("2_f8gfh")
+draw_center = false
+patch_margin_left = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="UpgradeValueContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="FromValueLabel" type="Label" parent="UpgradeValueContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "3.3k"
+label_settings = SubResource("LabelSettings_v7y7n")
+horizontal_alignment = 1
+vertical_alignment = 3
+
+[node name="Control" type="Control" parent="UpgradeValueContainer"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UpgradeValueContainer/Control"]
+custom_minimum_size = Vector2(72, 40)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -24.0
+offset_right = 32.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_68ac3")
+expand_mode = 2
+stretch_mode = 4
+
+[node name="ToValueLabel" type="Label" parent="UpgradeValueContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 5
+text = "3.3k"
+label_settings = SubResource("LabelSettings_v7y7n")
+horizontal_alignment = 1
+vertical_alignment = 3
+
+[node name="MineralCostList" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="MineralCostItem" parent="MineralCostList" instance=ExtResource("5_vptmq")]
+layout_mode = 2
+
+[node name="MineralCostItem2" parent="MineralCostList" instance=ExtResource("5_vptmq")]
+layout_mode = 2
+
+[node name="MineralCostItem3" parent="MineralCostList" instance=ExtResource("5_vptmq")]
+layout_mode = 2
+
+[node name="UpgradeButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "UPGRADE"
+
+[connection signal="pressed" from="UpgradeButton" to="." method="_on_upgrade_button_pressed"]

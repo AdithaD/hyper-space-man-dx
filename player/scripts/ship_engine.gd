@@ -32,19 +32,19 @@ func burn(delta: float, direction: Vector2) -> Vector2:
 	
 	current_fuel -= amount_of_mass_expelled
 	
-	var change_in_velocity = amount_of_mass_expelled * exhaust_velocity / (dry_mass + current_fuel)
+	var change_in_velocity := amount_of_mass_expelled * exhaust_velocity / (dry_mass + current_fuel)
 	
 	engine_burned.emit(current_fuel, get_ratio())
 	return change_in_velocity * direction
 
 func burn_anti_gravity(change_in_velocity: Vector2) -> void:
-	var amount_of_mass_expelled = change_in_velocity.length() * (dry_mass + current_fuel) / exhaust_velocity
+	var amount_of_mass_expelled := change_in_velocity.length() * (dry_mass + current_fuel) / exhaust_velocity
 	current_fuel -= amount_of_mass_expelled
 	engine_burned.emit(current_fuel, get_ratio())
 
-func get_ratio():
+func get_ratio() -> float:
 	return current_fuel / fuel_capacity
 
-func fill():
+func fill() -> void:
 	current_fuel = fuel_capacity
 	engine_burned.emit(current_fuel, fuel_capacity)

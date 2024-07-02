@@ -1,0 +1,47 @@
+[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dy7wgxfvqt70i"]
+
+[ext_resource type="Texture2D" uid="uid://be6cvsbl3se1v" path="res://gui/button_box.png" id="1_4ndym"]
+[ext_resource type="FontFile" uid="uid://bfgk2vjjebhfo" path="res://gui/4x5 Font.ttf" id="1_q1p1x"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7gc4"]
+atlas = ExtResource("1_4ndym")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_12vd6"]
+texture = SubResource("AtlasTexture_x7gc4")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1xg7h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nkoq3"]
+atlas = ExtResource("1_4ndym")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4v6tw"]
+texture = SubResource("AtlasTexture_nkoq3")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ppxk"]
+atlas = ExtResource("1_4ndym")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hxaky"]
+texture = SubResource("AtlasTexture_1ppxk")
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+
+[resource]
+default_font = ExtResource("1_q1p1x")
+Button/styles/disabled = SubResource("StyleBoxTexture_12vd6")
+Button/styles/focus = SubResource("StyleBoxEmpty_1xg7h")
+Button/styles/hover = SubResource("StyleBoxTexture_4v6tw")
+Button/styles/normal = SubResource("StyleBoxTexture_hxaky")
+VBoxContainer/constants/separation = 8

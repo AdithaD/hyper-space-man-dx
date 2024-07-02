@@ -3,7 +3,7 @@ extends Sprite2D
 @export var radius : int = 4
 @export var angular_speed : float = PI
 
-var _timer = 0.0
+var _timer := 0.0
 
 func _ready() -> void:
 	offset = Vector2.RIGHT * radius

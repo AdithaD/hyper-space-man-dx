@@ -8,15 +8,15 @@ class_name ConcurrentBehaviourTreeNode
 ## as all child conditions will be evaluated everytime.
 
 # Stores the index of the last child that reported the state 'RUNNING'.
-var _current_running_index = -1
+var _current_running_index := -1
 
 ## Updates all children in child order, continuing onto the next only if the previous child returned SUCCESS.
-func update(actor, blackboard) -> BehaviourState:
-	var i = 0
+func update(actor: Node, blackboard: BehaviourTreeBlackboard) -> BehaviourState:
+	var i := 0
 	while i < get_child_count():
-		var child = get_child(i) as BehaviourTreeNode
+		var child := get_child(i) as BehaviourTreeNode
 		
-		var child_result = child.update(actor, blackboard)
+		var child_result := child.update(actor, blackboard)
 		# if a condition is still running, it will check every condition again.
 		# this is difference to the sequence behaviour node.
 		if not child_result == BehaviourState.SUCCESS:

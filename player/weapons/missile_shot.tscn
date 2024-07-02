@@ -36,13 +36,14 @@ scale_curve = SubResource("CurveTexture_xyoix")
 color_ramp = SubResource("GradientTexture1D_xo312")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_302i5"]
-size = Vector2(31, 12)
+size = Vector2(94, 40)
 
 [node name="MissileShot" type="Node2D"]
 script = ExtResource("1_tyjsv")
 target_group = &"enemy"
-speed = 1200.0
-acceleration = 3000.0
+speed = 2400.0
+jerk = 14000.0
+base_acceleration = 50.0
 angular_speed = 6.283
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
@@ -51,6 +52,7 @@ process_material = SubResource("ParticleProcessMaterial_iv0r1")
 lifetime = 0.8
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
 texture = ExtResource("2_x2q05")
 
 [node name="Hitbox" parent="." instance=ExtResource("3_cyhac")]
@@ -59,6 +61,7 @@ collision_mask = 4
 damage = 5.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_302i5")
 
 [node name="FlyingShotSound" type="AudioStreamPlayer2D" parent="."]

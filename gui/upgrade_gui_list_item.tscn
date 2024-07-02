@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=3 uid="uid://dd67cybfkrckp"]
+
+[ext_resource type="Script" path="res://gui/upgrade_ui_list_item.gd" id="1_ry1bc"]
+[ext_resource type="StyleBox" uid="uid://dh03a5lp1yqnh" path="res://gui/item_normal_style_box.tres" id="2_vnbcl"]
+[ext_resource type="StyleBox" uid="uid://co707vh38ja5g" path="res://gui/item_selected_style_box.tres" id="4_16lmb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_jjt62"]
+font_size = 32
+
+[node name="UpgradeGUIListItem" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 56)
+offset_right = 448.0
+offset_bottom = 56.0
+theme_override_constants/separation = 0
+script = ExtResource("1_ry1bc")
+normal_color = Color(0.0705882, 0.305882, 0.537255, 1)
+normal_label_style = ExtResource("2_vnbcl")
+selected_color = Color(0.172549, 0.909804, 0.960784, 1)
+selected_label_style = ExtResource("4_16lmb")
+
+[node name="ItemLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 0
+theme_override_styles/normal = ExtResource("2_vnbcl")
+text = "Upgrade Name"
+label_settings = SubResource("LabelSettings_jjt62")
+horizontal_alignment = 1
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Line" type="ColorRect" parent="Control"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 7.0
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4

@@ -14,7 +14,7 @@ enum BehaviourState {
 }
 
 ## Propogates from the tree down to intitialise any special behaviours.
-func init_behaviour(actor, blackboard: BehaviourTreeBlackboard):
+func init_behaviour(actor: Node, blackboard: BehaviourTreeBlackboard) -> void:
 	for child in get_children():
 		child.init_behaviour(actor, blackboard)
 	
@@ -22,7 +22,7 @@ func init_behaviour(actor, blackboard: BehaviourTreeBlackboard):
 ## The update function is called to update the child nodes and their children (if any)
 ## Returns a behaviour state that is an aggregate of its children states, or if a it's
 ## a leaf node, is solely dependent on the leaf node itself.
-func update(_actor, _blackboard) -> BehaviourState:
+func update(_actor: Node, _blackboard: BehaviourTreeBlackboard) -> BehaviourState:
 	return BehaviourState.SUCCESS
 
 ## Resets the state of the node to be executed again.
@@ -33,5 +33,5 @@ func reset_state() -> void:
 func get_active_node() -> BehaviourTreeNode:
 	return self
 	
-func debug_print():
+func debug_print() -> void:
 	print(get_path())

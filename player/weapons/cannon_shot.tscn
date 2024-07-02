@@ -35,7 +35,7 @@ scale_curve = SubResource("CurveTexture_xyoix")
 color_ramp = SubResource("GradientTexture1D_xo312")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8sm32"]
-size = Vector2(20, 12)
+size = Vector2(40, 28)
 
 [node name="Shot" type="Node2D"]
 script = ExtResource("1_hb2iy")
@@ -47,6 +47,7 @@ amount = 16
 process_material = SubResource("ParticleProcessMaterial_iv0r1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_7spnj")
 
 [node name="Hitbox" parent="." instance=ExtResource("3_r1771")]

@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://cbluksrlr5gxw"]
+
+[ext_resource type="Texture2D" uid="uid://y3iq4m0fg7q2" path="res://minerals/mineral_platnium_icon.tres" id="1_cwfrl"]
+[ext_resource type="Script" path="res://gui/mineral_cost_item.gd" id="1_idv3n"]
+[ext_resource type="Texture2D" uid="uid://b48up1slyjnnv" path="res://gui/item_list_large_style.png" id="2_sx8hi"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dw4pn"]
+font_size = 32
+
+[node name="MineralCostItem" type="VBoxContainer"]
+theme_override_constants/separation = -8
+script = ExtResource("1_idv3n")
+
+[node name="MineralIconTextureRect" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("1_cwfrl")
+expand_mode = 4
+stretch_mode = 4
+
+[node name="Control" type="Control" parent="."]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+
+[node name="AmountLabel" type="Label" parent="."]
+layout_mode = 2
+text = "3.3k"
+label_settings = SubResource("LabelSettings_dw4pn")
+horizontal_alignment = 1
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+modulate = Color(0.0705882, 0.305882, 0.537255, 1)
+custom_minimum_size = Vector2(88, 0)
+layout_mode = 2
+texture = ExtResource("2_sx8hi")
+draw_center = false
+patch_margin_left = 16
+patch_margin_right = 16
+patch_margin_bottom = 16

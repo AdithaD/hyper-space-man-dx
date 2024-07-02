@@ -27,4 +27,4 @@ script = ExtResource("1_wwxgv")
 upgrade_id = &"max_speed"
 upgrade_name = "Maximum Speed"
 tier_costs = Array[ExtResource("2_xvioj")]([SubResource("Resource_miomb"), SubResource("Resource_omx85"), SubResource("Resource_0mfty")])
-tier_values = Array[float]([1000.0, 2000.0, 4000.0, 8000.0])
+tier_values = Array[float]([2000.0, 4000.0, 8000.0, 16000.0])

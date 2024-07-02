@@ -5,12 +5,12 @@ extends PanelContainer
 
 @export var upgrade: TieredUpgrade
 
-func _ready():
+func _ready() -> void: 
 	player.upgraded.connect(update)
 	player.mineral_inventory.mineral_modified.connect(update.unbind(2))
 	set_upgrade(upgrade, player.get_tier(upgrade))
 
-func update():
+func update() -> void:
 	set_upgrade(upgrade, player.get_tier(upgrade))
 
 func set_upgrade(new_upgrade: TieredUpgrade, tier: int=0) -> void:
@@ -23,14 +23,14 @@ func set_upgrade(new_upgrade: TieredUpgrade, tier: int=0) -> void:
 		%FromCostLabel.text = str(upgrade.get_tier_value(tier))
 		%ToCostLabel.text = str(upgrade.get_tier_value(tier + 1))
 
-		var cost = upgrade.get_tier_cost(tier)
+		var cost := upgrade.get_tier_cost(tier)
 
 		for child in %CostIconParent.get_children():
 			child.queue_free()
 
 		if cost:
 			for mineral in cost.get_minerals():
-				var label = cost_label_scene.instantiate()
+				var label := cost_label_scene.instantiate()
 				%CostIconParent.add_child(label)
 				label.set_mineral(mineral, cost.get_amount(mineral))
 
@@ -40,5 +40,5 @@ func set_upgrade(new_upgrade: TieredUpgrade, tier: int=0) -> void:
 		%MaxedOutLabel.show()
 		%UpgradeData.hide()
 
-func _on_upgrade_button_pressed():
+func _on_upgrade_button_pressed() -> void:
 	player.apply_upgrade(upgrade)

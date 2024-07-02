@@ -9,14 +9,14 @@ func _ready() -> void:
 	player.weapon_changed.connect(_on_weapon_changed)
 	_on_weapon_changed(player.current_weapon)
 	
-func _on_weapon_changed(new_weapon: PlayerWeapon):
+func _on_weapon_changed(new_weapon: PlayerWeapon) -> void:
 	$WeaponName.text = new_weapon.weapon_name
 	$WeaponIconTextureRect.texture = new_weapon.weapon_icon
 
-func _on_lock_acquired():
+func _on_lock_acquired() -> void:
 	%LockAcquiredLabel.show()
 	%NoLockLabel.hide()
 
-func _on_lock_lost():
+func _on_lock_lost() -> void:
 	%LockAcquiredLabel.hide()
 	%NoLockLabel.show()

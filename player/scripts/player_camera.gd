@@ -7,23 +7,23 @@ extends Camera2D
 @export var max_roll := 0.1 # Maximum rotation in radians (use sparingly).
 @export var noise: FastNoiseLite # The source of random values.
 
-@export var peek_ahead = 16
+@export var peek_ahead := 16
 
-var noise_y = 0 # Value used to move through the noise
+var noise_y := 0.0 # Value used to move through the noise
 
 var trauma := 0.0 # Current shake strength
 var trauma_pwr := 3 # Trauma exponent. Use [2,3]
 
 var _noise_offset: Vector2
 
-func _ready():
+func _ready() -> void:
 	randomize()
 	noise.seed = randi()
 
-func add_trauma(amount: float):
+func add_trauma(amount: float) -> void:
 	trauma = min(trauma + amount, 1.0)
 
-func _process(delta):
+func _process(delta: float) -> void:
 	if trauma:
 		trauma = max(trauma - decay * delta, 0)
 		shake()
@@ -35,8 +35,8 @@ func _process(delta):
 		
 	offset = _noise_offset + (global_position.direction_to(get_global_mouse_position()) * peek_ahead)
 
-func shake():
-	var amt = pow(trauma, trauma_pwr)
+func shake() -> void:
+	var amt := pow(trauma, trauma_pwr)
 	noise_y += 1
 	rotation = max_roll * amt * noise.get_noise_2d(0, noise_y)
 	_noise_offset.x = max_offset.x * amt * noise.get_noise_2d(1000, noise_y)

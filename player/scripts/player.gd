@@ -21,7 +21,7 @@ signal upgraded
 @export_subgroup("Weapons")
 @export var weapons: Array[PlayerWeapon] = []
 @export var maximum_heat: float = 100.0
-@export var heat_drain_per_second = 15.0
+@export var heat_drain_per_second : float = 15.0
 
 @export var cannon_points: Array[Node2D] = []
 
@@ -34,20 +34,20 @@ signal upgraded
 # Movement Vectors
 var direction := Vector2.ZERO
 
-var shot_count = 0
+var shot_count : int = 0
 
 # State
 var is_mining := false
-var is_anti_gravity_on = false
-var current_weapon_index = 0
-var is_dead = false
-var has_control = true
+var is_anti_gravity_on := false
+var current_weapon_index := 0
+var is_dead := false
+var has_control := true
 
 var max_speed := 500.0
 
 var upgrade_tier: Dictionary
 
-var is_overspeed:
+var is_overspeed: bool:
 	get:
 		return velocity.length() > max_speed
 
@@ -55,7 +55,7 @@ var current_weapon: PlayerWeapon:
 	get:
 		return weapons[current_weapon_index]
 
-var is_accelerating = false:
+var is_accelerating := false:
 	set(new_value):
 		if new_value != is_accelerating:
 			is_accelerating = new_value
@@ -69,14 +69,14 @@ var is_accelerating = false:
 				$Camera2D.add_trauma(1.0)
 				$EngineJoltSound.play()
 
-var maximum_drone_amount = 1
-var drone_harvest_rate = 100
-var drone_storage_amount = 2000
+var maximum_drone_amount := 1
+var drone_harvest_rate := 100
+var drone_storage_amount := 2000
 
 # needs to be an array
 var mining_drones: Array[MiningDrone] = []
 
-var mining_interactor:
+var mining_interactor: MiningInteractor:
 	get:
 		return $MiningInteractor
 
@@ -84,13 +84,13 @@ var is_overheated: bool:
 	get:
 		return not $HeatCooloffTimer.is_stopped()
 
-@onready var heat = 0:
+@onready var heat := 0.0:
 	set(value):
 		heat = value
 		heat_changed.emit(heat, heat / maximum_heat)
 
 @onready var overspeed_timer: Timer = $OverspeedTimer
-@onready var target_lock = $TargetLockAcquirer
+@onready var target_lock : TargetLockAcquirer = $TargetLockAcquirer
 
 func _ready() -> void:
 	ship_engine.reset_state()
@@ -103,7 +103,7 @@ func _ready() -> void:
 	
 	_set_weapon(current_weapon)
 
-func _physics_process(delta):
+func _physics_process(delta: float) -> void:
 	if not is_dead and has_control:
 		#accelerate
 		is_accelerating = Input.is_action_pressed("accelerate")
@@ -127,7 +127,7 @@ func _physics_process(delta):
 
 		# apply gravity
 		if world:
-			var gravity = world.get_gravity(global_position)
+			var gravity := world.get_gravity(global_position)
 			
 			if not is_anti_gravity_on:
 				velocity += gravity * delta
@@ -148,7 +148,7 @@ func _physics_process(delta):
 		look_at(get_global_mouse_position())
 		move_and_slide()
 
-func _unhandled_input(event):
+func _unhandled_input(event: InputEvent) -> void:
 	if has_control:
 		if event.is_action_pressed("mine"):
 			if mining_drones.size() < maximum_drone_amount:
@@ -160,21 +160,21 @@ func _unhandled_input(event):
 				set_anti_gravity(not is_anti_gravity_on)
 		
 		if Input.is_action_pressed("cycle_weapon"):
-			var new_index = (current_weapon_index + 1) % weapons.size()
+			var new_index := (current_weapon_index + 1) % weapons.size()
 			current_weapon_index = new_index
 			switch_to_weapon(current_weapon)
 
-func _set_weapon(weapon: PlayerWeapon):
+func _set_weapon(weapon: PlayerWeapon) -> void:
 	$ShotTimer.wait_time = weapon.shot_cooldown
 	$WeaponShotSound.stream = weapon.shoot_sound
 	#$TargetLockAcquirer.set_enabled(weapon.is_lock_required)
 	weapon_changed.emit(weapon)
 	
-func switch_to_weapon(weapon: PlayerWeapon):
+func switch_to_weapon(weapon: PlayerWeapon) -> void:
 	_set_weapon(weapon)
 	$SwitchWeaponSound.play()
 
-func die():
+func die() -> void:
 	$DeathParticles.emitting = true
 	$Camera2D.top_level = true
 	$Camera2D.global_position = global_position
@@ -182,14 +182,14 @@ func die():
 
 	is_dead = true
 
-func accelerate(delta):
-	var dir = (get_global_mouse_position() - global_position).normalized()
-	var thrust = ship_engine.burn(delta, dir)
+func accelerate(delta: float) -> void:
+	var dir := (get_global_mouse_position() - global_position).normalized()
+	var thrust := ship_engine.burn(delta, dir)
 	velocity += thrust
 	
-func shoot():
+func shoot() -> void:
 	# select cannon point
-	var cannon = cannon_points[shot_count % cannon_points.size()]
+	var cannon := cannon_points[shot_count % cannon_points.size()]
 
 	# weapons requiring lock needs a lock target
 	if current_weapon.is_lock_required and target_lock.get_current_target() == null:
@@ -208,7 +208,7 @@ func shoot():
 	shot_count += 1
 
 func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> void:
-	var new_shot = weapon.instantiate_shot()
+	var new_shot := weapon.instantiate_shot()
 	new_shot.global_position = origin
 	new_shot.global_rotation = global_rotation
 	
@@ -223,25 +223,24 @@ func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -
 	$Shots.add_child(new_shot)
 
 func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> void:
-	var dss = get_world_2d().direct_space_state
+	var dss := get_world_2d().direct_space_state
 
-	var destination = origin.direction_to(target) * 2000 + origin
-	var query = PhysicsRayQueryParameters2D.create(origin, destination, 0b1000)
+	var destination := origin.direction_to(target) * 2000 + origin
+	var query := PhysicsRayQueryParameters2D.create(origin, destination, 0b1000)
 	query.collide_with_bodies = false
 	query.collide_with_areas = true
 	
 	var collision: Dictionary = dss.intersect_ray(query)
 
 	$RayShooter.shoot_ray(origin, destination, 0.3)
-	prints(origin, destination, collision)
 	if collision:
-		var hurtbox = collision.collider as HurtboxComponent
+		var hurtbox := collision.collider as HurtboxComponent
 		hurtbox.take_damage(weapon.weapon_damage)
 		print(hurtbox)
 
-func _deploy_mining_drone():
+func _deploy_mining_drone() -> void:
 	# instantiate
-	var mining_drone = mining_drone_scene.instantiate()
+	var mining_drone : MiningDrone = mining_drone_scene.instantiate()
 	
 	# apply upgrades
 	mining_drone.harvest_rate = drone_harvest_rate
@@ -249,32 +248,36 @@ func _deploy_mining_drone():
 
 	mining_drone.player = self
 	world.add_mining_drone(mining_drone)
-	mining_drone.set_mine_target(mining_interactor.current_solar_object)
+	
+	var mine_target := mining_interactor.current_solar_object
+	mining_drone.set_mine_target(mine_target)
 	mining_drone.pickup.connect(_pickup_mining_drone.bind(mining_drone))
 
 	# tween away from ship
-	var tween = mining_drone.create_tween()
-	tween.tween_property(mining_drone, "global_position", global_position + Vector2(128, 0).rotated(2 * PI * randi()), 0.5).from(global_position)
+	var tween := mining_drone.create_tween()
+	var vec_to_so := global_position.direction_to(mine_target.global_position)
+	var dir := Vector2(128, 0).rotated(vec_to_so.angle())
+	tween.tween_property(mining_drone, "global_position", global_position + dir, 0.5).from(global_position)
 	
 	mining_drones.append(mining_drone)
 
-func _pickup_mining_drone(mining_drone: MiningDrone):
+func _pickup_mining_drone(mining_drone: MiningDrone) -> void:
 	# get resources
-	for mineral in mining_drone.mineral_inventory.get_minerals():
+	for mineral : Mineral in mining_drone.mineral_inventory.get_minerals():
 		mineral_inventory.add_amount(mineral, mining_drone.mineral_inventory.get_amount(mineral))
 
 	mining_drones.erase(mining_drone)
 	mining_drone.queue_free()
 	mining_drone = null
 
-func apply_upgrade(upgrade: TieredUpgrade, level_up=true) -> void:
+func apply_upgrade(upgrade: TieredUpgrade, level_up := true) -> void:
 
 	if level_up:
 		mineral_inventory.remove_subset(upgrade.get_tier_cost(upgrade_tier.get_or_add(upgrade, 0)))
 		if upgrade.get_max_tier() > get_tier(upgrade):
 			upgrade_tier[upgrade] = get_tier(upgrade) + 1
 
-	var value = upgrade.get_tier_value(get_tier(upgrade))
+	var value := upgrade.get_tier_value(get_tier(upgrade))
 	match upgrade.upgrade_id:
 		&"max_speed":
 			max_speed = value
@@ -303,12 +306,12 @@ func can_upgrade(upgrade: TieredUpgrade) -> bool:
 func get_tier(upgrade: TieredUpgrade) -> int:
 	return upgrade_tier.get_or_add(upgrade, 0)
 
-func _add_heat(amount):
+func _add_heat(amount: float) -> void:
 	heat = heat + amount
 	if heat > maximum_heat:
 		_cool_off()
 		
-func _cool_off():
+func _cool_off() -> void:
 	$HeatCooloffTimer.start()
 	$CannonCooloffSound.play()
 
@@ -325,7 +328,7 @@ func set_anti_gravity(is_on: bool) -> void:
 func get_health_component() -> HealthComponent:
 	return $HealthComponent
 
-func queue_death():
+func queue_death() -> void:
 	is_dead = true
 	died.emit()
 

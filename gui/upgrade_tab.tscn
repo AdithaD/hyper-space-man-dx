@@ -1,0 +1,53 @@
+[gd_scene load_steps=12 format=3 uid="uid://dilq7a2ttbv1t"]
+
+[ext_resource type="Script" path="res://upgrade_gui.gd" id="1_7bihd"]
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="2_5aoxu"]
+[ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="3_tpl0c"]
+[ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://player/upgrades/instances/upgrade_exhaust_velocity.tres" id="4_x8in0"]
+[ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://player/upgrades/instances/upgrade_mass_flow.tres" id="5_wsum0"]
+[ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://player/upgrades/instances/upgrade_fuel_capacity.tres" id="6_f3ojg"]
+[ext_resource type="PackedScene" uid="uid://dd67cybfkrckp" path="res://gui/upgrade_gui_list_item.tscn" id="7_7rx5g"]
+[ext_resource type="Script" path="res://selectable_list.gd" id="8_usqx8"]
+[ext_resource type="Texture2D" uid="uid://b1vpab0hfccag" path="res://gui/vertical_divider.png" id="9_6ob85"]
+[ext_resource type="PackedScene" uid="uid://cstly2aocvviu" path="res://gui/upgrade_details_gui.tscn" id="10_h0yve"]
+[ext_resource type="PackedScene" uid="uid://cbluksrlr5gxw" path="res://gui/mineral_cost_item.tscn" id="11_k3o3g"]
+
+[node name="Flight" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_7bihd")
+upgrades = Array[ExtResource("2_5aoxu")]([ExtResource("3_tpl0c"), ExtResource("4_x8in0"), ExtResource("5_wsum0"), ExtResource("6_f3ojg")])
+upgrades_gui_list_item = ExtResource("7_7rx5g")
+metadata/_tab_index = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="UpgradeItemList" type="VBoxContainer" parent="HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(512, 0)
+layout_mode = 2
+size_flags_vertical = 4
+script = ExtResource("8_usqx8")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer"]
+modulate = Color(0.172549, 0.909804, 0.960784, 1)
+custom_minimum_size = Vector2(24, 0)
+layout_mode = 2
+texture = ExtResource("9_6ob85")
+patch_margin_left = 8
+patch_margin_top = 16
+patch_margin_bottom = 16
+
+[node name="UpgradeDetailsGUI" parent="HBoxContainer" instance=ExtResource("10_h0yve")]
+unique_name_in_owner = true
+layout_mode = 2
+mineral_cost_item = ExtResource("11_k3o3g")
+
+[connection signal="item_selected" from="HBoxContainer/UpgradeItemList" to="." method="_on_upgrade_item_list_item_selected"]

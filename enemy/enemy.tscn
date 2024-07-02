@@ -24,8 +24,8 @@
 [ext_resource type="PackedScene" uid="uid://meqghk35mmsf" path="res://components/pickup_component.tscn" id="21_180c2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
-radius = 22.0
-height = 64.0
+radius = 46.0
+height = 118.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k0lj5"]
 atlas = ExtResource("3_rshhf")
@@ -105,6 +105,7 @@ color_ramp = SubResource("GradientTexture1D_aruuo")
 color_initial_ramp = SubResource("GradientTexture1D_vyu34")
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points") groups=["enemy"]]
+z_index = 5
 collision_layer = 4
 collision_mask = 0
 script = ExtResource("1_tlc7p")
@@ -129,6 +130,7 @@ process_material = ExtResource("3_xkx6m")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 rotation = 1.5708
+scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_l6ey1")
 frame_progress = 0.520781
 
@@ -175,6 +177,7 @@ health_component = NodePath("../HealthComponent")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_t7nkm")
+debug_color = Color(0.671657, 0.38673, 0.84344, 0.42)
 
 [node name="BehaviourTree" type="Node" parent="."]
 script = ExtResource("9_punxm")
@@ -187,7 +190,7 @@ script = ExtResource("11_sabhg")
 
 [node name="ConditionDistanceToPlayer" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour"]
 script = ExtResource("12_2c7tb")
-distance_threshold = 1600.0
+distance_threshold = 3200.0
 
 [node name="FlockingBehaviour" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour" instance=ExtResource("13_e8t1m")]
 
@@ -203,7 +206,7 @@ dot_product_minimum = 0.7
 
 [node name="ConditionCooldownComplete" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour/SucceederBehaviourTreeNode/ShootPlayerBehaviour"]
 script = ExtResource("13_kc1ka")
-cooldown = 0.5
+cooldown = 1.5
 
 [node name="ActionShoot" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour/SucceederBehaviourTreeNode/ShootPlayerBehaviour"]
 script = ExtResource("14_vlx6r")
@@ -211,10 +214,10 @@ script = ExtResource("14_vlx6r")
 [node name="ExploreBehaviour" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode"]
 script = ExtResource("11_sabhg")
 
+[node name="FlockingBehaviour" parent="BehaviourTree/PriorityBehaviourTreeNode/ExploreBehaviour" instance=ExtResource("13_e8t1m")]
+
 [node name="ActionExplore" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/ExploreBehaviour"]
 script = ExtResource("17_8u4by")
-
-[node name="FlockingBehaviour" parent="BehaviourTree/PriorityBehaviourTreeNode/ExploreBehaviour" instance=ExtResource("13_e8t1m")]
 
 [node name="Label" type="Label" parent="." node_paths=PackedStringArray("behaviour_tree")]
 offset_left = -56.0

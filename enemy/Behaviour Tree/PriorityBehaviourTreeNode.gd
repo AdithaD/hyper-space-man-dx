@@ -11,16 +11,16 @@ class_name PriorityBehaviourTreeNode
 var child_update_index := 0 
 
 ## Iterates through its children in node order until a child returns RUNNING or SUCCESS.
-func update(actor, blackboard) -> BehaviourState:
-	var i = 0
+func update(actor: Node, blackboard : BehaviourTreeBlackboard) -> BehaviourState:
+	var i := 0
 	while i < get_child_count():
-		var child = get_child(i) as BehaviourTreeNode
-		var child_result = child.update(actor, blackboard)
+		var child := get_child(i) as BehaviourTreeNode
+		var child_result := child.update(actor, blackboard)
 		
 		if not child_result == BehaviourState.FAILED:
 			# reset the later node that returned running last update
 			if child_update_index != i:
-				var last_running = get_child(child_update_index) as BehaviourTreeNode
+				var last_running := get_child(child_update_index) as BehaviourTreeNode
 				last_running.reset_state()
 			
 			child_update_index = i

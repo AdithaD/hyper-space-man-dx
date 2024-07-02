@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://djatwe46ey201"]
+[gd_scene load_steps=31 format=3 uid="uid://djatwe46ey201"]
 
 [ext_resource type="Script" path="res://player/mining_drone.gd" id="1_pbogc"]
 [ext_resource type="PackedScene" uid="uid://meqghk35mmsf" path="res://components/pickup_component.tscn" id="2_mat0r"]
@@ -10,8 +10,9 @@
 [ext_resource type="Script" path="res://gui/SegmentedProgressBar.gd" id="7_jyq82"]
 [ext_resource type="Texture2D" uid="uid://co8nv6fvqw7sg" path="res://gui/progress_bar_over.tres" id="8_7jnmf"]
 [ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="8_ut81t"]
+[ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="11_solgf"]
+[ext_resource type="PackedScene" uid="uid://dmsffwaoycujk" path="res://gui/mineral_inventory/mineral_inventory_item_gui_new.tscn" id="12_g7nmq"]
 [ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="12_ui8vi"]
-[ext_resource type="PackedScene" uid="uid://ckkl8j31heqfg" path="res://gui/mineral_inventory/mineral_inventory_item_gui_small.tscn" id="13_mib7h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u0cp8"]
 atlas = ExtResource("2_vl4ha")
@@ -121,18 +122,32 @@ offsets = PackedFloat32Array(0, 0.33, 0.66)
 colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0.97208, 0.765204, 0.365895, 1, 0.368333, 0.65, 0.325, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3cak3"]
-radius = 43.33
+radius = 72.0069
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jb41d"]
+particle_flag_disable_z = true
+emission_shape = 6
+emission_ring_axis = Vector3(0, 0, 1)
+emission_ring_height = 1.0
+emission_ring_radius = 128.0
+emission_ring_inner_radius = 112.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = -50.0
+radial_accel_max = -2.23517e-06
+scale_min = 4.0
+scale_max = 5.0
 
 [node name="MiningDrone" type="Node2D" groups=["mining_drone"]]
 position = Vector2(207, 144)
 script = ExtResource("1_pbogc")
 
 [node name="PickupComponent" parent="." instance=ExtResource("2_mat0r")]
+pickup_range = 256.0
 wait_time = 1.5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 rotation = 1.79594
-scale = Vector2(2, 2)
+scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_o5cgj")
 animation = &"active"
 frame_progress = 0.543447
@@ -211,18 +226,48 @@ shape = SubResource("CircleShape2D_3cak3")
 
 [node name="MineTickTimer" type="Timer" parent="."]
 
-[node name="MineralInventoryGUI" type="VBoxContainer" parent="."]
-anchors_preset = 1
-anchor_left = 1.0
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_jb41d")
+lifetime = 2.4
+
+[node name="Control2" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 113.0
+offset_top = -126.0
+offset_right = 369.0
+offset_bottom = 145.0
+theme = ExtResource("11_solgf")
+
+[node name="Panel" type="Panel" parent="Control2"]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
-offset_left = 69.0
-offset_top = -55.0
-offset_right = 220.0
-offset_bottom = 56.0
-grow_horizontal = 0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="MineralInventoryGUI" type="VBoxContainer" parent="Control2/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("11_solgf")
 theme_override_constants/separation = 8
 script = ExtResource("12_ui8vi")
-mineral_inventory_item_gui = ExtResource("13_mib7h")
+mineral_inventory_item_gui = ExtResource("12_g7nmq")
 
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="health_changed" from="HealthComponent" to="." method="_on_health_component_health_changed"]

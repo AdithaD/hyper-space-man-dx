@@ -252,9 +252,10 @@ repeat_size = Vector2(3840, 2156)
 scale = Vector2(2, 2)
 texture = ExtResource("3_7nbio")
 
-[node name="SolarSystemSpawner" type="Node2D" parent="World"]
+[node name="SolarSystemSpawner" type="Node2D" parent="World" node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
 script = ExtResource("4_xn4gs")
+player = NodePath("../../Player")
 solar_system_scene = ExtResource("5_jmuo8")
 grid_size = 5000
 min_distance = 24000

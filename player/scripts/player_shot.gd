@@ -2,17 +2,17 @@ extends Node2D
 
 @export var target: Vector2
 @export var speed: float = 900.0
-@export var acceleration = 1000.0
-@export var lifetime = 10.0
+@export var acceleration : float= 1000.0
+@export var lifetime : float = 10.0
 
 var dir: Vector2
 var inherited_velocity: Vector2 = Vector2.ZERO;
 var local_speed: float = 0.0;
 
 var player: Player
-var _timer = 0.0
+var _timer : float = 0.0
 
-func set_target(new_target: Vector2):
+func set_target(new_target: Vector2) -> void:
 	target = new_target
 	dir = global_position.direction_to(target)
 	look_at(target)

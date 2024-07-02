@@ -18,5 +18,5 @@ func get_tier_value(tier: int) -> float:
 	else:
 		return - 1
 
-func get_max_tier():
+func get_max_tier() -> int:
 	return min(tier_costs.size(), tier_values.size() - 1)

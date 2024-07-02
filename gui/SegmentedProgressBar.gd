@@ -17,16 +17,16 @@ extends Control
 		value = v
 		queue_redraw()
 
-func set_ratio(ratio):
+func set_ratio(ratio: float) -> void:
 	value = ceili(ratio * segments)
 
 func _draw() -> void:
-	var segment_width = (size.x - (separation * (segments - 1))) / segments
+	var segment_width := (size.x - (separation * (segments - 1))) / segments
 	
 	for i in range(value):
 		var x := floori(i * (segment_width + separation))
 		
-		var colour = segment_color
+		var colour := segment_color
 		if segment_color_gradient:
 			colour = segment_color_gradient.sample(value / float(segments))
 		

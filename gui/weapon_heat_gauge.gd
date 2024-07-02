@@ -9,5 +9,5 @@ func set_overheat_mode(is_overheated: bool) -> void:
 	$SegmentedProgressBar.segment_color_gradient = cooling_off_gradient if is_overheated else default_gradient
 	$SegmentedProgressBar/CoolingOffLabel.visible = is_overheated
 	
-func set_ratio(ratio):
+func set_ratio(ratio : float) -> void:
 	$SegmentedProgressBar.set_ratio(ratio)

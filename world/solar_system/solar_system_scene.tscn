@@ -1,12 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://btum3xqjlqyh7"]
+[gd_scene load_steps=12 format=3 uid="uid://btum3xqjlqyh7"]
 
 [ext_resource type="Script" path="res://world/solar_system/solar_system.gd" id="1_srxdv"]
-[ext_resource type="SpriteFrames" uid="uid://drsm548k06lkv" path="res://world/solar_system/planets/sprites/planet00_frames.tres" id="2_b54y6"]
-[ext_resource type="SpriteFrames" uid="uid://bab5sbpbrbgx5" path="res://world/solar_system/sun/sprites/sun_frames.tres" id="2_lm18m"]
 [ext_resource type="PackedScene" uid="uid://brofvfdbhyl6j" path="res://world/solar_system/planet.tscn" id="4_gk7i6"]
+[ext_resource type="SpriteFrames" uid="uid://bp88mijvan4ij" path="res://world/solar_system/planets/sprites/planet01_frames.tres" id="4_n4gf7"]
+[ext_resource type="SpriteFrames" uid="uid://bc5siqp4shd0i" path="res://world/solar_system/planets/sprites/planet02_frames.tres" id="5_bsth3"]
 [ext_resource type="PackedScene" uid="uid://cogv3mc3fag88" path="res://world/solar_system/sun.tscn" id="5_nj5xh"]
 [ext_resource type="PackedScene" uid="uid://cupg2res6b0ac" path="res://enemy/enemy.tscn" id="6_elpo5"]
 [ext_resource type="PackedScene" uid="uid://bi7sudnr12ic4" path="res://world/space_station/space_station.tscn" id="6_ntkm8"]
+[ext_resource type="SpriteFrames" uid="uid://ccy5q86cl0uq4" path="res://world/solar_system/planets/sprites/planet03_frames.tres" id="6_pvxdw"]
+[ext_resource type="SpriteFrames" uid="uid://cob0mf7ixknya" path="res://world/solar_system/sun/sprites/sun01_frames.tres" id="7_2fp0d"]
 [ext_resource type="PackedScene" uid="uid://qs6pc3sk1exf" path="res://world/space_station/space_station_health.tscn" id="8_dnqti"]
 
 [sub_resource type="Curve" id="Curve_v5175"]
@@ -17,7 +19,7 @@ point_count = 2
 [node name="SolarSystem" type="Node2D"]
 script = ExtResource("1_srxdv")
 planet_scene = ExtResource("4_gk7i6")
-planet_sprites = Array[SpriteFrames]([ExtResource("2_b54y6")])
+planet_sprites = Array[SpriteFrames]([ExtResource("4_n4gf7"), ExtResource("5_bsth3"), ExtResource("6_pvxdw")])
 planet_width = 1024
 planet_min_scale = 1.5
 planet_max_scale = 2.0
@@ -25,7 +27,7 @@ planet_randomness = 0.1
 planet_minerals_mean = 100.0
 planet_minerals_randomness = 0.2
 sun_scene = ExtResource("5_nj5xh")
-sun_sprites = Array[SpriteFrames]([ExtResource("2_lm18m")])
+sun_sprites = Array[SpriteFrames]([ExtResource("7_2fp0d")])
 sun_width = 2048
 sun_min_scale = 4.0
 sun_max_scale = 5.0

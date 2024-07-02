@@ -9,7 +9,7 @@ func _ready() -> void:
 
 ## This function should update the actor's state or queue effects to the game world.
 ## This is to be overidden by an inherited class.
-func update(_actor, _blackboard: BehaviourTreeBlackboard) -> BehaviourState:
+func update(_actor: Node, _blackboard: BehaviourTreeBlackboard) -> BehaviourState:
 	# call a member function of the actor
 	return BehaviourState.SUCCESS
 

@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://co707vh38ja5g"]
+
+[ext_resource type="Texture2D" uid="uid://4oeujpwfcicb" path="res://gui/item_list_selected_style.png" id="1_itwwe"]
+
+[resource]
+content_margin_left = 8.0
+content_margin_right = 8.0
+texture = ExtResource("1_itwwe")
+texture_margin_left = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 4.0

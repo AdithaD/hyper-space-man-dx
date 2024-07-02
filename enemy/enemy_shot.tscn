@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://cg87houwcn0uk"]
 
-[ext_resource type="Script" path="res://player/scripts/player_shot.gd" id="1_411od"]
-[ext_resource type="Texture2D" uid="uid://dmqbq6pgfmkqn" path="res://player/player_laser_shot.png" id="2_cdn5i"]
+[ext_resource type="Script" path="res://enemy/enemy_shot.gd" id="1_ec2os"]
+[ext_resource type="Texture2D" uid="uid://xs4h14g5ixob" path="res://enemy/enemy_laser_shot.png" id="2_vppiq"]
 [ext_resource type="PackedScene" uid="uid://0bdiug3nq1yh" path="res://components/hitbox_component.tscn" id="3_uuivf"]
 [ext_resource type="AudioStream" uid="uid://ii5evbgbomm0" path="res://player/sounds/flying_shot.wav" id="4_xfngd"]
 
@@ -35,20 +35,18 @@ scale_curve = SubResource("CurveTexture_xyoix")
 color_ramp = SubResource("GradientTexture1D_xo312")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8sm32"]
-size = Vector2(20, 12)
+size = Vector2(40, 28)
 
 [node name="Shot" type="Node2D"]
-script = ExtResource("1_411od")
-speed = 1200.0
-acceleration = 3000.0
+script = ExtResource("1_ec2os")
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
 amount = 16
 process_material = SubResource("ParticleProcessMaterial_iv0r1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0.07, 0.07, 1)
-texture = ExtResource("2_cdn5i")
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_vppiq")
 
 [node name="Hitbox" parent="." instance=ExtResource("3_uuivf")]
 collision_layer = 4

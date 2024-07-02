@@ -5,7 +5,7 @@ const MINERAL_INVENTORY_ITEM_GUI = preload ("res://gui/mineral_inventory/mineral
 @export var mineral_inventory: MineralInventory: set = set_mineral_inventory
 @export var mineral_inventory_item_gui: PackedScene = MINERAL_INVENTORY_ITEM_GUI
 
-var mineral_to_child_map = {}
+var mineral_to_child_map := {}
 
 func _ready() -> void:
 	if mineral_inventory:
@@ -21,12 +21,12 @@ func set_mineral_inventory(value: MineralInventory) -> void:
 	
 	mineral_inventory.mineral_modified.connect(_on_mineral_modified)
 		
-func update():
+func update() -> void:
 	for child in get_children():
 		child.queue_free()
 	
 	for m in mineral_inventory.get_minerals():
-		var item_gui = mineral_inventory_item_gui.instantiate()
+		var item_gui : MineralInventoryItemGUI = mineral_inventory_item_gui.instantiate()
 		item_gui.set_mineral(m)
 		item_gui.update(mineral_inventory.get_amount(m))
 		
@@ -35,7 +35,7 @@ func update():
 		add_child(item_gui)
 		
 func _on_mineral_modified(mineral: Mineral, new_amount: int) -> void:
-	var child = mineral_to_child_map.get(mineral)
+	var child : MineralInventoryItemGUI = mineral_to_child_map.get(mineral)
 	if child:
 		child.update(new_amount)
 	else:

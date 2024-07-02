@@ -1,8 +1,8 @@
 extends AnimatedSprite2D
 
-@export var rotation_speed : float
+@export var rotation_speed : float = 1.0
 
-@export var rotation_enabled = true
+@export var rotation_enabled : bool = true
 
 func _physics_process(delta: float) -> void:
 	if rotation_enabled:

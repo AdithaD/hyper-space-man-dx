@@ -2,7 +2,7 @@ extends Control
 
 @export var player: Player
 
-@export var enemy_detection_range = 1000.0
+@export var enemy_detection_range := 1000.0
 
 @export var marker_size: float = 32
 @export var padding: float = 32
@@ -11,12 +11,14 @@ func _physics_process(_delta: float) -> void:
 	queue_redraw()
 
 func _draw() -> void:
-	var enemies = get_tree().get_nodes_in_group("enemy") \
-			.filter(func(x):
+	var enemies : Array[Enemy] = []
+	
+	enemies.assign(get_tree().get_nodes_in_group("enemy") \
+			.filter(func(x : Node2D) -> bool:
 				return player.global_position.distance_to(x.global_position) < enemy_detection_range) \
-			.filter(func(x):
+			.filter(func(x : Node2D) -> bool:
 				return not is_on_screen(x.global_position)) \
-			.filter(func(x): return not x.is_dead)
+			.filter(func(x : Node2D) -> bool: return not x.is_dead))
 			
 	for en in enemies:
 		draw_vec(en.global_position, Color.RED)
@@ -25,27 +27,27 @@ func _draw() -> void:
 		if not is_on_screen(mining_drone.global_position):
 			draw_vec(mining_drone.global_position, Color.GREEN)
 
-func draw_vec(location: Vector2, color: Color):
-	var vec = player.global_position.direction_to(location)
-	var x0 = size.x / 2
-	var y0 = size.y / 2
+func draw_vec(location: Vector2, color: Color) -> void:
+	var vec := player.global_position.direction_to(location)
+	var x0 := size.x / 2
+	var y0 := size.y / 2
 	
-	var x1 = padding
-	var y1 = size.y - padding
+	var x1 := padding
+	var y1 := size.y - padding
 	
-	var x2 = size.x - padding
-	var y2 = padding
+	var x2 := size.x - padding
+	var y2 := padding
 	
-	var vx = vec.x
-	var vy = vec.y
+	var vx := vec.x
+	var vy := vec.y
 	
-	var ex = x2 if vx > 0 else x1
-	var ey = y1 if vy > 0 else y2
+	var ex := x2 if vx > 0 else x1
+	var ey := y1 if vy > 0 else y2
 	#prints("E:", ex, ey)
-	var cx = 0
-	var cy = 0
+	var cx := 0
+	var cy := 0
 	
-	var angle = 0
+	var angle := 0.0
 	if is_zero_approx(vx):
 		cx = x0
 		cy = ey
@@ -54,8 +56,8 @@ func draw_vec(location: Vector2, color: Color):
 		cy = y0
 	else:
 		# general case
-		var tx = (ex - x0) / vx
-		var ty = (ey - y0) / vy
+		var tx := (ex - x0) / vx
+		var ty := (ey - y0) / vy
 		#prints("T:", tx, ty)
 		if tx <= ty:
 			cx = ex
@@ -67,7 +69,7 @@ func draw_vec(location: Vector2, color: Color):
 			angle = PI / 2 if vy > 0 else - PI / 2
 							
 	#prints("C:", cx, cy)
-	var size_mult = 1 - ((player.global_position.distance_to(location) - Vector2(cx, cy).length()) / enemy_detection_range) * 0.6
+	var size_mult := 1 - ((player.global_position.distance_to(location) - Vector2(cx, cy).length()) / enemy_detection_range) * 0.6
 	draw_set_transform(Vector2(cx, cy), angle, Vector2.ONE * marker_size * size_mult)
 	draw_polygon(_get_triangle_points(), _get_triangle_colours(color))
 

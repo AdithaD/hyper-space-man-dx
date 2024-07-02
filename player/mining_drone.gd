@@ -8,11 +8,11 @@ signal harvested(assortment: Dictionary)
 
 @export var maximum_storage: int = 3000
 
-@export var pickup_radius = 100
+@export var pickup_radius := 100.0
 
-var is_broken = false
+var is_broken := false
 
-var interact_area:
+var interact_area: PlayerInteractArea:
 	get:
 		return $PlayerInteractArea
 
@@ -25,15 +25,16 @@ var mine_target: SolarObject
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var pickup_component: PickupComponent = $PickupComponent
 @onready var mine_tick_timer: Timer = $MineTickTimer
+@onready var mineral_inventory_gui: VBoxContainer = %MineralInventoryGUI
 
 func _ready() -> void:
 	activate()
 	
-	$MineralInventoryGUI.set_mineral_inventory(mineral_inventory)
+	mineral_inventory_gui.set_mineral_inventory(mineral_inventory)
 	pickup_component.connect_to_pickup(pickup.emit)
 	mine_tick_timer.timeout.connect(do_mine_tick)
 
-func activate():
+func activate() -> void:
 	sprite.rotation_enabled = false
 	sprite.play("startup")
 	
@@ -43,18 +44,18 @@ func activate():
 	sprite.rotation_enabled = true
 	mine_tick_timer.start()
 
-func deactivate():
+func deactivate() -> void:
 	mine_tick_timer.stop()
 	sprite.rotation_enabled = false
 	sprite.stop()
 
-func do_mine_tick():
+func do_mine_tick() -> void:
 	# get assortment
-	var assortment = mine_target.mineral_inventory.generate_assortment(harvest_rate)
+	var assortment := mine_target.mineral_inventory.generate_assortment(harvest_rate)
 
-	for mineral in assortment.keys():
-		var amount = assortment[mineral]
-		var total = mineral_inventory.get_total_minerals()
+	for mineral : Mineral in assortment.keys():
+		var amount : int = assortment[mineral]
+		var total := mineral_inventory.get_total_minerals()
 		if total + amount > maximum_storage:
 			amount = maximum_storage - total
 
@@ -79,5 +80,5 @@ func _on_health_component_health_changed(_amount: int, health: int, maximum_heal
 	%HealthBar.segments = maximum_health
 	%HealthBar.value = health
 
-func set_mine_target(target: SolarObject):
+func set_mine_target(target: SolarObject) -> void:
 	mine_target = target

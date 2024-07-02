@@ -29,7 +29,7 @@ func _on_player_heat_changed(_new_amount: int, ratio: float) -> void:
 	%WeaponHeatGauge.set_overheat_mode(player.is_overheated)
 
 func _physics_process(_delta: float) -> void:
-	var speed_ratio = player.velocity.length() / player.max_speed
+	var speed_ratio := player.velocity.length() / player.max_speed
 	%SpeedBar.value = speed_ratio * 100
 	%SpeedLabel.text = str(format_amount(player.velocity.length()))
 	
@@ -44,24 +44,23 @@ func _physics_process(_delta: float) -> void:
 		if $WarningSound.playing:
 			$WarningSound.stop()
 
-func _on_player_health_changed(_amount, health, maximum_health):
+func _on_player_health_changed(_amount : int, health : int, maximum_health : int) -> void:
 	%HullBar.segments = maximum_health
 	%HullBar.value = health
 	%HullBar.queue_redraw()
 
-func _unhandled_key_input(event):
+func _unhandled_key_input(event : InputEvent) -> void:
 	if event.is_action_released("toggle_upgrade_screen"):
 		$UpgradeScreen.visible = not $UpgradeScreen.visible
 		player.has_control = not $UpgradeScreen.visible
 
 func format_amount(amount : int) -> String:
-	var pow = log(amount) / log(10)
-	var suffix = ""
+	var pow := log(amount) / log(10)
+	var suffix := ""
 	if pow >= 3:
 		suffix = "K"
 	elif pow >= 6:
 		suffix = "M"
 	
-	var quotient = amount if pow < 3 else amount / pow(10, floori(pow/3) * 3)
-	prints(amount, pow, quotient)
+	var quotient : float = amount if pow < 3 else amount / pow(10, floori(pow/3) * 3)
 	return ("%.1f%s" if pow > 3 else "%.0f%s") % [quotient, suffix]

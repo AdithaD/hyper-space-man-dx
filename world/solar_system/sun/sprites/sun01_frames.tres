@@ -1,0 +1,48 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://cob0mf7ixknya"]
+
+[ext_resource type="Texture2D" uid="uid://0wcu0kwk1ksw" path="res://world/solar_system/planets/sprites/debris_sheet.png" id="1_vapl2"]
+[ext_resource type="Texture2D" uid="uid://b1bkg7ewt5iqa" path="res://world/solar_system/sun/sprites/sun01-sheet.png" id="2_h1uif"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m5y4g"]
+atlas = ExtResource("1_vapl2")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u1tj2"]
+atlas = ExtResource("1_vapl2")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhg8o"]
+atlas = ExtResource("1_vapl2")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mffop"]
+atlas = ExtResource("1_vapl2")
+region = Rect2(384, 0, 128, 128)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m5y4g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u1tj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhg8o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mffop")
+}],
+"loop": true,
+"name": &"debris",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_h1uif")
+}],
+"loop": true,
+"name": &"rotate",
+"speed": 1.0
+}]
