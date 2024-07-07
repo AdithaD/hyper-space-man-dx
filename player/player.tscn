@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_utgdb"]
 [ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="2_4i6i5"]
-[ext_resource type="Material" uid="uid://c1nu5ip1icxal" path="res://player/engine_particle_process_material.tres" id="2_i7ooq"]
 [ext_resource type="Script" path="res://player/scripts/ship_engine.gd" id="2_sgfqe"]
 [ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="3_rxdoq"]
 [ext_resource type="Script" path="res://player/scripts/player_weapon.gd" id="3_yws57"]
@@ -34,6 +33,7 @@
 [ext_resource type="AudioStream" uid="uid://cw2qqjg7kfm2f" path="res://player/sounds/cant_shoot.wav" id="15_4ql6b"]
 [ext_resource type="AudioStream" uid="uid://c0yg8vfuff303" path="res://player/sounds/lock_acquire.wav" id="15_qxkc8"]
 [ext_resource type="Script" path="res://player/mining_interactor.gd" id="18_byx4j"]
+[ext_resource type="Material" uid="uid://bktlh6igigio5" path="res://player/engine_particles.tres" id="21_elfmq"]
 [ext_resource type="AudioStream" uid="uid://cjqt1rs4f5r6p" path="res://player/switch_weapon_sound.wav" id="35_el5xx"]
 
 [sub_resource type="Resource" id="Resource_84uqs"]
@@ -116,16 +116,17 @@ script = ExtResource("6_la5jd")
 ray_color = Color(0.388235, 0.780392, 0.301961, 1)
 ray_width = 16
 ray_length = 64.0
+default_duration = 0.1
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
-position = Vector2(-21, 12)
+position = Vector2(-48, 16)
 amount = 16
-process_material = ExtResource("2_i7ooq")
+process_material = ExtResource("21_elfmq")
 
 [node name="EngineParticles2" type="GPUParticles2D" parent="."]
-position = Vector2(-21, -12)
+position = Vector2(-48, -8)
 amount = 16
-process_material = ExtResource("2_i7ooq")
+process_material = ExtResource("21_elfmq")
 
 [node name="Player" type="Sprite2D" parent="."]
 rotation = 1.5708

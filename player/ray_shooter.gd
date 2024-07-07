@@ -3,6 +3,7 @@ extends Node2D
 @export var ray_color: Color
 @export var ray_width: int = 4
 @export var ray_length: float = 16
+@export var default_duration := 0.4
 
 class Ray:
 	var origin: Vector2
@@ -27,14 +28,13 @@ class Ray:
 var rays: Array[Ray] = []
 
 func _process(_delta: float) -> void:
-	if not rays.is_empty():
-		queue_redraw()
+	queue_redraw()
 
 func _draw() -> void:
 	for ray in rays:
 		ray.draw(self, ray_length, ray_color, ray_width)
 
-func shoot_ray(origin: Vector2, destination: Vector2, duration: float=0.6) -> void:
+func shoot_ray(origin: Vector2, destination: Vector2, duration: float = default_duration) -> void:
 	var new_ray := Ray.new(origin, destination)
 	rays.append(new_ray)
 

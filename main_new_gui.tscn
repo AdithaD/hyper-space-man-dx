@@ -195,8 +195,8 @@ scroll_scale = Vector2(0.13, 0.13)
 repeat_size = Vector2(1920, 1080)
 repeat_times = 7
 
-[node name="Sprite2D" type="Sprite2D" parent="World/Parallax2D2"]
-texture = ExtResource("4_rg3fd")
+[node name="Sprite2D2" type="Sprite2D" parent="World/Parallax2D2"]
+texture = ExtResource("5_x37fm")
 
 [node name="Parallax2D3" type="Parallax2D" parent="World"]
 scroll_scale = Vector2(0.18, 0.18)
@@ -204,14 +204,14 @@ repeat_size = Vector2(1920, 1080)
 repeat_times = 7
 
 [node name="Sprite2D" type="Sprite2D" parent="World/Parallax2D3"]
-texture = ExtResource("5_x37fm")
+texture = ExtResource("4_rg3fd")
 
 [node name="SolarSystemSpawner" type="Node2D" parent="World" node_paths=PackedStringArray("player")]
 unique_name_in_owner = true
 script = ExtResource("4_w3ij2")
 player = NodePath("../../Player")
 solar_system_scene = ExtResource("5_7bfjq")
-grid_size = 5000
+grid_size = 10000
 min_distance = 24000
 max_distance = 64000
 min_planets = 5
@@ -420,6 +420,7 @@ script = ExtResource("29_6qsuj")
 
 [node name="TradePrompt" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts/Prompt"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -733,6 +734,7 @@ player = NodePath("../../../Player")
 crosshair_texture = ExtResource("32_2dtma")
 
 [node name="UpgradeScreen" type="Control" parent="CanvasLayer/GUI"]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

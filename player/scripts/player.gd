@@ -232,7 +232,7 @@ func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> v
 	
 	var collision: Dictionary = dss.intersect_ray(query)
 
-	$RayShooter.shoot_ray(origin, destination, 0.3)
+	$RayShooter.shoot_ray(origin, destination)
 	if collision:
 		var hurtbox := collision.collider as HurtboxComponent
 		hurtbox.take_damage(weapon.weapon_damage)

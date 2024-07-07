@@ -9,7 +9,7 @@ min_animation_speed = 1.0
 max_animation_speed = 1.5
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-scale = Vector2(2, 2)
+scale = Vector2(4, 4)
 
 [node name="PlayerInteractArea" parent="." instance=ExtResource("2_6rejd")]
 
