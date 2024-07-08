@@ -1,7 +1,7 @@
 class_name SpaceStation
 extends Node2D
 
-@export var cost_per_unit: float = 10
+@export var cost_per_unit: int = 10
 @export var cost_mineral: Mineral
 
 @export var prompt := "Trade_per unit fuel"
@@ -24,7 +24,7 @@ func fill(player: Player) -> void:
 	if difference > 0:
 		var cost := difference * cost_per_unit
 		
-		if player.mineral_inventory.has_amount(cost_mineral, cost) and cost > 0:
+		if player.mineral_inventory.has_amount(cost_mineral, cost) and cost > 0.0:
 			player.mineral_inventory.remove_amount(cost_mineral, cost)
 			player.ship_engine.fill()
 		

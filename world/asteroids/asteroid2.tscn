@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://ce7hfynshsjjy"]
+
+[ext_resource type="PackedScene" uid="uid://b1dn5dll7bbep" path="res://world/asteroids/asteroid_base.tscn" id="1_ocjca"]
+[ext_resource type="Texture2D" uid="uid://b7p3bd1luxkbj" path="res://world/asteroids/asteroids.png" id="1_rs3no"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pv8yi"]
+atlas = ExtResource("1_rs3no")
+region = Rect2(64, 0, 64, 64)
+
+[node name="Asteroid" instance=ExtResource("1_ocjca")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = SubResource("AtlasTexture_pv8yi")
+
+[node name="CollisionPolygon2D" parent="." index="1"]
+polygon = PackedVector2Array(24, -120, 168, -80, 208, 0, 88, 144, -48, 88, -192, 72, -224, 24, -192, -32, -136, -24, -64, -112)
+
+[node name="CollisionPolygon2D" parent="HitboxComponent" index="0"]
+polygon = PackedVector2Array(-152, -48, -56, -136, 56, -144, 192, -88, 232, -8, 96, 160, 40, 160, -56, 112, -208, 88, -248, 16, -192, -64)
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent" index="2"]
+polygon = PackedVector2Array(-152, -48, -56, -136, 56, -144, 192, -88, 232, -8, 96, 160, 40, 160, -56, 112, -208, 88, -248, 16, -192, -64)

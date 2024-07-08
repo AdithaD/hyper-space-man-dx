@@ -7,6 +7,13 @@ signal mining_drone_created(mining_drone: MiningDrone)
 @export var gravitational_constant : float = 10000000
 @export var maximum_gravity : float = 40.0
 
+@export var item_pickup_scene : PackedScene
+@export var player : Player
+@export var player_speed_spawn_cutoff := 100000
+@onready var solar_system_spawner: SolarSystemSpawner = %SolarSystemSpawner
+func _process(delta: float) -> void:
+	solar_system_spawner.active = player.velocity.length() < player_speed_spawn_cutoff
+
 func get_gravity(origin: Vector2) -> Vector2:
 	return get_tree().get_nodes_in_group("gravitator") \
 		.filter(func(node: Node2D) -> bool: return node.global_position.distance_to(origin) < gravity_cutoff) \
@@ -21,8 +28,15 @@ func add_mining_drone(mining_drone: MiningDrone) -> void:
 	add_child(mining_drone)
 	mining_drone_created.emit(mining_drone)
 
+func spawn_mineral_pickup(location : Vector2, mineral : Mineral, amount : int) -> void:
+	var instance := item_pickup_scene.instantiate()
+	instance.global_position = location
+	instance.mineral = mineral
+	instance.amount = amount
+	call_deferred("add_child", instance)
+
 func configure_player(player: Player) -> void:
 	$SolarSystemSpawner.solar_system_spawned.connect(player.mining_interactor._on_solar_system_spawner_solar_system_spawned)
-	
+
 func start() -> void:
 	$SolarSystemSpawner.start_spawn()

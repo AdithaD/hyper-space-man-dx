@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://tyxjmooe1q3k"]
+
+[ext_resource type="Script" path="res://world/item_pickup.gd" id="1_ylfkw"]
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://minerals/mineral_meteorite.tres" id="2_a7pek"]
+[ext_resource type="Texture2D" uid="uid://dh7hluajqlsqh" path="res://minerals/mineral_meteorite_icon.tres" id="3_ibud2"]
+[ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="4_0s2ki"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3cp4v"]
+radius = 64.0
+
+[node name="ItemPickup" type="Node2D"]
+position = Vector2(64, -192)
+script = ExtResource("1_ylfkw")
+mineral = ExtResource("2_a7pek")
+amount = 10
+circle_color = Color(0.388235, 0.780392, 0.301961, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(8, 8)
+texture = ExtResource("3_ibud2")
+region_rect = Rect2(-1, -1, 10, 10)
+
+[node name="PlayerInteractArea" parent="." instance=ExtResource("4_0s2ki")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractArea"]
+shape = SubResource("CircleShape2D_3cp4v")
+
+[connection signal="player_entered" from="PlayerInteractArea" to="." method="_on_player_interact_area_player_entered"]

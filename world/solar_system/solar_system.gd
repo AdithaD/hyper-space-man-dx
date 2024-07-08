@@ -65,6 +65,8 @@ func init(number_of_planets : int, p_spread : float, p_sun_name : String) -> voi
 	spawn_sun()
 	
 	spawn_space_station(sun.global_position)
+	
+	$AsteroidBelt._generate()
 		
 	for x in range(0, number_of_planets):
 		spawn_planet()

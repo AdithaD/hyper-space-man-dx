@@ -5,7 +5,7 @@ extends ActionBehaviourTreeNode
 
 @export var force : float = 500.0
 
-func update(actor: Node, blackboard: BehaviourTreeBlackboard) -> BehaviourState:
+func update(actor: Node, _blackboard: BehaviourTreeBlackboard) -> BehaviourState:
 	var _actor := actor as Enemy
 	var enemies_in_range := _actor.enemy_group.filter(func(x: Enemy) -> bool: return x != actor \
 			and _actor.global_position.distance_to(x.global_position) < maximum_coherence_range \

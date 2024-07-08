@@ -31,7 +31,7 @@ theme_override_constants/separation = 16
 
 [node name="UpgradeItemList" type="VBoxContainer" parent="HBoxContainer"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(512, 0)
+custom_minimum_size = Vector2(384, 0)
 layout_mode = 2
 size_flags_vertical = 4
 script = ExtResource("8_usqx8")

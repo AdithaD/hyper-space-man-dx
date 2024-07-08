@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=8 format=3 uid="uid://4mitebny6twt"]
+
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="1_20w6w"]
+[ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_sdrga"]
+[ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://minerals/mineral_forged_carbon_fiber.tres" id="3_fe28a"]
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://minerals/mineral_meteorite.tres" id="4_qdn3f"]
+
+[sub_resource type="Resource" id="Resource_3xxhk"]
+script = ExtResource("2_sdrga")
+starting_inventory = {
+ExtResource("3_fe28a"): 5000
+}
+
+[sub_resource type="Resource" id="Resource_w60ae"]
+script = ExtResource("2_sdrga")
+starting_inventory = {
+ExtResource("3_fe28a"): 20000,
+ExtResource("4_qdn3f"): 100
+}
+
+[sub_resource type="Resource" id="Resource_wpdq5"]
+script = ExtResource("2_sdrga")
+starting_inventory = {
+ExtResource("3_fe28a"): 50000,
+ExtResource("4_qdn3f"): 1000
+}
+
+[resource]
+script = ExtResource("1_20w6w")
+upgrade_id = &"hull"
+upgrade_name = "Hull Plating"
+tier_costs = Array[ExtResource("2_sdrga")]([SubResource("Resource_3xxhk"), SubResource("Resource_w60ae"), SubResource("Resource_wpdq5")])
+tier_values = Array[float]([10.0, 20.0, 40.0, 80.0])

@@ -1,12 +1,16 @@
 class_name GlobalFormat
 
 static func format_amount(amount : int) -> String:
-	var pow := log(amount) / log(10)
+	var power := floori(log(amount) / log(1000))
 	var suffix := ""
-	if pow >= 3:
+	if power == 1:
+		var quotient : float = amount / pow(10, 3)
 		suffix = "K"
-	elif pow >= 6:
+		return "%.1f%s"% [quotient, suffix]
+	elif power == 2:
+		var quotient : float = amount / pow(10, 6)
 		suffix = "M"
-	
-	var quotient : float = amount if pow < 3 else amount / pow(10, floori(pow/3) * 3)
-	return ("%.1f%s" if pow > 3 else "%.0f%s") % [quotient, suffix]
+		return "%.0f%s" % [quotient, suffix]
+	else:
+		return "%.0f" % amount
+	prints("power:", power)

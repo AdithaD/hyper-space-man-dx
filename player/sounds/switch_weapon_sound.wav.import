@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cjqt1rs4f5r6p"
-path="res://.godot/imported/switch_weapon_sound.wav-879d1c92baf999a98c668b966e18931c.sample"
+path="res://.godot/imported/switch_weapon_sound.wav-8e39d2ef99fda21898e1a4e05491ade9.sample"
 
 [deps]
 
-source_file="res://player/switch_weapon_sound.wav"
-dest_files=["res://.godot/imported/switch_weapon_sound.wav-879d1c92baf999a98c668b966e18931c.sample"]
+source_file="res://player/sounds/switch_weapon_sound.wav"
+dest_files=["res://.godot/imported/switch_weapon_sound.wav-8e39d2ef99fda21898e1a4e05491ade9.sample"]
 
 [params]
 

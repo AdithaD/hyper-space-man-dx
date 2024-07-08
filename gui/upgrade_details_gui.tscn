@@ -1,17 +1,27 @@
-[gd_scene load_steps=8 format=3 uid="uid://cstly2aocvviu"]
+[gd_scene load_steps=11 format=3 uid="uid://cstly2aocvviu"]
 
 [ext_resource type="Script" path="res://gui/upgrade_details_gui.gd" id="1_j1t7b"]
 [ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="1_yq2fy"]
 [ext_resource type="Texture2D" uid="uid://b48up1slyjnnv" path="res://gui/item_list_large_style.png" id="2_f8gfh"]
 [ext_resource type="Texture2D" uid="uid://ccmxjk5x0uyu5" path="res://gui/arrow.png" id="3_68ac3"]
 [ext_resource type="PackedScene" uid="uid://cbluksrlr5gxw" path="res://gui/mineral_cost_item.tscn" id="5_vptmq"]
+[ext_resource type="AudioStream" uid="uid://lap64fyxkbwl" path="res://player/sounds/upgrade_sound.wav" id="6_tgefn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ityno"]
 font_size = 72
 font_color = Color(0.172549, 0.909804, 0.960784, 1)
+shadow_size = 24
+shadow_color = Color(0.0971, 0.081, 0.15, 0.901961)
 
 [sub_resource type="LabelSettings" id="LabelSettings_v7y7n"]
-font_size = 80
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_b31it"]
+font_size = 64
+
+[sub_resource type="LabelSettings" id="LabelSettings_fvs6o"]
+font_size = 64
+font_color = Color(0.388235, 0.780392, 0.301961, 1)
 
 [node name="UpgradeDetailsGUI" type="VBoxContainer"]
 offset_right = 448.0
@@ -34,13 +44,6 @@ label_settings = SubResource("LabelSettings_ityno")
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="UpgradeLevelLabel" type="Label" parent="VBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "1 > 2"
-label_settings = SubResource("LabelSettings_v7y7n")
-horizontal_alignment = 1
-
 [node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer"]
 modulate = Color(0.0705882, 0.305882, 0.537255, 1)
 layout_mode = 2
@@ -50,8 +53,22 @@ patch_margin_left = 16
 patch_margin_right = 16
 patch_margin_bottom = 16
 
-[node name="UpgradeValueContainer" type="HBoxContainer" parent="."]
+[node name="Control" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
+
+[node name="UpgradeLevelLabel" type="Label" parent="VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "1 > 2"
+label_settings = SubResource("LabelSettings_v7y7n")
+horizontal_alignment = 1
+
+[node name="UpgradeValueContainer" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 16
 
 [node name="FromValueLabel" type="Label" parent="UpgradeValueContainer"]
 unique_name_in_owner = true
@@ -59,8 +76,8 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "3.3k"
-label_settings = SubResource("LabelSettings_v7y7n")
-horizontal_alignment = 1
+label_settings = SubResource("LabelSettings_b31it")
+horizontal_alignment = 2
 vertical_alignment = 3
 
 [node name="Control" type="Control" parent="UpgradeValueContainer"]
@@ -91,8 +108,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 5
 text = "3.3k"
-label_settings = SubResource("LabelSettings_v7y7n")
-horizontal_alignment = 1
+label_settings = SubResource("LabelSettings_fvs6o")
 vertical_alignment = 3
 
 [node name="MineralCostList" type="HBoxContainer" parent="."]
@@ -115,5 +131,9 @@ unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "UPGRADE"
+
+[node name="UpgradeSound" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("6_tgefn")
 
 [connection signal="pressed" from="UpgradeButton" to="." method="_on_upgrade_button_pressed"]

@@ -31,7 +31,7 @@ func _on_player_heat_changed(_new_amount: int, ratio: float) -> void:
 func _physics_process(_delta: float) -> void:
 	var speed_ratio := player.velocity.length() / player.max_speed
 	%SpeedBar.value = speed_ratio * 100
-	%SpeedLabel.text = str(format_amount(player.velocity.length()))
+	%SpeedLabel.text = str(GlobalFormat.format_amount(floori(player.velocity.length())))
 	
 	%OverspeedCautionLabel.visible = player.is_overspeed
 	%DestructionTimerLabel.visible = player.is_overspeed
@@ -53,14 +53,3 @@ func _unhandled_key_input(event : InputEvent) -> void:
 	if event.is_action_released("toggle_upgrade_screen"):
 		$UpgradeScreen.visible = not $UpgradeScreen.visible
 		player.has_control = not $UpgradeScreen.visible
-
-func format_amount(amount : int) -> String:
-	var pow := log(amount) / log(10)
-	var suffix := ""
-	if pow >= 3:
-		suffix = "K"
-	elif pow >= 6:
-		suffix = "M"
-	
-	var quotient : float = amount if pow < 3 else amount / pow(10, floori(pow/3) * 3)
-	return ("%.1f%s" if pow > 3 else "%.0f%s") % [quotient, suffix]

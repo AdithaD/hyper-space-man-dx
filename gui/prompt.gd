@@ -17,12 +17,12 @@ func connect_to_mining_drone(ma: MiningDrone) -> void:
 
 func _bind_to_player(object: Node2D, entered_callable: Callable) -> void:
 	var ia : PlayerInteractArea = object.interact_area
-	if not ia.player_entered.is_connected(entered_callable):
-		ia.player_entered.connect(entered_callable)
+	if not ia.player_entered.is_connected(entered_callable.unbind(1)):
+		ia.player_entered.connect(entered_callable.unbind(1))
 
 	var exit_callable := pop.bind(object)
-	if not ia.player_exited.is_connected(exit_callable):
-		ia.player_exited.connect(exit_callable)
+	if not ia.player_exited.is_connected(exit_callable.unbind(1)):
+		ia.player_exited.connect(exit_callable.unbind(1))
 
 func show_trade_prompt(space_station: SpaceStation) -> void:
 	#add to stack

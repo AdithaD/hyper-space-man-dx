@@ -6,10 +6,11 @@ enum TILE {
 
 @export var player: Player
 
-@export var border_width: float = 2.0
-@export var sun_size := 2
-@export var grid_scale := 1024
-@export var grid_size := 10
+@export var border_width: int = 2
+@export var planet_size : int = 4
+@export var sun_size : int = 4
+@export var grid_scale : int = 1024
+@export var grid_size : int = 10
 
 @export_subgroup("Colours")
 @export var background_color: Color = Color.BLACK
@@ -51,16 +52,17 @@ func _draw() -> void:
 	draw_rect(Rect2(Vector2(), size), border_color, false, border_width)
 	
 	# draw solar system objects
-	draw_elements(planets, planet_color)
+	draw_elements(planets, planet_color, planet_size)
 	draw_elements(suns, sun_color, sun_size)
 	draw_elements(space_stations, space_station_color)
+	draw_elements(get_tree().get_nodes_in_group("asteroid"), Color.SADDLE_BROWN)
 	
 	# draw alive enemies
 	var _enemies : Array[Enemy] = enemies.filter(func(x: Enemy) -> bool: return not x.is_dead)
 	draw_elements(_enemies, enemy_color)
 
 	# draw player
-	draw_rect(Rect2(Vector2(grid_size / 2, grid_size / 2) * actual_size, Vector2(actual_size, actual_size)), player_color)
+	draw_rect(Rect2(Vector2(grid_size / 2 - 1, grid_size / 2 - 1) * actual_size, Vector2(actual_size, actual_size) * 2), player_color)
 
 func draw_elements(array : Array, color: Color, element_size: int=1) -> void:
 	var actual_size := size.x / grid_size

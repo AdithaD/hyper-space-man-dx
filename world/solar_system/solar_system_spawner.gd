@@ -21,7 +21,9 @@ var explored_grid := {}
 var start_pos: Vector2 = Vector2.ZERO
 var sun_names_temp : Array[String] = ["Kepler", "HD", "2MASS", "KOI", "WASP", "K2", "HIP", "EPIC", "KELT", "Sol", "CoRoT", "Gliese", "OGLE", "Qatar", "HAT", "GJ", "KELT"]
 var sun_names : Array[String] = []
-	
+
+var active := true
+
 func generate_n_digit_numbers(n: int, amount: int) -> Array[String]:
 	var result : Array[String] = []
 	for i in range(amount):
@@ -46,13 +48,14 @@ func _ready() -> void:
 	explored_grid[[0, 0]] = true
 	
 func _process(_delta : float) -> void:
-	var full_position := player.global_position
-	var pos := Vector2i(int(full_position.x / grid_size), int(full_position.y / grid_size))
-	if not explored_grid.has(pos):
-		#var time_left = get_node("/root/Main").time_left
-		explored_grid[pos] = true
-		#spawn(2, full_position, start_pos, ((time_left * min_distance) + max_distance * (game_time - time_left)) / game_time)
-		spawn(2, full_position, start_pos, randi_range(min_distance, max_distance))
+	if active:
+		var full_position := player.global_position
+		var pos := Vector2i(int(full_position.x / grid_size), int(full_position.y / grid_size))
+		if not explored_grid.has(pos):
+			#var time_left = get_node("/root/Main").time_left
+			explored_grid[pos] = true
+			#spawn(2, full_position, start_pos, ((time_left * min_distance) + max_distance * (game_time - time_left)) / game_time)
+			spawn(2, full_position, start_pos, randi_range(min_distance, max_distance))
 		
 func create_solar_system(x : float, y : float, number_of_planets : int, spread : float) -> SolarSystem:
 	var solar_system : SolarSystem = solar_system_scene.instantiate()
@@ -77,7 +80,7 @@ func spawn(amount: int, pos: Vector2, origin : Vector2, dist : float) -> void:
 		var goal_y_grid := int(goal_pos.y / (grid_size * 2))
 		
 		if not sun_grid.has([goal_x_grid, goal_y_grid]):
-			var rand_offset := solar_system_randomness * grid_size
+			var rand_offset := floori(solar_system_randomness * grid_size)
 			var x := goal_x_grid * (grid_size * 2) + randi_range( - rand_offset, rand_offset)
 			var y := goal_y_grid * (grid_size * 2) + randi_range( - rand_offset, rand_offset)
 			var number_of_planets := randi_range(min_planets, max_planets + 1)

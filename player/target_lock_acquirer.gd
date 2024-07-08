@@ -33,7 +33,7 @@ func _physics_process(delta: float) -> void:
 			var hurtbox : HurtboxComponent = collisions.front().collider
 			var target := hurtbox.get_parent()
 			
-			if not target.is_in_group("enemy"):
+			if not target.is_in_group("enemy") and not target.is_in_group("asteroid"):
 				return
 				
 			if target.is_dead:
@@ -43,6 +43,7 @@ func _physics_process(delta: float) -> void:
 				reset_lock()
 
 				_tracking_target = target
+				_tracking_target.tree_exited.connect(reset_lock)
 				target_lock_timer.start(0)
 				$LockAcquiringProgressSound.play()
 
@@ -59,9 +60,13 @@ func _physics_process(delta: float) -> void:
 func reset_lock() -> void:
 	if acquired_target:
 		lock_lost.emit()
+		acquired_target = null
 
-	acquired_target = null
-	_tracking_target = null
+	 
+	if _tracking_target:
+		_tracking_target.tree_exited.disconnect(reset_lock)
+		_tracking_target = null
+
 	target_lock_timer.stop()
 	_forgiveness_timer = 0.0
 

@@ -11,8 +11,8 @@ var dir: Vector2
 var base_velocity: Vector2 = Vector2.ZERO;
 var local_speed: float = 0.0;
 
-var _acceleration := 0
-var _timer := 0.0
+var _acceleration : float = 0.0
+var _timer : float = 0.0
 
 var player: Player
 

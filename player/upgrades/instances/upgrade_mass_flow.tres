@@ -27,4 +27,4 @@ script = ExtResource("1_71qjc")
 upgrade_id = &"mass_flow"
 upgrade_name = "Mass Flow Rate"
 tier_costs = Array[ExtResource("2_i4tn2")]([SubResource("Resource_miomb"), SubResource("Resource_omx85"), SubResource("Resource_0mfty")])
-tier_values = Array[float]([1.0, 1.5, 3.0, 8.0])
+tier_values = Array[float]([1.0, 1.5, 3.0, 6.0])

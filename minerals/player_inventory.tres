@@ -1,10 +1,14 @@
-[gd_resource type="Resource" script_class="MineralInventory" load_steps=3 format=3 uid="uid://ccdhhwo57ccca"]
+[gd_resource type="Resource" script_class="MineralInventory" load_steps=5 format=3 uid="uid://ccdhhwo57ccca"]
 
 [ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_gsg4w"]
 [ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://minerals/mineral_platinum.tres" id="2_kqbp3"]
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://minerals/mineral_meteorite.tres" id="3_s2gwh"]
+[ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://minerals/mineral_forged_carbon_fiber.tres" id="4_1ooiq"]
 
 [resource]
 script = ExtResource("2_gsg4w")
 starting_inventory = {
-ExtResource("2_kqbp3"): 10000
+ExtResource("2_kqbp3"): 1000000,
+ExtResource("3_s2gwh"): 1000000,
+ExtResource("4_1ooiq"): 1000000
 }

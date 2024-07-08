@@ -1,6 +1,12 @@
 extends Area2D
 class_name HurtboxComponent
 
+signal hit(hitbox: HitboxComponent)
+
+enum DamageType {
+	FLAT, VELOCITY_SCALING
+}
+
 @export var health_component: HealthComponent
 
 var active := true
@@ -15,9 +21,10 @@ func _on_area_entered(area: Area2D) -> void:
 		var hitbox := area as HitboxComponent
 		hitbox.collide(self)
 		
-		take_damage(hitbox.damage)
-
-func take_damage(amount: int) -> void:
+		take_damage(hitbox.damage, hitbox.damage_type, area.global_position.direction_to(self.global_position))
+		hit.emit(area)
+		
+func take_damage(amount: int, _type: DamageType = DamageType.FLAT, _normal : Vector2 = Vector2.ZERO) -> void:
 	health_component.take_damage(amount)
 
 	$HurtSound.play()

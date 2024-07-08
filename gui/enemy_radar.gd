@@ -44,8 +44,8 @@ func draw_vec(location: Vector2, color: Color) -> void:
 	var ex := x2 if vx > 0 else x1
 	var ey := y1 if vy > 0 else y2
 	#prints("E:", ex, ey)
-	var cx := 0
-	var cy := 0
+	var cx := 0.0
+	var cy := 0.0
 	
 	var angle := 0.0
 	if is_zero_approx(vx):

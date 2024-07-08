@@ -25,6 +25,6 @@ ExtResource("3_hhqgu"): 16000
 [resource]
 script = ExtResource("1_xu17r")
 upgrade_id = &"drone_storage"
-upgrade_name = "Drone Storage Capacity"
+upgrade_name = "Drone Storage"
 tier_costs = Array[ExtResource("2_dq2bc")]([SubResource("Resource_miomb"), SubResource("Resource_omx85"), SubResource("Resource_0mfty")])
 tier_values = Array[float]([2000.0, 10000.0, 50000.0, 200000.0])

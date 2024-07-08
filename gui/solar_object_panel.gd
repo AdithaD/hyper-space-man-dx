@@ -3,8 +3,6 @@ extends Control
 @export var name_label : Label
 @export var mineral_inventory_gui : Control
 
-var _solar_object : SolarObject
-
 func display(solar_object: SolarObject) -> void:
 	name_label.text = solar_object.solar_name
 	mineral_inventory_gui.set_mineral_inventory(solar_object.mineral_inventory)

@@ -24,8 +24,8 @@ func _on_solar_system_spawner_solar_system_spawned(solar_system: SolarSystem) ->
 	var solar_objects : Array[SolarObject] = solar_system.solar_objects
 
 	for obj: SolarObject in solar_objects:
-		obj.interact_area.player_entered.connect(_on_solar_object_entered.bind(obj))
-		obj.interact_area.player_exited.connect(_on_solar_object_exited.bind(obj))
+		obj.interact_area.player_entered.connect(_on_solar_object_entered.bind(obj).unbind(1))
+		obj.interact_area.player_exited.connect(_on_solar_object_exited.bind(obj).unbind(1))
 	
 func _on_solar_object_entered(solar_object: SolarObject) -> void:
 	push(solar_object)

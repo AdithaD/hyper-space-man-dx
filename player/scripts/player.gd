@@ -17,6 +17,7 @@ signal upgraded
 @export_subgroup("Engine")
 @export var ship_engine: ShipEngine
 @export var drag := 10.0
+@export var burst_impulse := 600.0
 
 @export_subgroup("Weapons")
 @export var weapons: Array[PlayerWeapon] = []
@@ -45,6 +46,12 @@ var has_control := true
 
 var max_speed := 500.0
 
+var is_annihilation_shield_active := false:
+	set(value):
+		# disable environment collisions
+		collision_mask = collision_mask & 0b0 if value else collision_mask | 0b1
+		is_annihilation_shield_active = value
+
 var upgrade_tier: Dictionary
 
 var is_overspeed: bool:
@@ -69,9 +76,9 @@ var is_accelerating := false:
 				$Camera2D.add_trauma(1.0)
 				$EngineJoltSound.play()
 
-var maximum_drone_amount := 1
-var drone_harvest_rate := 100
-var drone_storage_amount := 2000
+var maximum_drone_amount : int = 1
+var drone_harvest_rate : int = 100
+var drone_storage_amount : int = 2000
 
 # needs to be an array
 var mining_drones: Array[MiningDrone] = []
@@ -83,6 +90,10 @@ var mining_interactor: MiningInteractor:
 var is_overheated: bool:
 	get:
 		return not $HeatCooloffTimer.is_stopped()
+		
+var hurtbox: HurtboxComponent:
+	get:
+		return $HurtboxComponent
 
 @onready var heat := 0.0:
 	set(value):
@@ -102,9 +113,21 @@ func _ready() -> void:
 	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
 	
 	_set_weapon(current_weapon)
+	
+	mineral_inventory.mineral_modified.connect($PickupSound.play.unbind(2))
 
 func _physics_process(delta: float) -> void:
 	if not is_dead and has_control:
+		if Input.is_action_just_pressed("burst_left"):
+			velocity += -transform.y * burst_impulse
+			$BurstParticlesRight.emitting = true
+			$BurstSound.play()
+			
+		if Input.is_action_just_pressed("burst_right"):
+			velocity += transform.y * burst_impulse
+			$BurstParticlesLeft.emitting = true
+			$BurstSound.play()
+
 		#accelerate
 		is_accelerating = Input.is_action_pressed("accelerate")
 		
@@ -146,10 +169,12 @@ func _physics_process(delta: float) -> void:
 				overspeed_timer.stop()
 
 		look_at(get_global_mouse_position())
-		move_and_slide()
+		
+	velocity = velocity.limit_length(300000)
+	move_and_slide()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if has_control:
+	if has_control:		
 		if event.is_action_pressed("mine"):
 			if mining_drones.size() < maximum_drone_amount:
 				if mining_interactor.current_solar_object != null:
@@ -176,8 +201,8 @@ func switch_to_weapon(weapon: PlayerWeapon) -> void:
 
 func die() -> void:
 	$DeathParticles.emitting = true
-	$Camera2D.top_level = true
-	$Camera2D.global_position = global_position
+	#$Camera2D.top_level = true
+	#$Camera2D.global_position = global_position
 	$DeathSound.play()
 
 	is_dead = true
@@ -271,34 +296,37 @@ func _pickup_mining_drone(mining_drone: MiningDrone) -> void:
 	mining_drone = null
 
 func apply_upgrade(upgrade: TieredUpgrade, level_up := true) -> void:
-
-	if level_up:
-		mineral_inventory.remove_subset(upgrade.get_tier_cost(upgrade_tier.get_or_add(upgrade, 0)))
-		if upgrade.get_max_tier() > get_tier(upgrade):
+	if upgrade.get_max_tier() != get_tier(upgrade):
+		if level_up:
+			mineral_inventory.remove_subset(upgrade.get_tier_cost(upgrade_tier.get_or_add(upgrade, 0)))
 			upgrade_tier[upgrade] = get_tier(upgrade) + 1
 
-	var value := upgrade.get_tier_value(get_tier(upgrade))
-	match upgrade.upgrade_id:
-		&"max_speed":
-			max_speed = value
-		&"fuel_capacity":
-			ship_engine.fuel_capacity = value
-		&"mass_flow":
-			ship_engine.mass_flow_rate = value
-		&"exhaust_velocity":
-			ship_engine.exhaust_velocity = value
-		&"max_heat":
-			maximum_heat = value
-		&"cooling_speed":
-			heat_drain_per_second = value
-		&"drone_amount":
-			maximum_drone_amount = value
-		&"harvest_rate":
-			drone_harvest_rate = value
-		&"drone_storage":
-			drone_storage_amount = value
+		var value := upgrade.get_tier_value(get_tier(upgrade))
+		match upgrade.upgrade_id:
+			&"max_speed":
+				max_speed = value
+			&"fuel_capacity":
+				ship_engine.fuel_capacity = value
+			&"mass_flow":
+				ship_engine.mass_flow_rate = value
+			&"exhaust_velocity":
+				ship_engine.exhaust_velocity = value
+			&"max_heat":
+				maximum_heat = value
+			&"cooling_speed":
+				heat_drain_per_second = value
+			&"drone_amount":
+				maximum_drone_amount = int(value)
+			&"harvest_rate":
+				drone_harvest_rate = int(value)
+			&"drone_storage":
+				drone_storage_amount = int(value)
+			&"hull":
+				get_health_component().maximum_health = int(value)
+			&"annihilation_shield":
+				is_annihilation_shield_active = bool(value)
 
-	upgraded.emit()
+		upgraded.emit()
 
 func can_upgrade(upgrade: TieredUpgrade) -> bool:
 	return upgrade.get_max_tier() > get_tier(upgrade) and mineral_inventory.is_superset(upgrade.get_tier_cost(get_tier(upgrade)))

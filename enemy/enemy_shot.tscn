@@ -38,6 +38,7 @@ color_ramp = SubResource("GradientTexture1D_xo312")
 size = Vector2(40, 28)
 
 [node name="Shot" type="Node2D"]
+z_index = 5
 script = ExtResource("1_ec2os")
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
