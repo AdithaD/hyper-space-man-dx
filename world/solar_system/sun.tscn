@@ -7,10 +7,12 @@
 script = ExtResource("1_u6t43")
 min_animation_speed = 1.0
 max_animation_speed = 1.5
+gravity = 800.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(4, 4)
 
 [node name="PlayerInteractArea" parent="." instance=ExtResource("2_6rejd")]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractArea"]

@@ -7,7 +7,7 @@
 script = ExtResource("1_ew6kb")
 min_animation_speed = 1.0
 max_animation_speed = 1.5
-gravity = 1
+gravity = 200.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(8, 8)
