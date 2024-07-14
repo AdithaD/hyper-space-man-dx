@@ -24,10 +24,6 @@ extends Node2D
 @export var sun_minerals_mean: float
 @export var sun_minerals_randomness: float
 
-@export_subgroup("Enemies")
-@export var enemy_amount_curve: Curve
-@export var enemy_scene: PackedScene
-
 @export_subgroup("Space Station")
 @export var space_station_scenes: Array[PackedScene]
 
@@ -54,7 +50,17 @@ var space_stations : Array[SpaceStation]:
 
 		return arr
 
-func init(number_of_planets : int, p_spread : float, p_sun_name : String) -> void:
+var world : World
+var size : int
+
+@onready var player_interact_area: PlayerInteractArea = $PlayerInteractArea
+
+func init(p_world: World, p_size: int, number_of_planets : int, p_spread : float, p_sun_name : String) -> void:
+	world = p_world
+	
+	size = p_size
+	$PlayerInteractArea/CollisionShape2D.shape.set_deferred("radius", size)
+	
 	spread = p_spread
 	sun_name = p_sun_name
 
@@ -70,22 +76,7 @@ func init(number_of_planets : int, p_spread : float, p_sun_name : String) -> voi
 		
 	for x in range(0, number_of_planets):
 		spawn_planet()
-	
-	var amount_of_enemies := enemy_amount_curve.sample(randf())
-	var group := EnemyGroup.new()
-	group.home_solar_system = self
-	
-	$Enemies.add_child(group)
-	
-	for i in range(amount_of_enemies):
-		spawn_enemy(group, Vector2(i * 64, 0))
-		
-func spawn_enemy(group: EnemyGroup, local_position: Vector2) -> void:
-	var enemy: Enemy = enemy_scene.instantiate()
-	enemy.group = group
 
-	enemy.global_position = global_position + local_position
-	group.add_child(enemy)
 
 func spawn_space_station(orbit_origin: Vector2) -> void:
 	var spawn_pos := Vector2(randf_range( - 1 * spread, spread), randf_range( - 1 * spread, spread))

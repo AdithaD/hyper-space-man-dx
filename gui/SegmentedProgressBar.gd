@@ -12,7 +12,9 @@ extends Control
 @export var segment_color : Color = Color.GREEN
 @export var segment_color_gradient : Gradient
 
-@onready var value : int = segments:
+@export var start_value : int 
+
+@onready var value : int = min(start_value, segments):
 	set(v):
 		value = v
 		queue_redraw()

@@ -68,8 +68,7 @@ func draw_elements(array : Array, color: Color, element_size: int=1) -> void:
 	var actual_size := size.x / grid_size
 	var _array : Array[Vector2i] = []
 	_array.assign(
-		array.filter(func(x : Node2D) -> bool: return _is_on_grid(x))
-			.map(func(x : Node2D) -> Vector2i: return Vector2i((x.global_position - player.global_position) / grid_scale))
+		array.filter(_is_on_grid).map(convert_to_grid_position)
 	)
 							
 	for e : Vector2i in _array:
@@ -82,6 +81,9 @@ func draw_elements(array : Array, color: Color, element_size: int=1) -> void:
 		draw_rect(Rect2(Vector2(_j, _i) * actual_size, Vector2(actual_size * element_size, actual_size * element_size)), color)
 	
 	draw_circle(Vector2(0.5 * size.x, 0.5 * size.y), 3200 / grid_scale, Color.WHITE, false)
+
+func convert_to_grid_position(x : Node2D) -> Vector2i: 
+	return Vector2i((x.global_position - player.global_position) / grid_scale)
 
 func _is_on_grid(location: Node2D) -> bool:
 	return location.global_position.distance_to(player.global_position) < grid_scale * grid_size / 2

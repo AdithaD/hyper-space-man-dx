@@ -1,10 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://cogv3mc3fag88"]
+[gd_scene load_steps=4 format=3 uid="uid://cogv3mc3fag88"]
 
-[ext_resource type="Script" path="res://world/solar_system/solar_object.gd" id="1_u6t43"]
+[ext_resource type="Script" path="res://world/solar_system/sun.gd" id="1_cf4rg"]
 [ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="2_6rejd"]
+[ext_resource type="Script" path="res://world/heat_emitter.gd" id="3_qf6oh"]
 
 [node name="Sun" type="Node2D" groups=["gravitator", "sun"]]
-script = ExtResource("1_u6t43")
+script = ExtResource("1_cf4rg")
 min_animation_speed = 1.0
 max_animation_speed = 1.5
 gravity = 800.0
@@ -13,6 +14,9 @@ gravity = 800.0
 scale = Vector2(4, 4)
 
 [node name="PlayerInteractArea" parent="." instance=ExtResource("2_6rejd")]
-collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInteractArea"]
+
+[node name="HeatEmitter" type="Node2D" parent="." groups=["heat_emitter"]]
+script = ExtResource("3_qf6oh")
+temperature = 5.0

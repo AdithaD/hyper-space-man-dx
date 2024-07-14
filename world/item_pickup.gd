@@ -3,6 +3,13 @@ extends Node2D
 @export var mineral : Mineral
 @export var amount : int = 0
 @export var circle_color : Color
+
+var _velocity : Vector2 = Vector2()
+var world: World
+
+func _physics_process(delta: float) -> void:
+	position += _velocity * delta
+
 func _draw() -> void:
 	draw_circle(Vector2(), 64, circle_color, false, 4.0)
 

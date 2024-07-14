@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cupg2res6b0ac"]
+[gd_scene load_steps=35 format=3 uid="uid://cupg2res6b0ac"]
 
 [ext_resource type="Script" path="res://enemy/enemy.gd" id="1_tlc7p"]
 [ext_resource type="Texture2D" uid="uid://bblo0piuybw0q" path="res://enemy/enemy.png" id="2_6w5dx"]
@@ -21,7 +21,6 @@
 [ext_resource type="Script" path="res://enemy/action_shoot_player.gd" id="14_vlx6r"]
 [ext_resource type="Script" path="res://enemy/action_explore.gd" id="17_8u4by"]
 [ext_resource type="Script" path="res://gui/behaviour_tree_label.gd" id="19_8vnjn"]
-[ext_resource type="PackedScene" uid="uid://meqghk35mmsf" path="res://components/pickup_component.tscn" id="21_180c2"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
 radius = 46.0
@@ -226,8 +225,6 @@ offset_right = 55.0
 offset_bottom = -30.0
 script = ExtResource("19_8vnjn")
 behaviour_tree = NodePath("../BehaviourTree")
-
-[node name="PickupComponent" parent="." instance=ExtResource("21_180c2")]
 
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]

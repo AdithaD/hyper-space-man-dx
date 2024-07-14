@@ -15,6 +15,13 @@ extends VBoxContainer
 
 var _upgrade : TieredUpgrade
 
+func _ready() -> void:
+	visibility_changed.connect(_on_visibility_changed)
+
+func _on_visibility_changed() -> void:
+	if _upgrade:
+		set_upgrade(_upgrade)
+
 func set_upgrade(upgrade: TieredUpgrade) -> void:
 	_upgrade =upgrade
 	upgrade_name_label.text = upgrade.upgrade_name

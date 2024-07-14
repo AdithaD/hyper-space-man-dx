@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Enemy
 
 const ENEMY_SHOT = preload ("res://enemy/enemy_shot.tscn")
+@export var world : World
 
 @export var max_speed := 500.0
 @export var acceleration := 500.0
@@ -27,13 +28,15 @@ var exploration_vector: Vector2:
 var desired_rotation : Vector2 = Vector2()
 var chase_dir := Vector2()
 
-@onready var player: Player = get_tree().get_first_node_in_group("player")
+var player: Player:
+	get:
+		return world.player
+
 @onready var behaviour_tree: BehaviourTree = $BehaviourTree
 @onready var enemy_group := get_tree().get_nodes_in_group("enemy")
 
 func _ready() -> void:
-	behaviour_tree.blackboard.set_value("player", player)
-	$PickupComponent.connect_to_pickup(_on_pickup)
+	behaviour_tree.blackboard.set_value("player", world.player)
 
 func _physics_process(delta: float) -> void:
 	enemy_group = get_tree().get_nodes_in_group("enemy")
@@ -59,11 +62,11 @@ func shoot() -> void:
 	# fire shot
 	var new_shot : Node2D = ENEMY_SHOT.instantiate()
 	new_shot.global_position = cannon.global_position
-	new_shot.player = player
+	new_shot.player = world.player
 	new_shot.set_inherited_velocity(velocity)
 	
 	if new_shot.has_method("set_target"):
-		new_shot.set_target(player.global_position)
+		new_shot.set_target(world.player.global_position)
 
 	$Shots.add_child(new_shot)
 	
@@ -77,13 +80,10 @@ func _on_health_component_died() -> void:
 		behaviour_tree.enabled = false
 		$Sprite2D.play("death")
 		$DeathSound.play()
-		$PickupComponent.enabled = true
-	$DeathParticles.emitting = true
-
-func _on_pickup() -> void:
-	var amount := randi_range(min_drop_amount, max_drop_amount)
-	player.mineral_inventory.add_amount(drop_mineral, amount)
-	queue_free()
+		$DeathParticles.emitting = true
+	
+		if world:
+			world.spawn_mineral_pickup(global_position, drop_mineral, randi_range(min_drop_amount, max_drop_amount))
 
 func _draw() -> void:
 	draw_line(Vector2(), desired_rotation.normalized().rotated(-global_rotation) * 64, Color.GREEN)

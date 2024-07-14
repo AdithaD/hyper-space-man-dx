@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://dxo17ebgranxt"]
+[gd_scene load_steps=79 format=3 uid="uid://dxo17ebgranxt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_tgsu5"]
 [ext_resource type="PackedScene" uid="uid://daxtra85huyqp" path="res://sound_manager.tscn" id="2_5inwt"]
@@ -8,28 +8,32 @@
 [ext_resource type="Script" path="res://world/solar_system/solar_system_spawner.gd" id="4_w3ij2"]
 [ext_resource type="PackedScene" uid="uid://btum3xqjlqyh7" path="res://world/solar_system/solar_system_scene.tscn" id="5_7bfjq"]
 [ext_resource type="Texture2D" uid="uid://dw7tlcb3cqdhj" path="res://world/star_bg_2.png" id="5_x37fm"]
-[ext_resource type="Script" path="res://enemy/enemy_group.gd" id="7_eclf6"]
-[ext_resource type="PackedScene" uid="uid://cupg2res6b0ac" path="res://enemy/enemy.tscn" id="8_cxk1i"]
 [ext_resource type="PackedScene" uid="uid://tyxjmooe1q3k" path="res://world/item_pickup.tscn" id="8_hw0tm"]
 [ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://player/player.tscn" id="9_hq3w5"]
 [ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://minerals/player_inventory.tres" id="10_wjjcp"]
 [ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://player/mining_drone/mine_drone.tscn" id="11_kmxs3"]
 [ext_resource type="Script" path="res://gui/gui.gd" id="12_ar618"]
+[ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="12_h38fx"]
 [ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="12_ndlri"]
+[ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://player/upgrades/instances/upgrade_exhaust_velocity.tres" id="13_bkpo6"]
 [ext_resource type="AudioStream" uid="uid://dy00nbcu3gtxy" path="res://player/sounds/over_speed.wav" id="13_qr3no"]
+[ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://player/upgrades/instances/upgrade_fuel_capacity.tres" id="14_lvpfu"]
 [ext_resource type="Texture2D" uid="uid://em41dl2fg08m" path="res://gui/gui_outline.png" id="15_55n0g"]
+[ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://player/upgrades/instances/upgrade_mass_flow.tres" id="15_vq4ov"]
 [ext_resource type="Script" path="res://gui/minimap_draw.gd" id="16_hieb5"]
 [ext_resource type="Script" path="res://gui/enemy_radar.gd" id="17_cmm5f"]
 [ext_resource type="Script" path="res://gui/SegmentedProgressBar.gd" id="21_f3e6b"]
 [ext_resource type="Script" path="res://gui/weapon_gui.gd" id="24_st0nx"]
+[ext_resource type="Resource" uid="uid://3lh1c3r87xdo" path="res://player/upgrades/instances/upgrade_burst_charges.tres" id="25_hm4vy"]
 [ext_resource type="Script" path="res://gui/weapon_heat_gauge.gd" id="28_8l26f"]
 [ext_resource type="Script" path="res://gui/prompt.gd" id="29_6qsuj"]
 [ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platinum.png" id="30_cagdv"]
-[ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="31_mkbtq"]
 [ext_resource type="Script" path="res://gui/solar_mineral_inventory_gui.gd" id="32_dri58"]
 [ext_resource type="LabelSettings" uid="uid://cj4mpabajipwp" path="res://minerals/gui_large_light_blue_label_settings.tres" id="32_n128g"]
 [ext_resource type="Texture2D" uid="uid://g8ejp83rvnjx" path="res://gui/mini_map_mask.png" id="33_q20b3"]
+[ext_resource type="Script" path="res://gui/burst_bar.gd" id="33_ypois"]
 [ext_resource type="PackedScene" uid="uid://dmsffwaoycujk" path="res://gui/mineral_inventory/mineral_inventory_item_gui_new.tscn" id="34_2rmpe"]
+[ext_resource type="PackedScene" uid="uid://bndtfnfjmq4ca" path="res://gui/burst/burst_bar.tscn" id="34_gfk8c"]
 [ext_resource type="Script" path="res://gui/solar_object_panel.gd" id="36_awl53"]
 [ext_resource type="Texture2D" uid="uid://db1052oft6efj" path="res://gui/mineral_inventory_outline.png" id="36_eu3rl"]
 [ext_resource type="Script" path="res://gui/TwoStateLabel.gd" id="38_l0s64"]
@@ -38,14 +42,18 @@
 [ext_resource type="Resource" uid="uid://4mitebny6twt" path="res://player/upgrades/instances/upgrade_hull.tres" id="40_uiev4"]
 [ext_resource type="Resource" uid="uid://dxdxfxkg840io" path="res://player/upgrades/instances/upgrade_max_heat.tres" id="41_0akk4"]
 [ext_resource type="Resource" uid="uid://c1ch87ii1thig" path="res://player/upgrades/instances/upgrade_annihilation_shield.tres" id="41_ftgxe"]
+[ext_resource type="Resource" uid="uid://c2kg6jwx6ot40" path="res://player/upgrades/instances/upgrade_heat_dissapators.tres" id="41_mq17w"]
+[ext_resource type="Resource" uid="uid://rl76t2l071ld" path="res://player/upgrades/instances/upgrade_heat_shielding.tres" id="41_qx0qh"]
 [ext_resource type="Resource" uid="uid://dswdnjmewv6a" path="res://player/upgrades/instances/upgrade_drone_amount.tres" id="42_maqn3"]
 [ext_resource type="Resource" uid="uid://cjlpan1sn0r48" path="res://player/upgrades/instances/upgrade_drone_storage.tres" id="43_u02ci"]
 [ext_resource type="Resource" uid="uid://b7pgt7osoqsa7" path="res://player/upgrades/instances/upgrade_drone_speed.tres" id="44_d80h3"]
 [ext_resource type="StyleBox" uid="uid://bt78keh3jhv21" path="res://gui/tab_unselected_style_box.tres" id="47_kfx4h"]
 [ext_resource type="Texture2D" uid="uid://cyf3r8y7vtwx3" path="res://gui/npr_texture.png" id="47_kq4u6"]
 [ext_resource type="StyleBox" uid="uid://1o2irf2sobl6" path="res://gui/tab_selected_style_box.tres" id="48_dgbm1"]
+[ext_resource type="Script" path="res://gui/heat_vignette.gd" id="50_c7sdd"]
 [ext_resource type="PackedScene" uid="uid://dilq7a2ttbv1t" path="res://gui/upgrade_tab.tscn" id="50_v6640"]
 [ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="51_33kkw"]
+[ext_resource type="Texture2D" uid="uid://bxg75mxwg7f52" path="res://player/vignette.png" id="53_sdkwk"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_aapjq"]
 font_size = 64
@@ -73,21 +81,38 @@ colors = PackedColorArray(1, 0, 0, 1)
 [sub_resource type="Gradient" id="Gradient_v5k8b"]
 interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.33, 0.66)
-colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0.97208, 0.765204, 0.365895, 1, 0.368333, 0.65, 0.325, 1)
+colors = PackedColorArray(0.894118, 0.231373, 0.266667, 1, 0.996078, 0.682353, 0.203922, 1, 0.388235, 0.780392, 0.301961, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_0e54q"]
 font_size = 64
-
-[sub_resource type="Gradient" id="Gradient_h6qck"]
-interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.221053)
-colors = PackedColorArray(0.894118, 0.231373, 0.266667, 1, 0, 0.584314, 0.913725, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_p7gjj"]
 font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_p6hxc"]
 font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_cyyiv"]
+font_size = 64
+font_color = Color(0.388235, 0.780392, 0.301961, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wbtvb"]
+font_size = 64
+font_color = Color(0, 0.584314, 0.913725, 1)
+
+[sub_resource type="Gradient" id="Gradient_khk2k"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.33)
+colors = PackedColorArray(0.919263, 0.075133, 0.181936, 1, 0, 0.584314, 0.913725, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_k3357"]
+font_size = 64
+font_color = Color(0.968627, 0.462745, 0.133333, 1)
+
+[sub_resource type="Gradient" id="Gradient_4y2vr"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.737255)
+colors = PackedColorArray(0.968627, 0.462745, 0.133333, 1, 0.894118, 0.231373, 0.266667, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_yikrg"]
 font_size = 96
@@ -277,21 +302,9 @@ solar_system_randomness = 0.3
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="EnemyGroup" type="Node2D" parent="Enemies"]
-script = ExtResource("7_eclf6")
-
-[node name="Enemy" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("cannon_points") instance=ExtResource("8_cxk1i")]
-position = Vector2(2226, -921)
-motion_mode = 1
-cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
-
-[node name="Enemy2" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("cannon_points") instance=ExtResource("8_cxk1i")]
-position = Vector2(2093, -875)
-motion_mode = 1
-cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
-
 [node name="Player" parent="." node_paths=PackedStringArray("world", "cannon_points") instance=ExtResource("9_hq3w5")]
 world = NodePath("../World")
+upgrades = Array[ExtResource("51_33kkw")]([ExtResource("12_h38fx"), ExtResource("13_bkpo6"), ExtResource("14_lvpfu"), ExtResource("15_vq4ov"), ExtResource("40_4kxel"), ExtResource("41_0akk4"), ExtResource("42_maqn3"), ExtResource("44_d80h3"), ExtResource("43_u02ci"), ExtResource("40_uiev4"), ExtResource("41_ftgxe"), ExtResource("41_qx0qh"), ExtResource("41_mq17w"), ExtResource("25_hm4vy")])
 cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
 mineral_inventory = ExtResource("10_wjjcp")
 mining_drone_scene = ExtResource("11_kmxs3")
@@ -371,20 +384,6 @@ planet_size = 2
 grid_scale = 512
 grid_size = 64
 space_station_color = Color(0, 0.584314, 0.913725, 1)
-
-[node name="PlayerInventory" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 56.0
-offset_top = -256.0
-offset_right = 288.0
-offset_bottom = -40.0
-grow_vertical = 0
-script = ExtResource("31_mkbtq")
-mineral_inventory = ExtResource("10_wjjcp")
-mineral_inventory_item_gui = ExtResource("34_2rmpe")
 
 [node name="SolarObjectPanel" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD" node_paths=PackedStringArray("name_label", "mineral_inventory_gui")]
 unique_name_in_owner = true
@@ -652,45 +651,6 @@ script = ExtResource("38_l0s64")
 enabled_color = Color(0.996078, 0.905882, 0.380392, 1)
 disabled_color = Color(0.227451, 0.266667, 0.4, 1)
 
-[node name="FuelBar" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 200.0
-offset_top = -80.0
-offset_right = 336.0
-offset_bottom = -64.0
-grow_horizontal = 2
-grow_vertical = 0
-rotation = -1.5708
-script = ExtResource("21_f3e6b")
-separation = 8
-segment_color = Color(0, 0.584314, 0.913725, 1)
-segment_color_gradient = SubResource("Gradient_h6qck")
-
-[node name="HullBar" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -216.0
-offset_top = -80.0
-offset_right = -80.0
-offset_bottom = -64.0
-grow_horizontal = 2
-grow_vertical = 0
-rotation = -1.5708
-script = ExtResource("21_f3e6b")
-separation = 8
-segment_color_gradient = SubResource("Gradient_v5k8b")
-
 [node name="SpeedBar" type="TextureProgressBar" parent="CanvasLayer/GUI/HUDMargin/HUD"]
 unique_name_in_owner = true
 layout_mode = 1
@@ -735,6 +695,141 @@ layout_mode = 2
 text = "KM / S"
 label_settings = SubResource("LabelSettings_p6hxc")
 horizontal_alignment = 1
+
+[node name="BurstBar" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD" node_paths=PackedStringArray("player")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -256.0
+offset_right = 20.0
+offset_bottom = -216.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("33_ypois")
+player = NodePath("../../../../../Player")
+burst_bar_scene = ExtResource("34_gfk8c")
+
+[node name="Stats" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -184.0
+offset_right = 456.0
+grow_vertical = 0
+theme_override_constants/separation = -8
+
+[node name="HullSection" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HullSection"]
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+text = "HULL"
+label_settings = SubResource("LabelSettings_cyyiv")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HullSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HullBar" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HullSection/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 24.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_f3e6b")
+separation = 8
+segment_color_gradient = SubResource("Gradient_v5k8b")
+start_value = 10
+
+[node name="FuelSection" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/FuelSection"]
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+text = "FUEL"
+label_settings = SubResource("LabelSettings_wbtvb")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/FuelSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="FuelBar" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/FuelSection/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 24.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_f3e6b")
+segments = 15
+separation = 8
+segment_color_gradient = SubResource("Gradient_khk2k")
+
+[node name="HeatSection" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection"]
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+text = "TEMP"
+label_settings = SubResource("LabelSettings_k3357")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TemperatureBar" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = -32.0
+offset_bottom = -32.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("21_f3e6b")
+segments = 15
+separation = 8
+segment_color_gradient = SubResource("Gradient_4y2vr")
+
+[node name="HeatVignette" type="NinePatchRect" parent="CanvasLayer/GUI/HUDMargin" node_paths=PackedStringArray("player")]
+modulate = Color(0.968627, 0.462745, 0.133333, 1)
+z_index = -20
+layout_mode = 2
+texture = ExtResource("53_sdkwk")
+script = ExtResource("50_c7sdd")
+player = NodePath("../../../../Player")
 
 [node name="GameOverScreen" type="Control" parent="CanvasLayer/GUI"]
 visible = false
@@ -833,6 +928,7 @@ theme_override_font_sizes/font_size = 36
 text = "Restart"
 
 [node name="UpgradeScreen" type="Control" parent="CanvasLayer/GUI"]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -869,12 +965,13 @@ current_tab = 3
 visible = false
 layout_mode = 2
 player = NodePath("../../../../../Player")
-upgrades = Array[ExtResource("51_33kkw")]([ExtResource("40_uiev4"), ExtResource("41_ftgxe")])
+upgrades = Array[ExtResource("51_33kkw")]([ExtResource("40_uiev4"), ExtResource("41_ftgxe"), ExtResource("41_qx0qh"), ExtResource("41_mq17w")])
 
 [node name="Flight" parent="CanvasLayer/GUI/UpgradeScreen/TabContainer" node_paths=PackedStringArray("player") instance=ExtResource("50_v6640")]
 visible = false
 layout_mode = 2
 player = NodePath("../../../../../Player")
+upgrades = Array[ExtResource("51_33kkw")]([ExtResource("12_h38fx"), ExtResource("13_bkpo6"), ExtResource("15_vq4ov"), ExtResource("14_lvpfu"), ExtResource("25_hm4vy")])
 metadata/_tab_index = 1
 
 [node name="Weapons" parent="CanvasLayer/GUI/UpgradeScreen/TabContainer" node_paths=PackedStringArray("player") instance=ExtResource("50_v6640")]

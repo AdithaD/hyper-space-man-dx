@@ -4,7 +4,7 @@ extends ActionBehaviourTreeNode
 
 func update(actor: Node, blackboard: BehaviourTreeBlackboard) -> BehaviourState:
 	var _actor := actor as Enemy
-	var player := _actor.player
+	var player : Player = _actor.player
 	
 	if player:
 		var dir_to_target := _get_dir_to_target(_actor, blackboard)

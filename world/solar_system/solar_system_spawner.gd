@@ -16,6 +16,8 @@ signal solar_system_spawned(solar_system : SolarSystem)
 
 @export var solar_system_randomness: float
 
+@onready var world : World = get_parent()
+
 var sun_grid := {}
 var explored_grid := {}
 var start_pos: Vector2 = Vector2.ZERO
@@ -65,9 +67,8 @@ func create_solar_system(x : float, y : float, number_of_planets : int, spread :
 	solar_system.position.y = y
 	
 	#solar_system.init(n, spread, sun_sprite_array, planet_sprite_array, sun_names[randi()%len(sun_names)])
-	solar_system.init(number_of_planets, spread, sun_names[randi() %len(sun_names)])
+	solar_system.init(world, grid_size, number_of_planets, spread, sun_names[randi() %len(sun_names)])
 
-	
 	return solar_system
 	
 #spawns solar sytem dist from pos in semicircle away from origin
@@ -85,7 +86,9 @@ func spawn(amount: int, pos: Vector2, origin : Vector2, dist : float) -> void:
 			var y := goal_y_grid * (grid_size * 2) + randi_range( - rand_offset, rand_offset)
 			var number_of_planets := randi_range(min_planets, max_planets + 1)
 			var spread := randi_range(min_solar_range, max_solar_range)
+			
 			var solar_system := create_solar_system(x, y, number_of_planets, spread)
+			
 			sun_grid[[goal_x_grid, goal_y_grid]] = true
 			solar_system_spawned.emit(solar_system)
 	

@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=8 format=3 uid="uid://rl76t2l071ld"]
+
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="1_tajtt"]
+[ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_h2jd2"]
+[ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://minerals/mineral_forged_carbon_fiber.tres" id="3_lvykk"]
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://minerals/mineral_meteorite.tres" id="4_out8t"]
+
+[sub_resource type="Resource" id="Resource_3xxhk"]
+script = ExtResource("2_h2jd2")
+starting_inventory = {
+ExtResource("3_lvykk"): 5000
+}
+
+[sub_resource type="Resource" id="Resource_w60ae"]
+script = ExtResource("2_h2jd2")
+starting_inventory = {
+ExtResource("3_lvykk"): 20000,
+ExtResource("4_out8t"): 100
+}
+
+[sub_resource type="Resource" id="Resource_wpdq5"]
+script = ExtResource("2_h2jd2")
+starting_inventory = {
+ExtResource("3_lvykk"): 50000,
+ExtResource("4_out8t"): 1000
+}
+
+[resource]
+script = ExtResource("1_tajtt")
+upgrade_id = &"temp_shielding"
+upgrade_name = "Hull Heat Shielding"
+tier_costs = Array[ExtResource("2_h2jd2")]([SubResource("Resource_3xxhk"), SubResource("Resource_w60ae"), SubResource("Resource_wpdq5")])
+tier_values = Array[float]([3000.0, 6000.0, 18000.0, 40000.0])

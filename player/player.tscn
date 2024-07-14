@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=62 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://player/scripts/player.gd" id="1_utgdb"]
@@ -32,6 +32,8 @@
 [ext_resource type="AudioStream" uid="uid://r6tlbu52i14p" path="res://player/sounds/lock_acquiring_progress.wav" id="11_ru5xv"]
 [ext_resource type="Resource" uid="uid://4mitebny6twt" path="res://player/upgrades/instances/upgrade_hull.tres" id="12_a7sxu"]
 [ext_resource type="Resource" uid="uid://c1ch87ii1thig" path="res://player/upgrades/instances/upgrade_annihilation_shield.tres" id="13_w5o7j"]
+[ext_resource type="Resource" uid="uid://rl76t2l071ld" path="res://player/upgrades/instances/upgrade_heat_shielding.tres" id="14_5e41g"]
+[ext_resource type="Resource" uid="uid://c2kg6jwx6ot40" path="res://player/upgrades/instances/upgrade_heat_dissapators.tres" id="15_1a4t3"]
 [ext_resource type="AudioStream" uid="uid://cw2qqjg7kfm2f" path="res://player/sounds/cant_shoot.wav" id="15_4ql6b"]
 [ext_resource type="AudioStream" uid="uid://c0yg8vfuff303" path="res://player/sounds/lock_acquire.wav" id="15_qxkc8"]
 [ext_resource type="Script" path="res://player/mining_interactor.gd" id="18_byx4j"]
@@ -41,6 +43,8 @@
 [ext_resource type="AudioStream" uid="uid://bufvtiipn8p8i" path="res://player/sounds/burst_sound_2.wav" id="33_acsw3"]
 [ext_resource type="Script" path="res://player/player_hurtbox_component.gd" id="35_57bq8"]
 [ext_resource type="AudioStream" uid="uid://cjqt1rs4f5r6p" path="res://player/sounds/switch_weapon_sound.wav" id="35_el5xx"]
+[ext_resource type="Script" path="res://player/burst_manager.gd" id="42_wwp4v"]
+[ext_resource type="Script" path="res://player/player_heat_receiver.gd" id="43_5s4bi"]
 
 [sub_resource type="Resource" id="Resource_84uqs"]
 script = ExtResource("2_sgfqe")
@@ -48,6 +52,12 @@ exhaust_velocity = 100000.0
 dry_mass = 50.0
 fuel_capacity = 100.0
 mass_flow_rate = 1.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
+radius = 24.0
+height = 80.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vbycn"]
 
 [sub_resource type="Gradient" id="Gradient_4vec7"]
 interpolation_mode = 2
@@ -82,12 +92,6 @@ scale_min = 18.0
 scale_max = 18.0
 scale_curve = SubResource("CurveTexture_53gj3")
 color_ramp = SubResource("GradientTexture1D_hpis3")
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
-radius = 24.0
-height = 80.0
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_vbycn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x37x3"]
 radius = 24.0
@@ -126,15 +130,83 @@ scale_curve = SubResource("CurveTexture_2k8vr")
 color_ramp = SubResource("GradientTexture1D_7iriw")
 color_initial_ramp = SubResource("GradientTexture1D_xmehm")
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points") groups=["player"]]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 11
 collision_layer = 2
 motion_mode = 1
 script = ExtResource("1_utgdb")
-upgrades = Array[ExtResource("2_4i6i5")]([ExtResource("3_rxdoq"), ExtResource("4_h3p4t"), ExtResource("5_llema"), ExtResource("6_3vk0j"), ExtResource("7_e65p5"), ExtResource("8_15wuh"), ExtResource("9_8k863"), ExtResource("10_eoed6"), ExtResource("11_276x8"), ExtResource("12_a7sxu"), ExtResource("13_w5o7j")])
+upgrades = Array[ExtResource("2_4i6i5")]([ExtResource("3_rxdoq"), ExtResource("4_h3p4t"), ExtResource("5_llema"), ExtResource("6_3vk0j"), ExtResource("7_e65p5"), ExtResource("8_15wuh"), ExtResource("9_8k863"), ExtResource("10_eoed6"), ExtResource("11_276x8"), ExtResource("12_a7sxu"), ExtResource("13_w5o7j"), ExtResource("14_5e41g"), ExtResource("15_1a4t3")])
 ship_engine = SubResource("Resource_84uqs")
 weapons = Array[ExtResource("3_yws57")]([ExtResource("4_hu4rs"), ExtResource("5_tuqcu"), ExtResource("6_utjo4")])
-cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_t7nkm")
+
+[node name="Player" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_jem3x")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("4_hr172")
+decay = 0.5
+max_offset = Vector2(60, 40)
+noise = SubResource("FastNoiseLite_vbycn")
+
+[node name="BurstManager" type="Node2D" parent="."]
+script = ExtResource("42_wwp4v")
+amount_of_bursts = 10
+
+[node name="BurstCooldownTimer" type="Timer" parent="BurstManager"]
+wait_time = 2.0
+one_shot = true
+
+[node name="BurstParticlesLeft" type="GPUParticles2D" parent="BurstManager"]
+position = Vector2(0, -40)
+rotation = 1.5708
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_hhxgi")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+
+[node name="BurstParticlesRight" type="GPUParticles2D" parent="BurstManager"]
+position = Vector2(0, 32)
+rotation = -1.57079
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_hhxgi")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+
+[node name="BurstSound" type="AudioStreamPlayer2D" parent="BurstManager"]
+stream = ExtResource("33_acsw3")
+volume_db = 4.333
+
+[node name="MiningInteractor" type="Node" parent="."]
+script = ExtResource("18_byx4j")
+
+[node name="HealthComponent" parent="." instance=ExtResource("11_amrm5")]
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("player", "health_component") instance=ExtResource("10_h7v8t")]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("35_57bq8")
+player = NodePath("..")
+velocity_factor = 200
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_x37x3")
+debug_color = Color(0.584159, 0.443576, 0.844739, 0.42)
+
+[node name="PassthroughSound" type="AudioStreamPlayer2D" parent="HurtboxComponent"]
+stream = ExtResource("28_lgvic")
 
 [node name="TargetLockAcquirer" type="Node2D" parent="."]
 script = ExtResource("9_nit3j")
@@ -159,93 +231,13 @@ ray_width = 16
 ray_length = 64.0
 default_duration = 0.1
 
-[node name="EngineParticles1" type="GPUParticles2D" parent="."]
-position = Vector2(-48, 16)
-amount = 16
-process_material = ExtResource("21_elfmq")
-
-[node name="EngineParticles2" type="GPUParticles2D" parent="."]
-position = Vector2(-48, -8)
-amount = 16
-process_material = ExtResource("21_elfmq")
-
-[node name="BurstParticlesLeft" type="GPUParticles2D" parent="."]
-position = Vector2(0, -40)
-rotation = 1.5708
-emitting = false
-amount = 16
-process_material = SubResource("ParticleProcessMaterial_hhxgi")
-lifetime = 0.6
-one_shot = true
-explosiveness = 1.0
-
-[node name="BurstParticlesRight" type="GPUParticles2D" parent="."]
-position = Vector2(0, 32)
-rotation = -1.57079
-emitting = false
-amount = 16
-process_material = SubResource("ParticleProcessMaterial_hhxgi")
-lifetime = 0.6
-one_shot = true
-explosiveness = 1.0
-
-[node name="Player" type="Sprite2D" parent="."]
-rotation = 1.5708
-scale = Vector2(1.5, 1.5)
-texture = ExtResource("1_jem3x")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_t7nkm")
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(0.5, 0.5)
-script = ExtResource("4_hr172")
-decay = 0.5
-max_offset = Vector2(60, 40)
-noise = SubResource("FastNoiseLite_vbycn")
-
 [node name="CannonPoint1" type="Node2D" parent="."]
 position = Vector2(-15, -25)
 
 [node name="CannonPoint2" type="Node2D" parent="."]
 position = Vector2(-15, 25)
 
-[node name="Shots" type="Node" parent="."]
-
-[node name="EngineJoltSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_cpwju")
-
-[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("10_68rdc")
-
-[node name="AntigravityOnSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("7_gekea")
-
-[node name="AntigravityOffSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("8_j6q3o")
-
-[node name="EngineSustainSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_fatdb")
-
-[node name="CannonCooloffSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_ygi07")
-
-[node name="WeaponShotSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("7_q38qb")
-
-[node name="CantShootSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("15_4ql6b")
-
-[node name="PickupSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("32_icqak")
-
-[node name="BurstSound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("33_acsw3")
-volume_db = 4.333
-
-[node name="SwitchWeaponSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("35_el5xx")
+[node name="ShotParent" type="Node" parent="."]
 
 [node name="ShotTimer" type="Timer" parent="."]
 wait_time = 0.2
@@ -255,28 +247,56 @@ one_shot = true
 wait_time = 5.0
 one_shot = true
 
-[node name="HealthComponent" parent="." instance=ExtResource("11_amrm5")]
+[node name="OverspeedTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
 
-[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("player", "health_component") instance=ExtResource("10_h7v8t")]
-collision_layer = 2
-collision_mask = 5
-script = ExtResource("35_57bq8")
-player = NodePath("..")
-velocity_factor = 200
-health_component = NodePath("../HealthComponent")
+[node name="Sounds" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
-rotation = 1.5708
-shape = SubResource("CapsuleShape2D_x37x3")
-debug_color = Color(0.584159, 0.443576, 0.844739, 0.42)
+[node name="EngineJoltSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("5_cpwju")
 
-[node name="PassthroughSound" type="AudioStreamPlayer2D" parent="HurtboxComponent"]
-stream = ExtResource("28_lgvic")
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("10_68rdc")
 
-[node name="MiningInteractor" type="Node" parent="."]
-script = ExtResource("18_byx4j")
+[node name="AntigravityOnSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("7_gekea")
 
-[node name="DeathParticles" type="GPUParticles2D" parent="."]
+[node name="AntigravityOffSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("8_j6q3o")
+
+[node name="EngineSustainSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("6_fatdb")
+volume_db = -4.0
+
+[node name="CannonCooloffSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("6_ygi07")
+
+[node name="WeaponShotSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("7_q38qb")
+
+[node name="CantShootSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("15_4ql6b")
+
+[node name="PickupSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("32_icqak")
+
+[node name="SwitchWeaponSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("35_el5xx")
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="EngineParticles1" type="GPUParticles2D" parent="Particles"]
+position = Vector2(-48, 16)
+amount = 16
+process_material = ExtResource("21_elfmq")
+
+[node name="EngineParticles2" type="GPUParticles2D" parent="Particles"]
+position = Vector2(-48, -8)
+amount = 16
+process_material = ExtResource("21_elfmq")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="Particles"]
 emitting = false
 amount = 12
 process_material = SubResource("ParticleProcessMaterial_tsq4s")
@@ -285,11 +305,12 @@ one_shot = true
 explosiveness = 0.64
 randomness = 0.52
 
-[node name="OverspeedTimer" type="Timer" parent="."]
-wait_time = 10.0
-one_shot = true
+[node name="HeatReceiver" type="Node2D" parent="."]
+script = ExtResource("43_5s4bi")
+temperature_limit = 3000.0
+temperature_loss_rate = 50.0
 
+[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="timeout" from="TargetLockAcquirer/TargetLockTimer" to="TargetLockAcquirer" method="_on_target_lock_timer_timeout"]
 [connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
-[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
 [connection signal="timeout" from="OverspeedTimer" to="." method="_on_overspeed_timer_timeout"]

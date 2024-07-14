@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://bw3ub282hdfer"]
+
+[ext_resource type="Texture2D" uid="uid://dcn1lvy4eycl1" path="res://gui/burst/burst_bar.png" id="1_43ijr"]
+
+[resource]
+atlas = ExtResource("1_43ijr")
+region = Rect2(0, 16, 32, 16)

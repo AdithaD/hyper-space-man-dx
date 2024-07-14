@@ -12,6 +12,7 @@ func _ready() -> void:
 		%UpgradeItemList.append_item(instance)
 	
 	%UpgradeItemList.items[0].is_selected = true
-
+	
 func _on_upgrade_item_list_item_selected(item: Control) -> void:
 	%UpgradeDetailsGUI.set_upgrade(item.upgrade)
+	

@@ -1,7 +1,7 @@
 extends SpaceStation
 
 func fill(player: Player) -> void:
-	var hc := player.get_health_component()
+	var hc := player.health_component
 	var difference := roundi(hc.maximum_health - hc.current_health)
 
 	if difference > 0:

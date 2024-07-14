@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=8 format=3 uid="uid://c2kg6jwx6ot40"]
+
+[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="1_dtyig"]
+[ext_resource type="Script" path="res://minerals/mineral_inventory.gd" id="2_g46s4"]
+[ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://minerals/mineral_forged_carbon_fiber.tres" id="3_th4ad"]
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://minerals/mineral_meteorite.tres" id="4_o36x0"]
+
+[sub_resource type="Resource" id="Resource_3xxhk"]
+script = ExtResource("2_g46s4")
+starting_inventory = {
+ExtResource("3_th4ad"): 5000
+}
+
+[sub_resource type="Resource" id="Resource_w60ae"]
+script = ExtResource("2_g46s4")
+starting_inventory = {
+ExtResource("3_th4ad"): 20000,
+ExtResource("4_o36x0"): 100
+}
+
+[sub_resource type="Resource" id="Resource_wpdq5"]
+script = ExtResource("2_g46s4")
+starting_inventory = {
+ExtResource("3_th4ad"): 50000,
+ExtResource("4_o36x0"): 1000
+}
+
+[resource]
+script = ExtResource("1_dtyig")
+upgrade_id = &"temp_radiators"
+upgrade_name = "Temp. Radiators"
+tier_costs = Array[ExtResource("2_g46s4")]([SubResource("Resource_3xxhk"), SubResource("Resource_w60ae"), SubResource("Resource_wpdq5")])
+tier_values = Array[float]([50.0, 100.0, 250.0, 600.0])

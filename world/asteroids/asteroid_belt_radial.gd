@@ -6,13 +6,28 @@ extends Node2D
 @export var max_radius: float = 0
 @export var amount_of_segements : float = 8.0
 @export var asteroids_per_segment : float = 2.0
+@export var segments_per_batch := 4.0
+
+@onready var increment := 2 * PI / amount_of_segements
+var spawned_segments := 0
+var spawning := false
 
 func _generate() -> void:
-	var increment := 2 * PI / amount_of_segements
-	
-	for i in range(amount_of_segements):
+	spawning = true
+
+func _physics_process(delta: float) -> void:
+	if spawning:
+		var batch_size := mini(segments_per_batch, amount_of_segements - spawned_segments)
+		_spawn_batch(batch_size)
+
+func _spawn_batch(batch_size : int) -> void:
+	for i in range(batch_size):
 		for n in range(asteroids_per_segment):
-			_spawn_asteroid(i * increment)
+			_spawn_asteroid(spawned_segments * increment)
+		spawned_segments += 1
+
+	spawning = spawned_segments != amount_of_segements
+	print(spawned_segments)
 
 func _spawn_asteroid(angle: float) -> void:
 	var variance_angle := randf_range(-PI / amount_of_segements, PI / amount_of_segements)

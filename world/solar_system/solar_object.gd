@@ -17,6 +17,8 @@ var interact_area : PlayerInteractArea:
 	get:
 		return $PlayerInteractArea
 
+var radius : float = 0.0
+
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func init(frames: SpriteFrames, p_solar_name: String, p_mineral_inventory: MineralInventory, new_scale: float=1) -> void:
@@ -28,7 +30,7 @@ func init(frames: SpriteFrames, p_solar_name: String, p_mineral_inventory: Miner
 	
 	sprite.apply_scale(Vector2(new_scale, new_scale))
 
-	var radius := sprite.scale.x * sprite.sprite_frames.get_frame_texture("rotate", 0).get_width() / 2
+	radius = sprite.scale.x * sprite.sprite_frames.get_frame_texture("rotate", 0).get_width() / 2
 	var shape := CircleShape2D.new()
 	shape.radius = radius * 0.9
 	

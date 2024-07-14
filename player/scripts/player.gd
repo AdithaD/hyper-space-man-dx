@@ -32,12 +32,12 @@ signal upgraded
 @export_subgroup("Mining")
 @export var mining_drone_scene: PackedScene
 
+# State
 # Movement Vectors
 var direction := Vector2.ZERO
 
 var shot_count : int = 0
 
-# State
 var is_mining := false
 var is_anti_gravity_on := false
 var current_weapon_index := 0
@@ -67,14 +67,14 @@ var is_accelerating := false:
 		if new_value != is_accelerating:
 			is_accelerating = new_value
 			
-			$EngineParticles1.emitting = is_accelerating
-			$EngineParticles2.emitting = is_accelerating
+			for ep in engine_particles:
+				ep.emitting = is_accelerating
 			
-			$EngineSustainSound.playing = is_accelerating
+			engine_sustain_sound.playing = is_accelerating
 			
 			if is_accelerating:
-				$Camera2D.add_trauma(1.0)
-				$EngineJoltSound.play()
+				camera_2d.add_trauma(1.0)
+				engine_jolt_sound.play()
 
 var maximum_drone_amount : int = 1
 var drone_harvest_rate : int = 100
@@ -83,25 +83,46 @@ var drone_storage_amount : int = 2000
 # needs to be an array
 var mining_drones: Array[MiningDrone] = []
 
-var mining_interactor: MiningInteractor:
-	get:
-		return $MiningInteractor
-
 var is_overheated: bool:
 	get:
-		return not $HeatCooloffTimer.is_stopped()
-		
-var hurtbox: HurtboxComponent:
-	get:
-		return $HurtboxComponent
+		return not heat_cooloff_timer.is_stopped()
 
-@onready var heat := 0.0:
+var heat := 0.0:
 	set(value):
 		heat = value
 		heat_changed.emit(heat, heat / maximum_heat)
+		
+#region onready vars
+@onready var camera_2d: Camera2D = $Camera2D
+
+@onready var engine_jolt_sound: AudioStreamPlayer2D = $Sounds/EngineJoltSound
+@onready var death_sound: AudioStreamPlayer2D = $Sounds/DeathSound
+@onready var antigravity_on_sound: AudioStreamPlayer2D = $Sounds/AntigravityOnSound
+@onready var antigravity_off_sound: AudioStreamPlayer2D = $Sounds/AntigravityOffSound
+@onready var engine_sustain_sound: AudioStreamPlayer2D = $Sounds/EngineSustainSound
+@onready var cannon_cooloff_sound: AudioStreamPlayer2D = $Sounds/CannonCooloffSound
+@onready var weapon_shot_sound: AudioStreamPlayer2D = $Sounds/WeaponShotSound
+@onready var cant_shoot_sound: AudioStreamPlayer2D = $Sounds/CantShootSound
+@onready var pickup_sound: AudioStreamPlayer2D = $Sounds/PickupSound
+@onready var switch_weapon_sound: AudioStreamPlayer = $Sounds/SwitchWeaponSound
 
 @onready var overspeed_timer: Timer = $OverspeedTimer
+@onready var heat_cooloff_timer: Timer = $HeatCooloffTimer
+@onready var shot_timer: Timer = $ShotTimer
+
 @onready var target_lock : TargetLockAcquirer = $TargetLockAcquirer
+@onready var mining_interactor: MiningInteractor = $MiningInteractor
+@onready var health_component: HealthComponent = $HealthComponent
+@onready var burst_manager: BurstManager = $BurstManager
+@onready var heat_receiver: PlayerHeatReceiver = $HeatReceiver
+
+@onready var engine_particles : Array[GPUParticles2D] = [$Particles/EngineParticles1, $Particles/EngineParticles2]
+@onready var death_particles: GPUParticles2D = $Particles/DeathParticles
+@onready var ray_shooter: Node2D = $RayShooter
+
+@onready var shot_parent: Node = $ShotParent
+
+#endregion
 
 func _ready() -> void:
 	ship_engine.reset_state()
@@ -110,24 +131,18 @@ func _ready() -> void:
 		apply_upgrade(upgrade, false)
 
 	mineral_inventory._init(mineral_inventory.starting_inventory)
-	$HeatCooloffTimer.wait_time = maximum_heat / heat_drain_per_second
+	heat_cooloff_timer.wait_time = maximum_heat / heat_drain_per_second
 	
 	_set_weapon(current_weapon)
 	
-	mineral_inventory.mineral_modified.connect($PickupSound.play.unbind(2))
+	mineral_inventory.mineral_modified.connect(pickup_sound.play.unbind(2))
+
+func apply_impulse(impulse: Vector2) -> void:
+	velocity += transform.basis_xform(impulse)
 
 func _physics_process(delta: float) -> void:
 	if not is_dead and has_control:
-		if Input.is_action_just_pressed("burst_left"):
-			velocity += -transform.y * burst_impulse
-			$BurstParticlesRight.emitting = true
-			$BurstSound.play()
-			
-		if Input.is_action_just_pressed("burst_right"):
-			velocity += transform.y * burst_impulse
-			$BurstParticlesLeft.emitting = true
-			$BurstSound.play()
-
+		burst_manager.notify(Input.is_action_just_pressed("burst_left"), Input.is_action_just_pressed("burst_right"))
 		#accelerate
 		is_accelerating = Input.is_action_pressed("accelerate")
 		
@@ -138,32 +153,22 @@ func _physics_process(delta: float) -> void:
 				velocity -= velocity.normalized() * drag * delta
 
 		# shoot
-		if Input.is_action_just_pressed("shoot") and not $HeatCooloffTimer.is_stopped():
-			$CantShootSound.play()
+		if Input.is_action_just_pressed("shoot") and not heat_cooloff_timer.is_stopped():
+			cant_shoot_sound.play()
 			
-		if Input.is_action_pressed("shoot") and $ShotTimer.is_stopped() and $HeatCooloffTimer.is_stopped():
+		if Input.is_action_pressed("shoot") and shot_timer.is_stopped() and heat_cooloff_timer.is_stopped():
 			shoot()
 
 		# reduce heat
 		if not is_zero_approx(heat):
 			heat -= min(heat, heat_drain_per_second * delta)
 
-		# apply gravity
-		if world:
-			var gravity := world.get_gravity(global_position)
-			
-			if not is_anti_gravity_on:
-				velocity += gravity * delta
-			else:
-				# burn fuel equivalent to anti-gravity
-				ship_engine.burn_anti_gravity(gravity * delta)
-
 		# over speed camera shake
 		if velocity.length() > max_speed:
 			if overspeed_timer.is_stopped() and not is_dead:
 				overspeed_timer.start()
 
-			$Camera2D.add_trauma(1.0 * delta)
+			camera_2d.add_trauma(1.0 * delta)
 		else:
 			if not overspeed_timer.is_stopped():
 				overspeed_timer.stop()
@@ -190,20 +195,20 @@ func _unhandled_input(event: InputEvent) -> void:
 			switch_to_weapon(current_weapon)
 
 func _set_weapon(weapon: PlayerWeapon) -> void:
-	$ShotTimer.wait_time = weapon.shot_cooldown
-	$WeaponShotSound.stream = weapon.shoot_sound
+	shot_timer.wait_time = weapon.shot_cooldown
+	weapon_shot_sound.stream = weapon.shoot_sound
 	#$TargetLockAcquirer.set_enabled(weapon.is_lock_required)
 	weapon_changed.emit(weapon)
 	
 func switch_to_weapon(weapon: PlayerWeapon) -> void:
 	_set_weapon(weapon)
-	$SwitchWeaponSound.play()
+	switch_weapon_sound.play()
 
 func die() -> void:
-	$DeathParticles.emitting = true
+	death_particles.emitting = true
 	#$Camera2D.top_level = true
 	#$Camera2D.global_position = global_position
-	$DeathSound.play()
+	death_sound.play()
 
 	is_dead = true
 
@@ -224,10 +229,10 @@ func shoot() -> void:
 		_shoot_hitscan(current_weapon, global_position, get_global_mouse_position())
 	else:
 		_shoot_projectile(current_weapon, cannon.global_position, cannon.global_position + transform.x * 100)
-	$WeaponShotSound.play()
-	$Camera2D.add_trauma(current_weapon.shot_trauma)
+	weapon_shot_sound.play()
+	camera_2d.add_trauma(current_weapon.shot_trauma)
 	
-	$ShotTimer.start()
+	shot_timer.start()
 
 	_add_heat(current_weapon.heat_per_shot)
 	shot_count += 1
@@ -245,7 +250,7 @@ func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -
 	if new_shot.has_method("set_inherited_velocity"):
 		new_shot.set_inherited_velocity(velocity)
 	
-	$Shots.add_child(new_shot)
+	shot_parent.add_child(new_shot)
 
 func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> void:
 	var dss := get_world_2d().direct_space_state
@@ -257,7 +262,7 @@ func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> v
 	
 	var collision: Dictionary = dss.intersect_ray(query)
 
-	$RayShooter.shoot_ray(origin, destination)
+	ray_shooter.shoot_ray(origin, destination)
 	if collision:
 		var hurtbox := collision.collider as HurtboxComponent
 		hurtbox.take_damage(weapon.weapon_damage)
@@ -322,10 +327,15 @@ func apply_upgrade(upgrade: TieredUpgrade, level_up := true) -> void:
 			&"drone_storage":
 				drone_storage_amount = int(value)
 			&"hull":
-				get_health_component().maximum_health = int(value)
+				health_component.maximum_health = int(value)
 			&"annihilation_shield":
 				is_annihilation_shield_active = bool(value)
-
+			&"temp_shielding":
+				heat_receiver.temperature_limit = int(value)
+			&"temp_radiators":
+				heat_receiver.temperature_loss_rate = float(value)
+			&"burst_charges":
+				burst_manager.set_burst_amount(int(value))
 		upgraded.emit()
 
 func can_upgrade(upgrade: TieredUpgrade) -> bool:
@@ -340,21 +350,18 @@ func _add_heat(amount: float) -> void:
 		_cool_off()
 		
 func _cool_off() -> void:
-	$HeatCooloffTimer.start()
-	$CannonCooloffSound.play()
+	heat_cooloff_timer.start()
+	cannon_cooloff_sound.play()
 
 func set_anti_gravity(is_on: bool) -> void:
 	is_anti_gravity_on = is_on
 	
 	if is_anti_gravity_on:
-		$AntigravityOnSound.play()
+		antigravity_on_sound.play()
 	else:
-		$AntigravityOffSound.play()
+		antigravity_off_sound.play()
 	
 	player_state_changed.emit(is_anti_gravity_on)
-
-func get_health_component() -> HealthComponent:
-	return $HealthComponent
 
 func queue_death() -> void:
 	is_dead = true
