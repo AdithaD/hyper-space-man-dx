@@ -54,6 +54,7 @@ var world : World
 var size : int
 
 @onready var player_interact_area: PlayerInteractArea = $PlayerInteractArea
+@onready var asteroid_belt: Node2D = $AsteroidBelt
 
 func init(p_world: World, p_size: int, number_of_planets : int, p_spread : float, p_sun_name : String) -> void:
 	world = p_world
@@ -71,6 +72,9 @@ func init(p_world: World, p_size: int, number_of_planets : int, p_spread : float
 	spawn_sun()
 	
 	spawn_space_station(sun.global_position)
+	
+	asteroid_belt.min_radius = spread * 1.2
+	asteroid_belt.max_radius = spread * 1.5
 	
 	$AsteroidBelt._generate()
 		

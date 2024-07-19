@@ -1,7 +1,7 @@
-[gd_scene load_steps=79 format=3 uid="uid://dxo17ebgranxt"]
+[gd_scene load_steps=82 format=3 uid="uid://dxo17ebgranxt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_tgsu5"]
-[ext_resource type="PackedScene" uid="uid://daxtra85huyqp" path="res://sound_manager.tscn" id="2_5inwt"]
+[ext_resource type="Script" path="res://utils/sound_manager.gd" id="2_fhc6a"]
 [ext_resource type="Script" path="res://world/world.gd" id="2_wy77q"]
 [ext_resource type="Texture2D" uid="uid://dl8swyen5neuw" path="res://world/background.png" id="3_x8lud"]
 [ext_resource type="Texture2D" uid="uid://cati84mdiw8wx" path="res://world/star_bg.png" id="4_rg3fd"]
@@ -10,8 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://dw7tlcb3cqdhj" path="res://world/star_bg_2.png" id="5_x37fm"]
 [ext_resource type="PackedScene" uid="uid://tyxjmooe1q3k" path="res://world/item_pickup.tscn" id="8_hw0tm"]
 [ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://player/player.tscn" id="9_hq3w5"]
+[ext_resource type="Script" path="res://enemy/enemy_group.gd" id="10_uw0ym"]
 [ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://minerals/player_inventory.tres" id="10_wjjcp"]
 [ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://player/mining_drone/mine_drone.tscn" id="11_kmxs3"]
+[ext_resource type="PackedScene" uid="uid://etng58t8qcmc" path="res://enemy/missile_enemy.tscn" id="11_mx0lu"]
 [ext_resource type="Script" path="res://gui/gui.gd" id="12_ar618"]
 [ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="12_h38fx"]
 [ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="12_ndlri"]
@@ -54,6 +56,7 @@
 [ext_resource type="PackedScene" uid="uid://dilq7a2ttbv1t" path="res://gui/upgrade_tab.tscn" id="50_v6640"]
 [ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="51_33kkw"]
 [ext_resource type="Texture2D" uid="uid://bxg75mxwg7f52" path="res://player/vignette.png" id="53_sdkwk"]
+[ext_resource type="Script" path="res://debug/player_temp_data.gd" id="55_gas7b"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_aapjq"]
 font_size = 64
@@ -251,7 +254,8 @@ _data = {
 [node name="Main" type="Node"]
 script = ExtResource("1_tgsu5")
 
-[node name="SoundManager" parent="." instance=ExtResource("2_5inwt")]
+[node name="SoundManager" type="Node" parent="."]
+script = ExtResource("2_fhc6a")
 
 [node name="World" type="Node2D" parent="." node_paths=PackedStringArray("player") groups=["world"]]
 script = ExtResource("2_wy77q")
@@ -291,14 +295,26 @@ unique_name_in_owner = true
 script = ExtResource("4_w3ij2")
 player = NodePath("../../Player")
 solar_system_scene = ExtResource("5_7bfjq")
-grid_size = 10000
-min_distance = 24000
-max_distance = 64000
+grid_size = 20000
+min_distance = 3
+max_distance = 4
 min_planets = 5
 max_planets = 8
-min_solar_range = 6000
-max_solar_range = 10000
+min_solar_range = 12500
+max_solar_range = 17500
 solar_system_randomness = 0.3
+
+[node name="EnemyGroup" type="Node2D" parent="World"]
+position = Vector2(736, -268)
+script = ExtResource("10_uw0ym")
+
+[node name="Enemy" parent="World/EnemyGroup" node_paths=PackedStringArray("world") instance=ExtResource("11_mx0lu")]
+position = Vector2(312, 25)
+world = NodePath("../..")
+
+[node name="Enemy2" parent="World/EnemyGroup" node_paths=PackedStringArray("world") instance=ExtResource("11_mx0lu")]
+position = Vector2(360, 164)
+world = NodePath("../..")
 
 [node name="Enemies" type="Node2D" parent="."]
 
@@ -381,7 +397,6 @@ offset_bottom = 344.0
 script = ExtResource("16_hieb5")
 player = NodePath("../../../../../../Player")
 planet_size = 2
-grid_scale = 512
 grid_size = 64
 space_station_color = Color(0, 0.584314, 0.913725, 1)
 
@@ -447,6 +462,20 @@ offset_right = 280.0
 offset_bottom = 112.0
 grow_horizontal = 2
 text = "WARNING: OVERSPEED"
+label_settings = SubResource("LabelSettings_aapjq")
+
+[node name="OverheatCautionLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.0
+offset_top = 48.0
+offset_right = 280.0
+offset_bottom = 112.0
+grow_horizontal = 2
+text = "DANGER: EXCESSIVE CORE TEMP"
 label_settings = SubResource("LabelSettings_aapjq")
 
 [node name="TopCenterPrompts" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
@@ -986,6 +1015,37 @@ layout_mode = 2
 player = NodePath("../../../../../Player")
 upgrades = Array[ExtResource("51_33kkw")]([ExtResource("42_maqn3"), ExtResource("44_d80h3"), ExtResource("43_u02ci")])
 metadata/_tab_index = 3
+
+[node name="DebugGUI" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/DebugGUI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -292.0
+offset_bottom = 380.0
+grow_horizontal = 0
+
+[node name="TempData" type="VBoxContainer" parent="CanvasLayer/DebugGUI/PanelContainer" node_paths=PackedStringArray("player")]
+layout_mode = 2
+script = ExtResource("55_gas7b")
+player = NodePath("../../../../Player")
+
+[node name="TempLabel" type="Label" parent="CanvasLayer/DebugGUI/PanelContainer/TempData"]
+layout_mode = 2
+
+[node name="TempDelta Label" type="Label" parent="CanvasLayer/DebugGUI/PanelContainer/TempData"]
+layout_mode = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -30,4 +30,4 @@ script = ExtResource("1_dtyig")
 upgrade_id = &"temp_radiators"
 upgrade_name = "Temp. Radiators"
 tier_costs = Array[ExtResource("2_g46s4")]([SubResource("Resource_3xxhk"), SubResource("Resource_w60ae"), SubResource("Resource_wpdq5")])
-tier_values = Array[float]([50.0, 100.0, 250.0, 600.0])
+tier_values = Array[float]([50.0, 150.0, 300.0, 600.0])

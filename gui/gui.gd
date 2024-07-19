@@ -13,6 +13,7 @@ extends Control
 @onready var speed_label: Label = %SpeedLabel
 @onready var overspeed_caution_label: Label = %OverspeedCautionLabel
 @onready var destruction_timer_label: Label = %DestructionTimerLabel
+@onready var overheat_caution_label: Label = %OverheatCautionLabel
 
 @onready var fuel_bar: Control = %FuelBar
 @onready var hull_bar: Control = %HullBar
@@ -59,6 +60,9 @@ func _physics_process(_delta: float) -> void:
 	
 	overspeed_caution_label.visible = player.is_overspeed
 	destruction_timer_label.visible = player.is_overspeed
+	
+	overheat_caution_label.visible = player.heat_receiver.is_exceeded
+	
 	if player.is_overspeed:
 		destruction_timer_label.text = "Estimated destruction in %1.1fs" % player.overspeed_timer.time_left
 

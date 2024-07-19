@@ -5,5 +5,5 @@ class_name HeatEmitter
 @export var temperature : float
 
 func get_energy(location: Vector2) -> float:
-	var distance_to_edge := maxi(location.distance_to(global_position) - radius, 1)
-	return pow(temperature, 4) / distance_to_edge
+	var distance := maxi(location.distance_to(global_position), radius)
+	return pow(temperature, 4) / pow(distance, 2)

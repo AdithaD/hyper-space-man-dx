@@ -1,6 +1,5 @@
 extends CharacterBody2D
 class_name Player
-
 signal heat_changed(new_amount: int)
 
 signal player_state_changed(anti_gravity: bool)
@@ -121,7 +120,6 @@ var heat := 0.0:
 @onready var ray_shooter: Node2D = $RayShooter
 
 @onready var shot_parent: Node = $ShotParent
-
 #endregion
 
 func _ready() -> void:
@@ -149,7 +147,7 @@ func _physics_process(delta: float) -> void:
 		if is_accelerating:
 			accelerate(delta)
 		else:
-			if not is_zero_approx(velocity.length()):
+			if not is_zero_approx(velocity.length()) and velocity.length() < 100:
 				velocity -= velocity.normalized() * drag * delta
 
 		# shoot
@@ -242,7 +240,7 @@ func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -
 	new_shot.global_position = origin
 	new_shot.global_rotation = global_rotation
 	
-	new_shot.player = self
+#	new_shot.player = self
 	
 	if new_shot.has_method("set_target"):
 		new_shot.set_target(target)

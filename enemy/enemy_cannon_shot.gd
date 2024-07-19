@@ -13,8 +13,8 @@ var local_speed: float = 0.0;
 var player: Player
 var _timer : float = 0.0
 
-func set_target(new_target: Vector2) -> void:
-	target = new_target
+func set_target(new_target: Node2D) -> void:
+	target = new_target.global_position
 	dir = global_position.direction_to(target).rotated(randf_range(-inaccuracy, inaccuracy))
 	look_at(global_position + dir)
 

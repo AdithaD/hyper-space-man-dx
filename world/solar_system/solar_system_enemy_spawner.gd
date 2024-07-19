@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var enemy_amount_curve: Curve
-@export var enemy_scene: PackedScene
+@export var enemy_scenes: Array[PackedScene]
 @export var danger_multipliers : Array[float] = []
 
 var danger_rating : int = 0
@@ -28,7 +28,7 @@ func spawn() -> void:
 		spawn_enemy(group, spawn_point + Vector2(i * 64, 0))
 
 func spawn_enemy(group: EnemyGroup, local_position: Vector2) -> void:
-	var enemy: Enemy = enemy_scene.instantiate()
+	var enemy: Enemy = enemy_scenes.pick_random().instantiate()
 	enemy.group = group
 	enemy.world = solar_system.world
 

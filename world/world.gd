@@ -39,6 +39,18 @@ func spawn_mineral_pickup(location : Vector2, mineral : Mineral, amount : int) -
 	
 	call_deferred("add_child", instance)
 
+func add_particles(location: Vector2, destruction_partices: ParticleProcessMaterial) -> void:
+	var particles := GPUParticles2D.new()
+	
+	particles.global_position = location
+	particles.process_material = destruction_partices
+	particles.one_shot = true
+	
+	add_child(particles)
+	particles.emitting = true
+	
+	particles.finished.connect(particles.queue_free)
+
 func configure_player(player: Player) -> void:
 	$SolarSystemSpawner.solar_system_spawned.connect(player.mining_interactor._on_solar_system_spawner_solar_system_spawned)
 

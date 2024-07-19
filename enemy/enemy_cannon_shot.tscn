@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://cg87houwcn0uk"]
 
-[ext_resource type="Script" path="res://enemy/enemy_shot.gd" id="1_ec2os"]
+[ext_resource type="Script" path="res://enemy/enemy_cannon_shot.gd" id="1_ec2os"]
 [ext_resource type="Texture2D" uid="uid://xs4h14g5ixob" path="res://enemy/enemy_laser_shot.png" id="2_vppiq"]
 [ext_resource type="PackedScene" uid="uid://0bdiug3nq1yh" path="res://components/hitbox_component.tscn" id="3_uuivf"]
 [ext_resource type="AudioStream" uid="uid://ii5evbgbomm0" path="res://player/sounds/flying_shot.wav" id="4_xfngd"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://11rwbkf8imfj"]
 
-[ext_resource type="Script" path="res://player/scripts/player_missile_shot.gd" id="1_tyjsv"]
+[ext_resource type="Script" path="res://player/scripts/missile_shot.gd" id="1_tyjsv"]
 [ext_resource type="Texture2D" uid="uid://b0kmag72qfxcm" path="res://player/player_missile_shot.png" id="2_x2q05"]
 [ext_resource type="PackedScene" uid="uid://0bdiug3nq1yh" path="res://components/hitbox_component.tscn" id="3_cyhac"]
 [ext_resource type="AudioStream" uid="uid://4wxdgo2708tw" path="res://player/sounds/missile_launch.wav" id="4_y0l3d"]
@@ -41,10 +41,9 @@ size = Vector2(94, 40)
 [node name="MissileShot" type="Node2D"]
 z_index = 5
 script = ExtResource("1_tyjsv")
-target_group = &"enemy"
 speed = 2400.0
-jerk = 14000.0
 base_acceleration = 50.0
+jerk = 14000.0
 angular_speed = 6.283
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]

@@ -1,13 +1,13 @@
 extends CharacterBody2D
 class_name Enemy
 
-const ENEMY_SHOT = preload ("res://enemy/enemy_shot.tscn")
 @export var world : World
 
 @export var max_speed := 500.0
 @export var acceleration := 500.0
 @export var angular_velocity := 1 * PI
 @export var cannon_points: Array[Node2D] = []
+@export var enemy_shot_scene : PackedScene
 
 @export_subgroup("Drops")
 @export var drop_mineral: Mineral
@@ -57,16 +57,21 @@ func _physics_process(delta: float) -> void:
 
 func shoot() -> void:
 	# select cannon point
-	var cannon := cannon_points[shot_count % cannon_points.size()]
+	var origin := cannon_points[shot_count % cannon_points.size()]
 	
 	# fire shot
-	var new_shot : Node2D = ENEMY_SHOT.instantiate()
-	new_shot.global_position = cannon.global_position
-	new_shot.player = world.player
-	new_shot.set_inherited_velocity(velocity)
+	var new_shot : Node2D = enemy_shot_scene.instantiate()
+	new_shot.global_position = origin.global_position
+	new_shot.global_rotation = global_rotation
+	
+	if new_shot.has_method("set_inherited_velocity"):
+		new_shot.set_inherited_velocity(velocity)
 	
 	if new_shot.has_method("set_target"):
-		new_shot.set_target(world.player.global_position)
+		new_shot.set_target(world.player)
+		
+	if new_shot.has_method("set_parent"):
+		new_shot.set_parent(self)
 
 	$Shots.add_child(new_shot)
 	

@@ -51,13 +51,12 @@ func _ready() -> void:
 	
 func _process(_delta : float) -> void:
 	if active:
-		var full_position := player.global_position
-		var pos := Vector2i(int(full_position.x / grid_size), int(full_position.y / grid_size))
+		var pos := Vector2i(player.global_position / grid_size)
 		if not explored_grid.has(pos):
 			#var time_left = get_node("/root/Main").time_left
 			explored_grid[pos] = true
 			#spawn(2, full_position, start_pos, ((time_left * min_distance) + max_distance * (game_time - time_left)) / game_time)
-			spawn(2, full_position, start_pos, randi_range(min_distance, max_distance))
+			spawn(2, player.global_position, start_pos, randi_range(min_distance, max_distance) * grid_size)
 		
 func create_solar_system(x : float, y : float, number_of_planets : int, spread : float) -> SolarSystem:
 	var solar_system : SolarSystem = solar_system_scene.instantiate()
@@ -72,19 +71,22 @@ func create_solar_system(x : float, y : float, number_of_planets : int, spread :
 	return solar_system
 	
 #spawns solar sytem dist from pos in semicircle away from origin
-func spawn(amount: int, pos: Vector2, origin : Vector2, dist : float) -> void:
+func spawn(amount: int, player_position: Vector2, origin : Vector2, distance_from_player : float) -> void:
 	for i in range(amount):
 		var _rotation := randf_range( - 0.5 * PI, 0.5 * PI)
 		
-		var goal_pos := (pos + ((pos - origin).normalized() * dist).rotated(_rotation))
-		var goal_x_grid := int(goal_pos.x / (grid_size * 2))
-		var goal_y_grid := int(goal_pos.y / (grid_size * 2))
+		var goal_pos := (player_position + (origin.direction_to(player_position) * distance_from_player).rotated(_rotation))
+		var goal_x_grid := int(goal_pos.x / grid_size)
+		var goal_y_grid := int(goal_pos.y / grid_size)
 		
 		if not sun_grid.has([goal_x_grid, goal_y_grid]):
 			var rand_offset := floori(solar_system_randomness * grid_size)
-			var x := goal_x_grid * (grid_size * 2) + randi_range( - rand_offset, rand_offset)
-			var y := goal_y_grid * (grid_size * 2) + randi_range( - rand_offset, rand_offset)
+			
+			var x := goal_x_grid * grid_size + randi_range( - rand_offset, rand_offset)
+			var y := goal_y_grid * grid_size + randi_range( - rand_offset, rand_offset)
+			
 			var number_of_planets := randi_range(min_planets, max_planets + 1)
+			
 			var spread := randi_range(min_solar_range, max_solar_range)
 			
 			var solar_system := create_solar_system(x, y, number_of_planets, spread)
