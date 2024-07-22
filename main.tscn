@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://dxo17ebgranxt"]
+[gd_scene load_steps=83 format=3 uid="uid://dxo17ebgranxt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_tgsu5"]
 [ext_resource type="Script" path="res://utils/sound_manager.gd" id="2_fhc6a"]
@@ -9,29 +9,29 @@
 [ext_resource type="PackedScene" uid="uid://btum3xqjlqyh7" path="res://world/solar_system/solar_system_scene.tscn" id="5_7bfjq"]
 [ext_resource type="Texture2D" uid="uid://dw7tlcb3cqdhj" path="res://world/star_bg_2.png" id="5_x37fm"]
 [ext_resource type="PackedScene" uid="uid://tyxjmooe1q3k" path="res://world/item_pickup.tscn" id="8_hw0tm"]
-[ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://player/player.tscn" id="9_hq3w5"]
-[ext_resource type="Script" path="res://enemy/enemy_group.gd" id="10_uw0ym"]
-[ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://minerals/player_inventory.tres" id="10_wjjcp"]
-[ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://player/mining_drone/mine_drone.tscn" id="11_kmxs3"]
-[ext_resource type="PackedScene" uid="uid://etng58t8qcmc" path="res://enemy/missile_enemy.tscn" id="11_mx0lu"]
+[ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://entities/player/player.tscn" id="9_hq3w5"]
+[ext_resource type="Script" path="res://entities/enemy/enemy_group.gd" id="10_uw0ym"]
+[ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://world/minerals/player_inventory.tres" id="10_wjjcp"]
+[ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://entities/player/mining_drone/mine_drone.tscn" id="11_kmxs3"]
+[ext_resource type="PackedScene" uid="uid://etng58t8qcmc" path="res://entities/enemy/missile_enemy.tscn" id="11_mx0lu"]
 [ext_resource type="Script" path="res://gui/gui.gd" id="12_ar618"]
-[ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://player/upgrades/instances/upgrade_max_speed.tres" id="12_h38fx"]
+[ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://entities/player/upgrades/instances/upgrade_max_speed.tres" id="12_h38fx"]
 [ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="12_ndlri"]
-[ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://player/upgrades/instances/upgrade_exhaust_velocity.tres" id="13_bkpo6"]
-[ext_resource type="AudioStream" uid="uid://dy00nbcu3gtxy" path="res://player/sounds/over_speed.wav" id="13_qr3no"]
-[ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://player/upgrades/instances/upgrade_fuel_capacity.tres" id="14_lvpfu"]
+[ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://entities/player/upgrades/instances/upgrade_exhaust_velocity.tres" id="13_bkpo6"]
+[ext_resource type="AudioStream" uid="uid://dy00nbcu3gtxy" path="res://entities/player/sounds/over_speed.wav" id="13_qr3no"]
+[ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://entities/player/upgrades/instances/upgrade_fuel_capacity.tres" id="14_lvpfu"]
 [ext_resource type="Texture2D" uid="uid://em41dl2fg08m" path="res://gui/gui_outline.png" id="15_55n0g"]
-[ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://player/upgrades/instances/upgrade_mass_flow.tres" id="15_vq4ov"]
+[ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://entities/player/upgrades/instances/upgrade_mass_flow.tres" id="15_vq4ov"]
 [ext_resource type="Script" path="res://gui/minimap_draw.gd" id="16_hieb5"]
 [ext_resource type="Script" path="res://gui/enemy_radar.gd" id="17_cmm5f"]
 [ext_resource type="Script" path="res://gui/SegmentedProgressBar.gd" id="21_f3e6b"]
 [ext_resource type="Script" path="res://gui/weapon_gui.gd" id="24_st0nx"]
-[ext_resource type="Resource" uid="uid://3lh1c3r87xdo" path="res://player/upgrades/instances/upgrade_burst_charges.tres" id="25_hm4vy"]
+[ext_resource type="Resource" uid="uid://3lh1c3r87xdo" path="res://entities/player/upgrades/instances/upgrade_burst_charges.tres" id="25_hm4vy"]
 [ext_resource type="Script" path="res://gui/weapon_heat_gauge.gd" id="28_8l26f"]
 [ext_resource type="Script" path="res://gui/prompt.gd" id="29_6qsuj"]
-[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://minerals/platinum.png" id="30_cagdv"]
+[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://world/minerals/platinum.png" id="30_cagdv"]
 [ext_resource type="Script" path="res://gui/solar_mineral_inventory_gui.gd" id="32_dri58"]
-[ext_resource type="LabelSettings" uid="uid://cj4mpabajipwp" path="res://minerals/gui_large_light_blue_label_settings.tres" id="32_n128g"]
+[ext_resource type="LabelSettings" uid="uid://cj4mpabajipwp" path="res://world/minerals/gui_large_light_blue_label_settings.tres" id="32_n128g"]
 [ext_resource type="Texture2D" uid="uid://g8ejp83rvnjx" path="res://gui/mini_map_mask.png" id="33_q20b3"]
 [ext_resource type="Script" path="res://gui/burst_bar.gd" id="33_ypois"]
 [ext_resource type="PackedScene" uid="uid://dmsffwaoycujk" path="res://gui/mineral_inventory/mineral_inventory_item_gui_new.tscn" id="34_2rmpe"]
@@ -40,23 +40,24 @@
 [ext_resource type="Texture2D" uid="uid://db1052oft6efj" path="res://gui/mineral_inventory_outline.png" id="36_eu3rl"]
 [ext_resource type="Script" path="res://gui/TwoStateLabel.gd" id="38_l0s64"]
 [ext_resource type="Texture2D" uid="uid://iuuhf0k5xwnu" path="res://gui/speedbar_fill.png" id="39_wuxjw"]
-[ext_resource type="Resource" uid="uid://bwrrlxod04vrt" path="res://player/upgrades/instances/upgrade_cooling_speed.tres" id="40_4kxel"]
-[ext_resource type="Resource" uid="uid://4mitebny6twt" path="res://player/upgrades/instances/upgrade_hull.tres" id="40_uiev4"]
-[ext_resource type="Resource" uid="uid://dxdxfxkg840io" path="res://player/upgrades/instances/upgrade_max_heat.tres" id="41_0akk4"]
-[ext_resource type="Resource" uid="uid://c1ch87ii1thig" path="res://player/upgrades/instances/upgrade_annihilation_shield.tres" id="41_ftgxe"]
-[ext_resource type="Resource" uid="uid://c2kg6jwx6ot40" path="res://player/upgrades/instances/upgrade_heat_dissapators.tres" id="41_mq17w"]
-[ext_resource type="Resource" uid="uid://rl76t2l071ld" path="res://player/upgrades/instances/upgrade_heat_shielding.tres" id="41_qx0qh"]
-[ext_resource type="Resource" uid="uid://dswdnjmewv6a" path="res://player/upgrades/instances/upgrade_drone_amount.tres" id="42_maqn3"]
-[ext_resource type="Resource" uid="uid://cjlpan1sn0r48" path="res://player/upgrades/instances/upgrade_drone_storage.tres" id="43_u02ci"]
-[ext_resource type="Resource" uid="uid://b7pgt7osoqsa7" path="res://player/upgrades/instances/upgrade_drone_speed.tres" id="44_d80h3"]
+[ext_resource type="Resource" uid="uid://bwrrlxod04vrt" path="res://entities/player/upgrades/instances/upgrade_cooling_speed.tres" id="40_4kxel"]
+[ext_resource type="Resource" uid="uid://4mitebny6twt" path="res://entities/player/upgrades/instances/upgrade_hull.tres" id="40_uiev4"]
+[ext_resource type="Resource" uid="uid://dxdxfxkg840io" path="res://entities/player/upgrades/instances/upgrade_max_heat.tres" id="41_0akk4"]
+[ext_resource type="Resource" uid="uid://c1ch87ii1thig" path="res://entities/player/upgrades/instances/upgrade_annihilation_shield.tres" id="41_ftgxe"]
+[ext_resource type="Resource" uid="uid://c2kg6jwx6ot40" path="res://entities/player/upgrades/instances/upgrade_heat_dissapators.tres" id="41_mq17w"]
+[ext_resource type="Resource" uid="uid://rl76t2l071ld" path="res://entities/player/upgrades/instances/upgrade_heat_shielding.tres" id="41_qx0qh"]
+[ext_resource type="Resource" uid="uid://dswdnjmewv6a" path="res://entities/player/upgrades/instances/upgrade_drone_amount.tres" id="42_maqn3"]
+[ext_resource type="Resource" uid="uid://cjlpan1sn0r48" path="res://entities/player/upgrades/instances/upgrade_drone_storage.tres" id="43_u02ci"]
+[ext_resource type="Resource" uid="uid://b7pgt7osoqsa7" path="res://entities/player/upgrades/instances/upgrade_drone_speed.tres" id="44_d80h3"]
 [ext_resource type="StyleBox" uid="uid://bt78keh3jhv21" path="res://gui/tab_unselected_style_box.tres" id="47_kfx4h"]
 [ext_resource type="Texture2D" uid="uid://cyf3r8y7vtwx3" path="res://gui/npr_texture.png" id="47_kq4u6"]
 [ext_resource type="StyleBox" uid="uid://1o2irf2sobl6" path="res://gui/tab_selected_style_box.tres" id="48_dgbm1"]
 [ext_resource type="Script" path="res://gui/heat_vignette.gd" id="50_c7sdd"]
 [ext_resource type="PackedScene" uid="uid://dilq7a2ttbv1t" path="res://gui/upgrade_tab.tscn" id="50_v6640"]
-[ext_resource type="Script" path="res://player/upgrades/tiered_upgrade.gd" id="51_33kkw"]
-[ext_resource type="Texture2D" uid="uid://bxg75mxwg7f52" path="res://player/vignette.png" id="53_sdkwk"]
+[ext_resource type="Script" path="res://entities/player/upgrades/tiered_upgrade.gd" id="51_33kkw"]
+[ext_resource type="Texture2D" uid="uid://bxg75mxwg7f52" path="res://entities/player/vignette.png" id="53_sdkwk"]
 [ext_resource type="Script" path="res://debug/player_temp_data.gd" id="55_gas7b"]
+[ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="57_ymyow"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_aapjq"]
 font_size = 64
@@ -476,6 +477,20 @@ offset_right = 280.0
 offset_bottom = 112.0
 grow_horizontal = 2
 text = "DANGER: EXCESSIVE CORE TEMP"
+label_settings = SubResource("LabelSettings_aapjq")
+
+[node name="LowFuelLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -256.0
+offset_top = 48.0
+offset_right = 280.0
+offset_bottom = 112.0
+grow_horizontal = 2
+text = "DANGER: LOW FUEL"
 label_settings = SubResource("LabelSettings_aapjq")
 
 [node name="TopCenterPrompts" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
@@ -958,7 +973,6 @@ text = "Restart"
 
 [node name="UpgradeScreen" type="Control" parent="CanvasLayer/GUI"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1015,6 +1029,32 @@ layout_mode = 2
 player = NodePath("../../../../../Player")
 upgrades = Array[ExtResource("51_33kkw")]([ExtResource("42_maqn3"), ExtResource("44_d80h3"), ExtResource("43_u02ci")])
 metadata/_tab_index = 3
+
+[node name="Control" type="MarginContainer" parent="CanvasLayer/GUI/UpgradeScreen"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -283.0
+offset_right = 350.0
+offset_bottom = 303.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI/UpgradeScreen/Control"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/Control/CenterContainer"]
+layout_mode = 2
+script = ExtResource("57_ymyow")
+mineral_inventory = ExtResource("10_wjjcp")
+mineral_inventory_item_gui = ExtResource("34_2rmpe")
 
 [node name="DebugGUI" type="Control" parent="CanvasLayer"]
 layout_mode = 3

@@ -1,0 +1,325 @@
+[gd_scene load_steps=63 format=3 uid="uid://b5324c2o2kjct"]
+
+[ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://entities/player/player.png" id="1_jem3x"]
+[ext_resource type="Script" path="res://entities/player/scripts/player.gd" id="1_utgdb"]
+[ext_resource type="Script" path="res://entities/player/upgrades/tiered_upgrade.gd" id="2_4i6i5"]
+[ext_resource type="Script" path="res://entities/player/scripts/ship_engine.gd" id="2_sgfqe"]
+[ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://entities/player/upgrades/instances/upgrade_max_speed.tres" id="3_rxdoq"]
+[ext_resource type="Script" path="res://entities/player/scripts/player_weapon.gd" id="3_yws57"]
+[ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://entities/player/upgrades/instances/upgrade_exhaust_velocity.tres" id="4_h3p4t"]
+[ext_resource type="Script" path="res://entities/player/scripts/player_camera.gd" id="4_hr172"]
+[ext_resource type="Resource" uid="uid://bp8nshg7giykd" path="res://entities/player/weapons/weapon_cannon.tres" id="4_hu4rs"]
+[ext_resource type="AudioStream" uid="uid://bysiyxxx3rsfd" path="res://entities/player/sounds/engine_jolt.wav" id="5_cpwju"]
+[ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://entities/player/upgrades/instances/upgrade_fuel_capacity.tres" id="5_llema"]
+[ext_resource type="Resource" uid="uid://b1txmy5n7crai" path="res://entities/player/weapons/weapon_missile.tres" id="5_tuqcu"]
+[ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://entities/player/upgrades/instances/upgrade_mass_flow.tres" id="6_3vk0j"]
+[ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://entities/player/sounds/engine_sustain.wav" id="6_fatdb"]
+[ext_resource type="Script" path="res://entities/player/ray_shooter.gd" id="6_la5jd"]
+[ext_resource type="Resource" uid="uid://p71bsip243lr" path="res://entities/player/weapons/weapon_laser.tres" id="6_utjo4"]
+[ext_resource type="AudioStream" uid="uid://dja57jk2rq1h1" path="res://entities/player/sounds/cooloff.wav" id="6_ygi07"]
+[ext_resource type="Resource" uid="uid://bwrrlxod04vrt" path="res://entities/player/upgrades/instances/upgrade_cooling_speed.tres" id="7_e65p5"]
+[ext_resource type="AudioStream" uid="uid://eau201gxxt64" path="res://entities/player/sounds/anti_gravity_on.wav" id="7_gekea"]
+[ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://entities/player/sounds/cannon_shot.wav" id="7_q38qb"]
+[ext_resource type="Resource" uid="uid://dxdxfxkg840io" path="res://entities/player/upgrades/instances/upgrade_max_heat.tres" id="8_15wuh"]
+[ext_resource type="AudioStream" uid="uid://cna485omiae18" path="res://entities/player/sounds/anti_gravity_off.wav" id="8_j6q3o"]
+[ext_resource type="Resource" uid="uid://dswdnjmewv6a" path="res://entities/player/upgrades/instances/upgrade_drone_amount.tres" id="9_8k863"]
+[ext_resource type="Script" path="res://entities/player/target_lock_acquirer.gd" id="9_nit3j"]
+[ext_resource type="AudioStream" uid="uid://d2e025nibsfry" path="res://entities/player/sounds/death.wav" id="10_68rdc"]
+[ext_resource type="Resource" uid="uid://b7pgt7osoqsa7" path="res://entities/player/upgrades/instances/upgrade_drone_speed.tres" id="10_eoed6"]
+[ext_resource type="PackedScene" uid="uid://cxdx6hkb1rpq" path="res://components/hurtbox_component.tscn" id="10_h7v8t"]
+[ext_resource type="Resource" uid="uid://cjlpan1sn0r48" path="res://entities/player/upgrades/instances/upgrade_drone_storage.tres" id="11_276x8"]
+[ext_resource type="PackedScene" uid="uid://bb47cvyg02i4a" path="res://components/health_component.tscn" id="11_amrm5"]
+[ext_resource type="AudioStream" uid="uid://r6tlbu52i14p" path="res://entities/player/sounds/lock_acquiring_progress.wav" id="11_ru5xv"]
+[ext_resource type="Resource" uid="uid://4mitebny6twt" path="res://entities/player/upgrades/instances/upgrade_hull.tres" id="12_a7sxu"]
+[ext_resource type="Resource" uid="uid://c1ch87ii1thig" path="res://entities/player/upgrades/instances/upgrade_annihilation_shield.tres" id="13_w5o7j"]
+[ext_resource type="Resource" uid="uid://rl76t2l071ld" path="res://entities/player/upgrades/instances/upgrade_heat_shielding.tres" id="14_5e41g"]
+[ext_resource type="Resource" uid="uid://c2kg6jwx6ot40" path="res://entities/player/upgrades/instances/upgrade_heat_dissapators.tres" id="15_1a4t3"]
+[ext_resource type="AudioStream" uid="uid://cw2qqjg7kfm2f" path="res://entities/player/sounds/cant_shoot.wav" id="15_4ql6b"]
+[ext_resource type="AudioStream" uid="uid://c0yg8vfuff303" path="res://entities/player/sounds/lock_acquire.wav" id="15_qxkc8"]
+[ext_resource type="Script" path="res://entities/player/mining_interactor.gd" id="18_byx4j"]
+[ext_resource type="Material" uid="uid://bktlh6igigio5" path="res://entities/player/engine_particles.tres" id="21_elfmq"]
+[ext_resource type="AudioStream" uid="uid://okjfh8oa77h2" path="res://entities/player/sounds/pass_through_sound.wav" id="28_lgvic"]
+[ext_resource type="AudioStream" uid="uid://cn6jmwiafotwk" path="res://world/item_pickup_sound.wav" id="32_icqak"]
+[ext_resource type="AudioStream" uid="uid://bufvtiipn8p8i" path="res://entities/player/sounds/burst_sound_2.wav" id="33_acsw3"]
+[ext_resource type="Script" path="res://entities/player/player_hurtbox_component.gd" id="35_57bq8"]
+[ext_resource type="AudioStream" uid="uid://cjqt1rs4f5r6p" path="res://entities/player/sounds/switch_weapon_sound.wav" id="35_el5xx"]
+[ext_resource type="Script" path="res://entities/player/burst_manager.gd" id="42_wwp4v"]
+[ext_resource type="Script" path="res://entities/player/player_heat_receiver.gd" id="43_5s4bi"]
+[ext_resource type="AudioStream" uid="uid://bogjv5i8awdcn" path="res://entities/player/sounds/heat_damage_sound.wav" id="46_hwsqx"]
+
+[sub_resource type="Resource" id="Resource_84uqs"]
+script = ExtResource("2_sgfqe")
+exhaust_velocity = 100000.0
+dry_mass = 50.0
+fuel_capacity = 100.0
+mass_flow_rate = 1.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
+radius = 24.0
+height = 80.0
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vbycn"]
+
+[sub_resource type="Gradient" id="Gradient_4vec7"]
+interpolation_mode = 2
+interpolation_color_space = 1
+offsets = PackedFloat32Array(0.0120968, 0.467742)
+colors = PackedColorArray(0.863423, 0.943728, 1, 1, 0.0214346, 0.0214347, 0.0214346, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hpis3"]
+gradient = SubResource("Gradient_4vec7")
+
+[sub_resource type="Curve" id="Curve_ookc1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.118812, 0.824176), -2.63599, -2.63599, 0, 0, Vector2(1, 0.120879), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_53gj3"]
+curve = SubResource("Curve_ookc1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_hhxgi"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(1, 12.355, 1)
+angle_min = -59.1
+angle_max = 22.9
+direction = Vector3(-1, 0, 0)
+spread = 14.696
+initial_velocity_min = 115.46
+initial_velocity_max = 192.2
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -65.28
+linear_accel_max = -6.98
+scale_min = 18.0
+scale_max = 18.0
+scale_curve = SubResource("CurveTexture_53gj3")
+color_ramp = SubResource("GradientTexture1D_hpis3")
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x37x3"]
+radius = 24.0
+height = 80.0
+
+[sub_resource type="Gradient" id="Gradient_y4e4o"]
+colors = PackedColorArray(0.913031, 0.490712, 0.0671775, 1, 0.686114, 0.0119885, 0.133698, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_xmehm"]
+gradient = SubResource("Gradient_y4e4o")
+
+[sub_resource type="Gradient" id="Gradient_bgoch"]
+offsets = PackedFloat32Array(0.318548, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7iriw"]
+gradient = SubResource("Gradient_bgoch")
+
+[sub_resource type="Curve" id="Curve_imitj"]
+min_value = 1.0
+max_value = 20.0
+_data = [Vector2(0.00362319, 20), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2k8vr"]
+curve = SubResource("Curve_imitj")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tsq4s"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_2k8vr")
+color_ramp = SubResource("GradientTexture1D_7iriw")
+color_initial_ramp = SubResource("GradientTexture1D_xmehm")
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 11
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_utgdb")
+upgrades = Array[ExtResource("2_4i6i5")]([ExtResource("3_rxdoq"), ExtResource("4_h3p4t"), ExtResource("5_llema"), ExtResource("6_3vk0j"), ExtResource("7_e65p5"), ExtResource("8_15wuh"), ExtResource("9_8k863"), ExtResource("10_eoed6"), ExtResource("11_276x8"), ExtResource("12_a7sxu"), ExtResource("13_w5o7j"), ExtResource("14_5e41g"), ExtResource("15_1a4t3"), ExtResource("12_a7sxu")])
+ship_engine = SubResource("Resource_84uqs")
+weapons = Array[ExtResource("3_yws57")]([ExtResource("4_hu4rs"), ExtResource("5_tuqcu"), ExtResource("6_utjo4")])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_t7nkm")
+
+[node name="Player" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_jem3x")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.5, 0.5)
+script = ExtResource("4_hr172")
+decay = 0.5
+max_offset = Vector2(60, 40)
+noise = SubResource("FastNoiseLite_vbycn")
+
+[node name="BurstManager" type="Node2D" parent="."]
+script = ExtResource("42_wwp4v")
+burst_impulse = 1000.0
+amount_of_bursts = 10
+
+[node name="BurstCooldownTimer" type="Timer" parent="BurstManager"]
+wait_time = 2.0
+one_shot = true
+
+[node name="BurstParticlesLeft" type="GPUParticles2D" parent="BurstManager"]
+position = Vector2(0, -40)
+rotation = 1.5708
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_hhxgi")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+
+[node name="BurstParticlesRight" type="GPUParticles2D" parent="BurstManager"]
+position = Vector2(0, 32)
+rotation = -1.57079
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_hhxgi")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+
+[node name="BurstSound" type="AudioStreamPlayer2D" parent="BurstManager"]
+stream = ExtResource("33_acsw3")
+volume_db = 4.333
+
+[node name="MiningInteractor" type="Node" parent="."]
+script = ExtResource("18_byx4j")
+
+[node name="HealthComponent" parent="." instance=ExtResource("11_amrm5")]
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("player", "health_component") instance=ExtResource("10_h7v8t")]
+collision_layer = 2
+collision_mask = 5
+script = ExtResource("35_57bq8")
+player = NodePath("..")
+velocity_factor = 200
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_x37x3")
+debug_color = Color(0.584159, 0.443576, 0.844739, 0.42)
+
+[node name="PassthroughSound" type="AudioStreamPlayer2D" parent="HurtboxComponent"]
+stream = ExtResource("28_lgvic")
+
+[node name="TargetLockAcquirer" type="Node2D" parent="."]
+script = ExtResource("9_nit3j")
+lock_time = 0.8
+forgiveness_time = 0.3
+enabled = true
+
+[node name="TargetLockTimer" type="Timer" parent="TargetLockAcquirer"]
+process_callback = 0
+one_shot = true
+
+[node name="LockAcquiredSound" type="AudioStreamPlayer2D" parent="TargetLockAcquirer"]
+stream = ExtResource("15_qxkc8")
+
+[node name="LockAcquiringProgressSound" type="AudioStreamPlayer2D" parent="TargetLockAcquirer"]
+stream = ExtResource("11_ru5xv")
+
+[node name="RayShooter" type="Node2D" parent="."]
+script = ExtResource("6_la5jd")
+ray_color = Color(0.388235, 0.780392, 0.301961, 1)
+ray_width = 16
+ray_length = 64.0
+default_duration = 0.1
+
+[node name="CannonPoint1" type="Node2D" parent="."]
+position = Vector2(-15, -25)
+
+[node name="CannonPoint2" type="Node2D" parent="."]
+position = Vector2(-15, 25)
+
+[node name="ShotParent" type="Node" parent="."]
+
+[node name="ShotTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="HeatCooloffTimer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="OverspeedTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="EngineJoltSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("5_cpwju")
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("10_68rdc")
+
+[node name="AntigravityOnSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("7_gekea")
+
+[node name="AntigravityOffSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("8_j6q3o")
+
+[node name="EngineSustainSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("6_fatdb")
+volume_db = -4.0
+
+[node name="CannonCooloffSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("6_ygi07")
+
+[node name="WeaponShotSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("7_q38qb")
+
+[node name="CantShootSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("15_4ql6b")
+
+[node name="PickupSound" type="AudioStreamPlayer2D" parent="Sounds"]
+stream = ExtResource("32_icqak")
+
+[node name="SwitchWeaponSound" type="AudioStreamPlayer" parent="Sounds"]
+stream = ExtResource("35_el5xx")
+
+[node name="Particles" type="Node2D" parent="."]
+
+[node name="EngineParticles1" type="GPUParticles2D" parent="Particles"]
+position = Vector2(-48, 16)
+amount = 16
+process_material = ExtResource("21_elfmq")
+
+[node name="EngineParticles2" type="GPUParticles2D" parent="Particles"]
+position = Vector2(-48, -8)
+amount = 16
+process_material = ExtResource("21_elfmq")
+
+[node name="DeathParticles" type="GPUParticles2D" parent="Particles"]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_tsq4s")
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.64
+randomness = 0.52
+
+[node name="HeatReceiver" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
+script = ExtResource("43_5s4bi")
+temperature_limit = 3000.0
+temperature_loss_rate = 50.0
+health_component = NodePath("../HealthComponent")
+
+[node name="DamageTimer" type="Timer" parent="HeatReceiver"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="HeatReceiver"]
+stream = ExtResource("46_hwsqx")
+
+[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]
+[connection signal="timeout" from="TargetLockAcquirer/TargetLockTimer" to="TargetLockAcquirer" method="_on_target_lock_timer_timeout"]
+[connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
+[connection signal="timeout" from="OverspeedTimer" to="." method="_on_overspeed_timer_timeout"]
+[connection signal="timeout" from="HeatReceiver/DamageTimer" to="HeatReceiver" method="_on_damage_timer_timeout"]

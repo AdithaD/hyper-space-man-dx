@@ -1,9 +1,9 @@
 extends StaticBody2D
 
-@export var death_mineral : Mineral
-@export var amount : int = 10
+@export var death_mineral: Mineral
+@export var amount: int = 10
 
-@onready var world : World = get_tree().get_first_node_in_group("world")
+@onready var world: World = get_tree().get_first_node_in_group("world")
 
 var is_dead: bool:
 	get:

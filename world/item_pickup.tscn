@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://tyxjmooe1q3k"]
 
 [ext_resource type="Script" path="res://world/item_pickup.gd" id="1_ylfkw"]
-[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://minerals/mineral_meteorite.tres" id="2_a7pek"]
-[ext_resource type="Texture2D" uid="uid://dh7hluajqlsqh" path="res://minerals/mineral_meteorite_icon.tres" id="3_ibud2"]
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://world/minerals/resources/mineral_meteorite.tres" id="2_a7pek"]
+[ext_resource type="Texture2D" uid="uid://dh7hluajqlsqh" path="res://world/minerals/mineral_meteorite_icon.tres" id="3_ibud2"]
 [ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="4_0s2ki"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3cp4v"]

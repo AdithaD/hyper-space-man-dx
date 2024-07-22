@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cbluksrlr5gxw"]
 
-[ext_resource type="Texture2D" uid="uid://y3iq4m0fg7q2" path="res://minerals/mineral_platnium_icon.tres" id="1_cwfrl"]
+[ext_resource type="Texture2D" uid="uid://y3iq4m0fg7q2" path="res://world/minerals/mineral_platnium_icon.tres" id="1_cwfrl"]
 [ext_resource type="Script" path="res://gui/mineral_cost_item.gd" id="1_idv3n"]
 [ext_resource type="Texture2D" uid="uid://b48up1slyjnnv" path="res://gui/item_list_large_style.png" id="2_sx8hi"]
 

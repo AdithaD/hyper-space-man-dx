@@ -1,0 +1,26 @@
+extends Resource
+class_name MineralInventoryFactory
+
+@export var minerals: Array[Mineral] = []
+@export var mineral_quantity_curves := {}
+
+@export var mineral_amount_scale := 1000
+@export var mineral_amount_curve: Curve = Curve.new()
+
+func _init(p_mineral_quantity_curves:={}, p_mineral_amount_curve: Curve=Curve.new()) -> void:
+	mineral_quantity_curves = p_mineral_quantity_curves
+	mineral_amount_curve = p_mineral_amount_curve
+	
+func generate_mineral_inventory(weight: float) -> MineralInventory:
+	var amount_of_minerals := roundi(mineral_amount_curve.sample(randf_range(weight, 1.0)))
+	amount_of_minerals = min(minerals.size(), amount_of_minerals)
+	
+	var mineral_amounts := {}
+	for i in range(amount_of_minerals):
+		var mineral: Mineral = minerals.filter(func(m: Mineral) -> bool: return not mineral_amounts.keys().has(m)).pick_random()
+
+		var amount: int = mineral_quantity_curves.get(mineral, Curve.new()).sample(randf_range(weight, 1.0)) * mineral_amount_scale
+		mineral_amounts[mineral] = amount
+	
+	var mineral_inventory := MineralInventory.new(mineral_amounts)
+	return mineral_inventory

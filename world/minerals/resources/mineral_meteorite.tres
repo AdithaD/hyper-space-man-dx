@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Mineral" load_steps=3 format=3 uid="uid://cirdue0ayojs0"]
+
+[ext_resource type="Texture2D" uid="uid://dh7hluajqlsqh" path="res://world/minerals/mineral_meteorite_icon.tres" id="1_2msdr"]
+[ext_resource type="Script" path="res://world/minerals/mineral.gd" id="2_wdamy"]
+
+[resource]
+script = ExtResource("2_wdamy")
+mineral_name = "Meteorite"
+mineral_icon = ExtResource("1_2msdr")

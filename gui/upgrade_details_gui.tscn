@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://b48up1slyjnnv" path="res://gui/item_list_large_style.png" id="2_f8gfh"]
 [ext_resource type="Texture2D" uid="uid://ccmxjk5x0uyu5" path="res://gui/arrow.png" id="3_68ac3"]
 [ext_resource type="PackedScene" uid="uid://cbluksrlr5gxw" path="res://gui/mineral_cost_item.tscn" id="5_vptmq"]
-[ext_resource type="AudioStream" uid="uid://lap64fyxkbwl" path="res://player/sounds/upgrade_sound.wav" id="6_tgefn"]
+[ext_resource type="AudioStream" uid="uid://lap64fyxkbwl" path="res://entities/player/sounds/upgrade_sound.wav" id="6_tgefn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ityno"]
 font_size = 72

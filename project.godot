@@ -31,7 +31,7 @@ window/size/mode=3
 window/size/initial_position_type=2
 window/stretch/mode="viewport"
 window/stretch/scale_mode="integer"
-mouse_cursor/custom_image="res://player/crosshair.png"
+mouse_cursor/custom_image="res://entities/player/crosshair.png"
 mouse_cursor/custom_image_hotspot=Vector2(16, 16)
 
 [global_group]

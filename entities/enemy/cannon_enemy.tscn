@@ -1,0 +1,234 @@
+[gd_scene load_steps=36 format=3 uid="uid://cupg2res6b0ac"]
+
+[ext_resource type="Script" path="res://entities/enemy/enemy.gd" id="1_xjcgn"]
+[ext_resource type="PackedScene" uid="uid://cg87houwcn0uk" path="res://entities/enemy/enemy_cannon_shot.tscn" id="2_e7css"]
+[ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://world/minerals/resources/mineral_forged_carbon_fiber.tres" id="2_tds2m"]
+[ext_resource type="Material" uid="uid://c1nu5ip1icxal" path="res://entities/player/engine_particle_process_material.tres" id="3_sxa2p"]
+[ext_resource type="Texture2D" uid="uid://saf8iuq4k1vu" path="res://entities/enemy/enemy-debris.png" id="4_eh0el"]
+[ext_resource type="Texture2D" uid="uid://bblo0piuybw0q" path="res://entities/enemy/enemy.png" id="5_nr3yb"]
+[ext_resource type="AudioStream" uid="uid://btxvctrvs0t02" path="res://entities/player/sounds/engine_sustain.wav" id="6_32xm4"]
+[ext_resource type="AudioStream" uid="uid://fxdxno4scui3" path="res://entities/player/sounds/cannon_shot.wav" id="7_qn03e"]
+[ext_resource type="AudioStream" uid="uid://d2e025nibsfry" path="res://entities/player/sounds/death.wav" id="8_3x2wo"]
+[ext_resource type="PackedScene" uid="uid://bb47cvyg02i4a" path="res://components/health_component.tscn" id="9_dk8nm"]
+[ext_resource type="PackedScene" uid="uid://cxdx6hkb1rpq" path="res://components/hurtbox_component.tscn" id="10_2ebd0"]
+[ext_resource type="Script" path="res://entities/enemy/Behaviour Tree/BehaviourTree.gd" id="11_vy7fb"]
+[ext_resource type="Script" path="res://entities/enemy/Behaviour Tree/PriorityBehaviourTreeNode.gd" id="12_lul55"]
+[ext_resource type="Script" path="res://entities/enemy/Behaviour Tree/ConcurrentBehaviourTreeNode.gd" id="13_moof4"]
+[ext_resource type="Script" path="res://entities/enemy/condition_distance_to_player.gd" id="14_v3jw2"]
+[ext_resource type="PackedScene" uid="uid://d41xoa4xcojo" path="res://entities/enemy/Behaviour Tree/Implementations/Subbehaviours/flocking_behaviour.tscn" id="15_5slbl"]
+[ext_resource type="Script" path="res://entities/enemy/succeeder_behaviour_tree_node.gd" id="16_yqylw"]
+[ext_resource type="Script" path="res://entities/enemy/condition_alignment.gd" id="17_18fqp"]
+[ext_resource type="Script" path="res://entities/enemy/Behaviour Tree/Implementations/Conditions/ConditionCooldownComplete.gd" id="18_tggal"]
+[ext_resource type="Script" path="res://entities/enemy/action_shoot_player.gd" id="19_otqia"]
+[ext_resource type="Script" path="res://entities/enemy/action_explore.gd" id="20_6b7h2"]
+[ext_resource type="Script" path="res://gui/behaviour_tree_label.gd" id="21_etodj"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
+radius = 46.0
+height = 118.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0lj5"]
+atlas = ExtResource("4_eh0el")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1fajc"]
+atlas = ExtResource("4_eh0el")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7tpf"]
+atlas = ExtResource("4_eh0el")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jcbno"]
+atlas = ExtResource("4_eh0el")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l6ey1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0lj5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1fajc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7tpf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jcbno")
+}],
+"loop": true,
+"name": &"death",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_nr3yb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_h0rl1"]
+colors = PackedColorArray(0.913031, 0.490712, 0.0671775, 1, 0.686114, 0.0119885, 0.133698, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vyu34"]
+gradient = SubResource("Gradient_h0rl1")
+
+[sub_resource type="Gradient" id="Gradient_o26tk"]
+offsets = PackedFloat32Array(0.318548, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_aruuo"]
+gradient = SubResource("Gradient_o26tk")
+
+[sub_resource type="Curve" id="Curve_tvaqd"]
+min_value = 1.0
+max_value = 20.0
+_data = [Vector2(0.00362319, 20), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_cs07t"]
+curve = SubResource("Curve_tvaqd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ahid0"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 150.0
+gravity = Vector3(0, 0, 0)
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_cs07t")
+color_ramp = SubResource("GradientTexture1D_aruuo")
+color_initial_ramp = SubResource("GradientTexture1D_vyu34")
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("cannon_points") groups=["enemy"]]
+z_index = 5
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_xjcgn")
+cannon_points = [NodePath("CannonPoint1"), NodePath("CannonPoint2")]
+enemy_shot_scene = ExtResource("2_e7css")
+drop_mineral = ExtResource("2_tds2m")
+min_drop_amount = 8
+max_drop_amount = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_t7nkm")
+
+[node name="EngineParticles1" type="GPUParticles2D" parent="."]
+position = Vector2(-21, 12)
+emitting = false
+amount = 16
+process_material = ExtResource("3_sxa2p")
+
+[node name="EngineParticles2" type="GPUParticles2D" parent="."]
+position = Vector2(-21, -12)
+emitting = false
+amount = 16
+process_material = ExtResource("3_sxa2p")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_l6ey1")
+frame_progress = 0.520781
+
+[node name="DeathParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_ahid0")
+lifetime = 0.8
+one_shot = true
+explosiveness = 0.64
+randomness = 0.52
+
+[node name="CannonPoint1" type="Node2D" parent="."]
+position = Vector2(-15, -25)
+
+[node name="CannonPoint2" type="Node2D" parent="."]
+position = Vector2(-15, 25)
+
+[node name="Shots" type="Node" parent="."]
+
+[node name="EngineSustainSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_32xm4")
+
+[node name="CannonShotSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_qn03e")
+attenuation = 4.75683
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_3x2wo")
+attenuation = 0.143588
+
+[node name="ShotTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="HealthComponent" parent="." instance=ExtResource("9_dk8nm")]
+maximum_health = 5
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("10_2ebd0")]
+collision_layer = 12
+collision_mask = 3
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_t7nkm")
+debug_color = Color(0.671657, 0.38673, 0.84344, 0.42)
+
+[node name="BehaviourTree" type="Node" parent="."]
+script = ExtResource("11_vy7fb")
+
+[node name="PriorityBehaviourTreeNode" type="Node" parent="BehaviourTree"]
+script = ExtResource("12_lul55")
+
+[node name="CombatBehaviour" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode"]
+script = ExtResource("13_moof4")
+
+[node name="ConditionDistanceToPlayer" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour"]
+script = ExtResource("14_v3jw2")
+distance_threshold = 3200.0
+
+[node name="FlockingBehaviour" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour" instance=ExtResource("15_5slbl")]
+
+[node name="SucceederBehaviourTreeNode" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour"]
+script = ExtResource("16_yqylw")
+
+[node name="ShootPlayerBehaviour" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour/SucceederBehaviourTreeNode"]
+script = ExtResource("13_moof4")
+
+[node name="ConditionAlignment" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour/SucceederBehaviourTreeNode/ShootPlayerBehaviour"]
+script = ExtResource("17_18fqp")
+dot_product_minimum = 0.7
+
+[node name="ConditionCooldownComplete" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour/SucceederBehaviourTreeNode/ShootPlayerBehaviour"]
+script = ExtResource("18_tggal")
+cooldown = 1.5
+
+[node name="ActionShoot" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/CombatBehaviour/SucceederBehaviourTreeNode/ShootPlayerBehaviour"]
+script = ExtResource("19_otqia")
+
+[node name="ExploreBehaviour" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode"]
+script = ExtResource("13_moof4")
+
+[node name="FlockingBehaviour" parent="BehaviourTree/PriorityBehaviourTreeNode/ExploreBehaviour" instance=ExtResource("15_5slbl")]
+
+[node name="ActionExplore" type="Node" parent="BehaviourTree/PriorityBehaviourTreeNode/ExploreBehaviour"]
+script = ExtResource("20_6b7h2")
+
+[node name="Label" type="Label" parent="." node_paths=PackedStringArray("behaviour_tree")]
+offset_left = -56.0
+offset_top = -53.0
+offset_right = 55.0
+offset_bottom = -30.0
+script = ExtResource("21_etodj")
+behaviour_tree = NodePath("../BehaviourTree")
+
+[connection signal="timeout" from="ShotTimer" to="." method="_on_shot_timer_timeout"]
+[connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]

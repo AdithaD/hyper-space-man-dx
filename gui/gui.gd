@@ -3,6 +3,8 @@ extends Control
 @export var player: Player
 @export var world: World
 
+@export var low_fuel_threshold: float = 0.25
+
 @onready var upgrade_screen: Control = %UpgradeScreen
 
 @onready var solar_object_panel: Control = %SolarObjectPanel
@@ -27,6 +29,7 @@ extends Control
 @onready var no_lock_label: Label = %NoLockLabel
 
 @onready var warning_sound: AudioStreamPlayer = $WarningSound
+@onready var low_fuel_label: Label = %LowFuelLabel
 
 func _ready() -> void:
 	player.ship_engine.engine_burned.connect(_on_player_engine_burned)
@@ -63,6 +66,8 @@ func _physics_process(_delta: float) -> void:
 	
 	overheat_caution_label.visible = player.heat_receiver.is_exceeded
 	
+	low_fuel_label.visible = player.ship_engine.current_fuel / player.ship_engine.fuel_capacity < low_fuel_threshold
+	
 	if player.is_overspeed:
 		destruction_timer_label.text = "Estimated destruction in %1.1fs" % player.overspeed_timer.time_left
 
@@ -74,12 +79,12 @@ func _physics_process(_delta: float) -> void:
 	
 	temperature_bar.set_ratio(player.heat_receiver.get_ratio())
 
-func _on_player_health_changed(_amount : int, health : int, maximum_health : int) -> void:
+func _on_player_health_changed(_amount: int, health: int, maximum_health: int) -> void:
 	hull_bar.segments = maximum_health
 	hull_bar.value = health
 	hull_bar.queue_redraw()
 
-func _unhandled_key_input(event : InputEvent) -> void:
+func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_released("toggle_upgrade_screen"):
 		upgrade_screen.visible = not upgrade_screen.visible
 		player.has_control = not upgrade_screen.visible

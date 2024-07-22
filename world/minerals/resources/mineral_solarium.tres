@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Mineral" load_steps=3 format=3 uid="uid://y3bdigt22tbd"]
+
+[ext_resource type="Texture2D" uid="uid://d0qdcthcyjh7o" path="res://world/minerals/mineral_solarium_icon.tres" id="1_uuxci"]
+[ext_resource type="Script" path="res://world/minerals/mineral.gd" id="2_e6q8r"]
+
+[resource]
+script = ExtResource("2_e6q8r")
+mineral_name = "Solarium"
+mineral_icon = ExtResource("1_uuxci")

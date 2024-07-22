@@ -2,11 +2,11 @@ extends Node2D
 
 @export var enemy_amount_curve: Curve
 @export var enemy_scenes: Array[PackedScene]
-@export var danger_multipliers : Array[float] = []
+@export var danger_multipliers: Array[float] = []
 
-var danger_rating : int = 0
+var danger_rating: int = 0
 
-@onready var solar_system : SolarSystem = get_parent()
+@onready var solar_system: SolarSystem = get_parent()
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var danger_timer: Timer = $DangerTimer
 
@@ -23,7 +23,7 @@ func spawn() -> void:
 	
 	add_child(group)
 	
-	var spawn_point := Vector2(solar_system.size * randf_range(0.6,0.8), 0).rotated(2 * PI * randf())
+	var spawn_point := Vector2(solar_system.size * randf_range(0.6, 0.8), 0).rotated(2 * PI * randf())
 	for i in range(amount_of_enemies):
 		spawn_enemy(group, spawn_point + Vector2(i * 64, 0))
 

@@ -1,18 +1,20 @@
-[gd_scene load_steps=20 format=3 uid="uid://btum3xqjlqyh7"]
+[gd_scene load_steps=22 format=3 uid="uid://btum3xqjlqyh7"]
 
 [ext_resource type="Script" path="res://world/solar_system/solar_system.gd" id="1_srxdv"]
 [ext_resource type="PackedScene" uid="uid://brofvfdbhyl6j" path="res://world/solar_system/planet.tscn" id="4_gk7i6"]
 [ext_resource type="SpriteFrames" uid="uid://bp88mijvan4ij" path="res://world/solar_system/planets/sprites/planet01_frames.tres" id="4_n4gf7"]
 [ext_resource type="SpriteFrames" uid="uid://bc5siqp4shd0i" path="res://world/solar_system/planets/sprites/planet02_frames.tres" id="5_bsth3"]
 [ext_resource type="PackedScene" uid="uid://cogv3mc3fag88" path="res://world/solar_system/sun.tscn" id="5_nj5xh"]
-[ext_resource type="PackedScene" uid="uid://cupg2res6b0ac" path="res://enemy/cannon_enemy.tscn" id="6_elpo5"]
+[ext_resource type="Resource" uid="uid://xmexmd2vellq" path="res://world/minerals/resources/planet_mineral_factory.tres" id="6_5o3kj"]
+[ext_resource type="PackedScene" uid="uid://cupg2res6b0ac" path="res://entities/enemy/cannon_enemy.tscn" id="6_elpo5"]
 [ext_resource type="PackedScene" uid="uid://bi7sudnr12ic4" path="res://world/space_station/space_station.tscn" id="6_ntkm8"]
 [ext_resource type="SpriteFrames" uid="uid://ccy5q86cl0uq4" path="res://world/solar_system/planets/sprites/planet03_frames.tres" id="6_pvxdw"]
 [ext_resource type="SpriteFrames" uid="uid://cob0mf7ixknya" path="res://world/solar_system/sun/sprites/sun01_frames.tres" id="7_2fp0d"]
 [ext_resource type="PackedScene" uid="uid://qs6pc3sk1exf" path="res://world/space_station/space_station_health.tscn" id="8_dnqti"]
+[ext_resource type="Resource" uid="uid://bdkgrywfwn7n5" path="res://world/minerals/resources/sun_mineral_factory.tres" id="9_4jbtg"]
 [ext_resource type="Script" path="res://world/asteroids/asteroid_belt_radial.gd" id="11_extwd"]
 [ext_resource type="Script" path="res://world/solar_system/solar_system_enemy_spawner.gd" id="11_u7qtt"]
-[ext_resource type="PackedScene" uid="uid://etng58t8qcmc" path="res://enemy/missile_enemy.tscn" id="11_vxsu0"]
+[ext_resource type="PackedScene" uid="uid://etng58t8qcmc" path="res://entities/enemy/missile_enemy.tscn" id="11_vxsu0"]
 [ext_resource type="PackedScene" uid="uid://bytbvfl7xukb2" path="res://world/asteroids/asteroid1.tscn" id="12_kbrad"]
 [ext_resource type="PackedScene" uid="uid://ce7hfynshsjjy" path="res://world/asteroids/asteroid2.tscn" id="13_ccawj"]
 [ext_resource type="PackedScene" uid="uid://w4xxqslm8a7k" path="res://world/asteroids/asteroid3.tscn" id="14_tid3s"]
@@ -36,6 +38,7 @@ planet_max_scale = 2.0
 planet_randomness = 0.1
 planet_minerals_mean = 100.0
 planet_minerals_randomness = 0.2
+planet_mineral_factory = ExtResource("6_5o3kj")
 sun_scene = ExtResource("5_nj5xh")
 sun_sprites = Array[SpriteFrames]([ExtResource("7_2fp0d")])
 sun_width = 2048
@@ -43,6 +46,7 @@ sun_min_scale = 4.0
 sun_max_scale = 5.0
 sun_minerals_mean = 750.0
 sun_minerals_randomness = 0.3
+sun_mineral_factory = ExtResource("9_4jbtg")
 space_station_scenes = Array[PackedScene]([ExtResource("6_ntkm8"), ExtResource("8_dnqti")])
 
 [node name="Enemies" type="Node2D" parent="."]
