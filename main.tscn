@@ -1,4 +1,4 @@
-[gd_scene load_steps=83 format=3 uid="uid://dxo17ebgranxt"]
+[gd_scene load_steps=87 format=3 uid="uid://dxo17ebgranxt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_tgsu5"]
 [ext_resource type="Script" path="res://utils/sound_manager.gd" id="2_fhc6a"]
@@ -18,7 +18,6 @@
 [ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://entities/player/upgrades/instances/upgrade_max_speed.tres" id="12_h38fx"]
 [ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="12_ndlri"]
 [ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://entities/player/upgrades/instances/upgrade_exhaust_velocity.tres" id="13_bkpo6"]
-[ext_resource type="AudioStream" uid="uid://dy00nbcu3gtxy" path="res://entities/player/sounds/over_speed.wav" id="13_qr3no"]
 [ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://entities/player/upgrades/instances/upgrade_fuel_capacity.tres" id="14_lvpfu"]
 [ext_resource type="Texture2D" uid="uid://em41dl2fg08m" path="res://gui/gui_outline.png" id="15_55n0g"]
 [ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://entities/player/upgrades/instances/upgrade_mass_flow.tres" id="15_vq4ov"]
@@ -28,14 +27,13 @@
 [ext_resource type="Script" path="res://gui/weapon_gui.gd" id="24_st0nx"]
 [ext_resource type="Resource" uid="uid://3lh1c3r87xdo" path="res://entities/player/upgrades/instances/upgrade_burst_charges.tres" id="25_hm4vy"]
 [ext_resource type="Script" path="res://gui/weapon_heat_gauge.gd" id="28_8l26f"]
-[ext_resource type="Script" path="res://gui/prompt.gd" id="29_6qsuj"]
-[ext_resource type="Texture2D" uid="uid://37ifevu1tidw" path="res://world/minerals/platinum.png" id="30_cagdv"]
 [ext_resource type="Script" path="res://gui/solar_mineral_inventory_gui.gd" id="32_dri58"]
 [ext_resource type="LabelSettings" uid="uid://cj4mpabajipwp" path="res://world/minerals/gui_large_light_blue_label_settings.tres" id="32_n128g"]
 [ext_resource type="Texture2D" uid="uid://g8ejp83rvnjx" path="res://gui/mini_map_mask.png" id="33_q20b3"]
 [ext_resource type="Script" path="res://gui/burst_bar.gd" id="33_ypois"]
 [ext_resource type="PackedScene" uid="uid://dmsffwaoycujk" path="res://gui/mineral_inventory/mineral_inventory_item_gui_new.tscn" id="34_2rmpe"]
 [ext_resource type="PackedScene" uid="uid://bndtfnfjmq4ca" path="res://gui/burst/burst_bar.tscn" id="34_gfk8c"]
+[ext_resource type="AudioStream" uid="uid://c30q06hneij50" path="res://entities/player/sounds/overspeed_sound2.wav" id="34_slv2k"]
 [ext_resource type="Script" path="res://gui/solar_object_panel.gd" id="36_awl53"]
 [ext_resource type="Texture2D" uid="uid://db1052oft6efj" path="res://gui/mineral_inventory_outline.png" id="36_eu3rl"]
 [ext_resource type="Script" path="res://gui/TwoStateLabel.gd" id="38_l0s64"]
@@ -54,10 +52,17 @@
 [ext_resource type="StyleBox" uid="uid://1o2irf2sobl6" path="res://gui/tab_selected_style_box.tres" id="48_dgbm1"]
 [ext_resource type="Script" path="res://gui/heat_vignette.gd" id="50_c7sdd"]
 [ext_resource type="PackedScene" uid="uid://dilq7a2ttbv1t" path="res://gui/upgrade_tab.tscn" id="50_v6640"]
+[ext_resource type="Script" path="res://gui/temp_delta_icons.gd" id="51_2u1cb"]
 [ext_resource type="Script" path="res://entities/player/upgrades/tiered_upgrade.gd" id="51_33kkw"]
+[ext_resource type="Texture2D" uid="uid://chb7uwg80s42n" path="res://gui/temp_bar/red_chevron.png" id="51_bret6"]
+[ext_resource type="Texture2D" uid="uid://dsgo8wl7h8xah" path="res://gui/temp_bar/blue_chevron.png" id="53_as00l"]
 [ext_resource type="Texture2D" uid="uid://bxg75mxwg7f52" path="res://entities/player/vignette.png" id="53_sdkwk"]
 [ext_resource type="Script" path="res://debug/player_temp_data.gd" id="55_gas7b"]
 [ext_resource type="Script" path="res://gui/mineral_inventory_gui.gd" id="57_ymyow"]
+[ext_resource type="Script" path="res://gui/space_station_gui.gd" id="58_6ursl"]
+[ext_resource type="PackedScene" uid="uid://dvv1qrx27gw51" path="res://gui/space_station/shop_task_gui.tscn" id="58_w6bda"]
+[ext_resource type="Script" path="res://interaction_delegator.gd" id="62_lp14l"]
+[ext_resource type="Script" path="res://space_station_interaction_delegate.gd" id="63_egp1p"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_aapjq"]
 font_size = 64
@@ -66,9 +71,6 @@ font_color = Color(0.894118, 0.231373, 0.266667, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_5uvkm"]
 font_size = 32
 font_color = Color(0.894118, 0.231373, 0.266667, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_qsgsc"]
-font_size = 48
 
 [sub_resource type="LabelSettings" id="LabelSettings_shv1g"]
 font_size = 64
@@ -258,6 +260,15 @@ script = ExtResource("1_tgsu5")
 [node name="SoundManager" type="Node" parent="."]
 script = ExtResource("2_fhc6a")
 
+[node name="InteractionDelegator" type="Node" parent="." groups=["interaction_delegator"]]
+script = ExtResource("62_lp14l")
+
+[node name="InteractionDelegate" type="Node" parent="InteractionDelegator" node_paths=PackedStringArray("space_station_gui", "player")]
+script = ExtResource("63_egp1p")
+space_station_gui = NodePath("../../CanvasLayer/GUI/SpaceStationGUI")
+interactor_key = &"space_station"
+player = NodePath("../../Player")
+
 [node name="World" type="Node2D" parent="." node_paths=PackedStringArray("player") groups=["world"]]
 script = ExtResource("2_wy77q")
 gravity_cutoff = 8000
@@ -341,7 +352,7 @@ player = NodePath("../../Player")
 world = NodePath("../../World")
 
 [node name="WarningSound" type="AudioStreamPlayer" parent="CanvasLayer/GUI"]
-stream = ExtResource("13_qr3no")
+stream = ExtResource("34_slv2k")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI"]
 layout_mode = 1
@@ -511,56 +522,6 @@ text = "Destruction in 4.0s"
 label_settings = SubResource("LabelSettings_5uvkm")
 horizontal_alignment = 1
 uppercase = true
-
-[node name="Prompt" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts"]
-unique_name_in_owner = true
-layout_mode = 2
-script = ExtResource("29_6qsuj")
-
-[node name="TradePrompt" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts/Prompt"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="PreCostTextLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts/Prompt/TradePrompt"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Trade  "
-label_settings = SubResource("LabelSettings_qsgsc")
-
-[node name="TradeCostLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts/Prompt/TradePrompt"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "XX"
-label_settings = SubResource("LabelSettings_qsgsc")
-
-[node name="TradeMineralTextureRect" type="TextureRect" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts/Prompt/TradePrompt"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(16, 16)
-layout_mode = 2
-texture = ExtResource("30_cagdv")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="PostCostTextLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts/Prompt/TradePrompt"]
-unique_name_in_owner = true
-layout_mode = 2
-text = " per unit fuel ?"
-label_settings = SubResource("LabelSettings_qsgsc")
-
-[node name="MiningDronePrompt" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts/Prompt"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Hold [Space] to pickup mining drone"
-label_settings = SubResource("LabelSettings_qsgsc")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
 layout_mode = 0
@@ -836,7 +797,7 @@ segment_color_gradient = SubResource("Gradient_khk2k")
 
 [node name="HeatSection" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats"]
 layout_mode = 2
-theme_override_constants/separation = 0
+theme_override_constants/separation = 8
 
 [node name="Label" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection"]
 custom_minimum_size = Vector2(128, 64)
@@ -846,26 +807,74 @@ label_settings = SubResource("LabelSettings_k3357")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="Control" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Control3" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="TemperatureControl" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+theme_override_constants/separation = 8
+
+[node name="Control" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer/TemperatureControl"]
+custom_minimum_size = Vector2(208, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="TemperatureBar" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/Control"]
+[node name="TemperatureBar" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer/TemperatureControl/Control"]
 unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = -32.0
-offset_bottom = -32.0
+layout_mode = 2
+anchors_preset = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 192.0
+offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("21_f3e6b")
-segments = 15
+segments = 11
 separation = 8
 segment_color_gradient = SubResource("Gradient_4y2vr")
+
+[node name="TemperatureDeltaIcons" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer/TemperatureControl"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("51_2u1cb")
+increasing_texture = ExtResource("51_bret6")
+decreasing_texture = ExtResource("53_as00l")
+cutoffs = Array[float]([0.0, 0.08, 0.15])
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer/TemperatureControl/TemperatureDeltaIcons"]
+custom_minimum_size = Vector2(16, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("51_bret6")
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer/TemperatureControl/TemperatureDeltaIcons"]
+custom_minimum_size = Vector2(16, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("51_bret6")
+stretch_mode = 5
+
+[node name="TextureRect3" type="TextureRect" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer/TemperatureControl/TemperatureDeltaIcons"]
+custom_minimum_size = Vector2(16, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("51_bret6")
+stretch_mode = 5
+
+[node name="Control2" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
 
 [node name="HeatVignette" type="NinePatchRect" parent="CanvasLayer/GUI/HUDMargin" node_paths=PackedStringArray("player")]
 modulate = Color(0.968627, 0.462745, 0.133333, 1)
@@ -1056,6 +1065,47 @@ script = ExtResource("57_ymyow")
 mineral_inventory = ExtResource("10_wjjcp")
 mineral_inventory_item_gui = ExtResource("34_2rmpe")
 
+[node name="SpaceStationGUI" type="Control" parent="CanvasLayer/GUI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -307.5
+offset_top = -255.0
+offset_right = 307.5
+offset_bottom = 255.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("58_6ursl")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/GUI/SpaceStationGUI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/GUI/SpaceStationGUI/PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="RepairTask" parent="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer" instance=ExtResource("58_w6bda")]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Repair"
+
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="RefuelTask" parent="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer" instance=ExtResource("58_w6bda")]
+unique_name_in_owner = true
+layout_mode = 2
+title = "Refuel"
+
 [node name="DebugGUI" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 15
@@ -1097,7 +1147,10 @@ wait_time = 4.0
 one_shot = true
 
 [connection signal="heat_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_heat_changed"]
-[connection signal="prompt_interacted" from="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts/Prompt" to="." method="_on_prompt_prompt_interacted"]
 [connection signal="pressed" from="CanvasLayer/GUI/GameOverScreen/VBoxContainer/Button" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/GUI/WinScreen/VBoxContainer/Button" to="." method="_on_restart_button_pressed"]
+[connection signal="all_task_purchased" from="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer/RepairTask" to="CanvasLayer/GUI/SpaceStationGUI" method="_on_repair_task_all_task_purchased"]
+[connection signal="single_task_purchased" from="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer/RepairTask" to="CanvasLayer/GUI/SpaceStationGUI" method="_on_repair_task_single_task_purchased"]
+[connection signal="all_task_purchased" from="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer/RefuelTask" to="CanvasLayer/GUI/SpaceStationGUI" method="_on_refuel_task_all_task_purchased"]
+[connection signal="single_task_purchased" from="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer/RefuelTask" to="CanvasLayer/GUI/SpaceStationGUI" method="_on_refuel_task_single_task_purchased"]
 [connection signal="timeout" from="WinTimer" to="." method="_on_win_timer_timeout"]

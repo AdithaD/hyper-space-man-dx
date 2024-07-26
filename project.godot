@@ -46,6 +46,7 @@ mining_drone=""
 asteroid=""
 world=""
 heat_emitter=""
+interaction_delegator=""
 
 [input]
 

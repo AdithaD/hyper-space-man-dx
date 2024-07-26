@@ -13,10 +13,17 @@ region = Rect2(192, 0, 64, 64)
 texture = SubResource("AtlasTexture_jspoq")
 
 [node name="CollisionPolygon2D" parent="." index="1"]
+visible = false
 polygon = PackedVector2Array(8, -208, 104, -160, 152, -112, 152, -48, 128, 56, 16, 192, -72, 192, -144, 136, -184, 72, -184, -80)
+
+[node name="HitboxComponent" parent="." index="2"]
+visible = false
 
 [node name="CollisionPolygon2D" parent="HitboxComponent" index="0"]
 polygon = PackedVector2Array(8, -232, 136, -168, 184, -72, 144, 72, 0, 224, -104, 208, -216, 80, -224, -8, -208, -80, -144, -152)
+
+[node name="HurtboxComponent" parent="." index="3"]
+visible = false
 
 [node name="CollisionPolygon2D" parent="HurtboxComponent" index="2"]
 polygon = PackedVector2Array(8, -232, 136, -168, 184, -72, 144, 72, 0, 224, -104, 208, -216, 80, -224, -8, -208, -80, -144, -152)

@@ -45,6 +45,6 @@ func burn_anti_gravity(change_in_velocity: Vector2) -> void:
 func get_ratio() -> float:
 	return current_fuel / fuel_capacity
 
-func fill() -> void:
-	current_fuel = fuel_capacity
+func fill(amount: float) -> void:
+	current_fuel = min(current_fuel + amount, fuel_capacity)
 	engine_burned.emit(current_fuel, fuel_capacity)

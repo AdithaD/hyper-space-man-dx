@@ -3,12 +3,12 @@ class_name World
 
 signal mining_drone_created(mining_drone: MiningDrone)
 
-@export var gravity_cutoff : int = 1000
-@export var gravitational_constant : float = 10000000
-@export var maximum_gravity : float = 40.0
+@export var gravity_cutoff: int = 1000
+@export var gravitational_constant: float = 10000000
+@export var maximum_gravity: float = 40.0
 
-@export var item_pickup_scene : PackedScene
-@export var player : Player
+@export var item_pickup_scene: PackedScene
+@export var player: Player
 @export var player_speed_spawn_cutoff := 100000
 @onready var solar_system_spawner: SolarSystemSpawner = %SolarSystemSpawner
 
@@ -29,7 +29,7 @@ func add_mining_drone(mining_drone: MiningDrone) -> void:
 	add_child(mining_drone)
 	mining_drone_created.emit(mining_drone)
 
-func spawn_mineral_pickup(location : Vector2, mineral : Mineral, amount : int) -> void:
+func spawn_mineral_pickup(location: Vector2, mineral: Mineral, amount: int) -> void:
 	var instance := item_pickup_scene.instantiate()
 	
 	instance.global_position = location

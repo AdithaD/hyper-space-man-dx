@@ -1,25 +1,30 @@
 [gd_scene load_steps=7 format=3 uid="uid://bi7sudnr12ic4"]
 
 [ext_resource type="Script" path="res://world/space_station.gd" id="1_ie2h8"]
-[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://world/minerals/resources/mineral_platinum.tres" id="2_ggpxx"]
 [ext_resource type="Texture2D" uid="uid://cqicookwg0jpe" path="res://world/space_station/space_station.png" id="2_i0i4s"]
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://world/minerals/resources/mineral_meteorite.tres" id="2_tr2vc"]
 [ext_resource type="PackedScene" uid="uid://xl7b54jgi31t" path="res://utils/player_interact_area.tscn" id="5_y3ca2"]
 [ext_resource type="AudioStream" uid="uid://bb1vq11t1jqfl" path="res://world/space_station/space_station_fill.wav" id="6_qtr46"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pls7c"]
 radius = 362.353
 
-[node name="FuelStation" type="Node2D" groups=["space_station"]]
+[node name="SpaceStation" type="Node2D" groups=["space_station"]]
 z_index = 2
 script = ExtResource("1_ie2h8")
-cost_mineral = ExtResource("2_ggpxx")
-prompt = "Trade fuel for_ minerals"
+repair_cost_per_unit = 2
+repair_cost_mineral = ExtResource("2_tr2vc")
+refuel_cost_per_unit = 2
+refuel_cost_mineral = ExtResource("2_tr2vc")
+prompt = "Open shop"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(24, 24)
 texture = ExtResource("2_i0i4s")
 
-[node name="PlayerInteractArea" parent="." instance=ExtResource("5_y3ca2")]
+[node name="PlayerInteractArea" parent="." node_paths=PackedStringArray("source_node") instance=ExtResource("5_y3ca2")]
+interactor_key = &"space_station"
+source_node = NodePath("..")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerInteractArea"]
 position = Vector2(0, 160)

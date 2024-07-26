@@ -1,7 +1,8 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://dy7wgxfvqt70i"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://dy7wgxfvqt70i"]
 
 [ext_resource type="Texture2D" uid="uid://be6cvsbl3se1v" path="res://gui/button_box.png" id="1_4ndym"]
 [ext_resource type="FontFile" uid="uid://bfgk2vjjebhfo" path="res://gui/4x5 Font.ttf" id="1_q1p1x"]
+[ext_resource type="Texture2D" uid="uid://cyf3r8y7vtwx3" path="res://gui/npr_texture.png" id="2_hearl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x7gc4"]
 atlas = ExtResource("1_4ndym")
@@ -38,10 +39,21 @@ texture_margin_top = 8.0
 texture_margin_right = 8.0
 texture_margin_bottom = 8.0
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gqp0c"]
+texture = ExtResource("2_hearl")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+
 [resource]
 default_font = ExtResource("1_q1p1x")
+Button/font_sizes/font_size = 32
 Button/styles/disabled = SubResource("StyleBoxTexture_12vd6")
 Button/styles/focus = SubResource("StyleBoxEmpty_1xg7h")
 Button/styles/hover = SubResource("StyleBoxTexture_4v6tw")
 Button/styles/normal = SubResource("StyleBoxTexture_hxaky")
+HBoxContainer/constants/separation = 8
+Label/font_sizes/font_size = 32
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_gqp0c")
 VBoxContainer/constants/separation = 8

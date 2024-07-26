@@ -1,7 +1,7 @@
 extends Node2D
 class_name SolarSystemSpawner
 
-signal solar_system_spawned(solar_system : SolarSystem)
+signal solar_system_spawned(solar_system: SolarSystem)
 
 @export var player: Player
 @export var solar_system_scene: PackedScene
@@ -16,18 +16,18 @@ signal solar_system_spawned(solar_system : SolarSystem)
 
 @export var solar_system_randomness: float
 
-@onready var world : World = get_parent()
+@onready var world: World = get_parent()
 
 var sun_grid := {}
 var explored_grid := {}
 var start_pos: Vector2 = Vector2.ZERO
-var sun_names_temp : Array[String] = ["Kepler", "HD", "2MASS", "KOI", "WASP", "K2", "HIP", "EPIC", "KELT", "Sol", "CoRoT", "Gliese", "OGLE", "Qatar", "HAT", "GJ", "KELT"]
-var sun_names : Array[String] = []
+var sun_names_temp: Array[String] = ["Kepler", "HD", "2MASS", "KOI", "WASP", "K2", "HIP", "EPIC", "KELT", "Sol", "CoRoT", "Gliese", "OGLE", "Qatar", "HAT", "GJ", "KELT"]
+var sun_names: Array[String] = []
 
 var active := true
 
 func generate_n_digit_numbers(n: int, amount: int) -> Array[String]:
-	var result : Array[String] = []
+	var result: Array[String] = []
 	for i in range(amount):
 		result.append(generate_number(n))
 	return result
@@ -39,7 +39,7 @@ func generate_number(length: int) -> String:
 		return generate_number(length - 1) + str(int(randf_range(0, 10)))
 
 func generate_sun_names() -> void:
-	for sun_name : String in sun_names_temp:
+	for sun_name: String in sun_names_temp:
 		for j in range(2, 5):
 			for k in generate_n_digit_numbers(j, 7):
 				sun_names.append(sun_name + "-" + k)
@@ -47,9 +47,9 @@ func generate_sun_names() -> void:
 func _ready() -> void:
 	randomize()
 	generate_sun_names()
-	explored_grid[[0, 0]] = true
+	explored_grid[Vector2i(0, 0)] = true
 	
-func _process(_delta : float) -> void:
+func _process(_delta: float) -> void:
 	if active:
 		var pos := Vector2i(player.global_position / grid_size)
 		if not explored_grid.has(pos):
@@ -58,8 +58,8 @@ func _process(_delta : float) -> void:
 			#spawn(2, full_position, start_pos, ((time_left * min_distance) + max_distance * (game_time - time_left)) / game_time)
 			spawn(2, player.global_position, start_pos, randi_range(min_distance, max_distance) * grid_size)
 		
-func create_solar_system(x : float, y : float, number_of_planets : int, spread : float) -> SolarSystem:
-	var solar_system : SolarSystem = solar_system_scene.instantiate()
+func create_solar_system(x: float, y: float, number_of_planets: int, spread: float) -> SolarSystem:
+	var solar_system: SolarSystem = solar_system_scene.instantiate()
 	add_child(solar_system)
 
 	solar_system.position.x = x
@@ -71,7 +71,7 @@ func create_solar_system(x : float, y : float, number_of_planets : int, spread :
 	return solar_system
 	
 #spawns solar sytem dist from pos in semicircle away from origin
-func spawn(amount: int, player_position: Vector2, origin : Vector2, distance_from_player : float) -> void:
+func spawn(amount: int, player_position: Vector2, origin: Vector2, distance_from_player: float) -> void:
 	for i in range(amount):
 		var _rotation := randf_range( - 0.5 * PI, 0.5 * PI)
 		
@@ -95,7 +95,7 @@ func spawn(amount: int, player_position: Vector2, origin : Vector2, distance_fro
 			solar_system_spawned.emit(solar_system)
 	
 func start_spawn() -> void:
-	spawn(3, Vector2(1, 0), Vector2(0, 0), grid_size * 4)
-	spawn(3, Vector2( - 1, 0), Vector2(0, 0), grid_size * 4)
-	spawn(3, Vector2(0, 1), Vector2(0, 0), grid_size * 4)
-	spawn(3, Vector2(0, -1), Vector2(0, 0), grid_size * 4)
+	spawn(2, Vector2(1, 0), Vector2(0, 0), grid_size * 3.3)
+	spawn(2, Vector2( - 1, 0), Vector2(0, 0), grid_size * 3.3)
+	spawn(2, Vector2(0, 1), Vector2(0, 0), grid_size * 3.3)
+	spawn(2, Vector2(0, -1), Vector2(0, 0), grid_size * 3.3)

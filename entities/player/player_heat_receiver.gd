@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 		damage_timer.stop()
 		is_exceeded = false
 	
-func get_frame_temp_delta(delta: float) -> float:
+func get_temp_delta(delta: float) -> float:
 	return _last_gain / delta - temperature_loss_rate
 	
 func get_ratio() -> float:

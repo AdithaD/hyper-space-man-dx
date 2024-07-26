@@ -9,11 +9,12 @@ var danger_rating: int = 0
 @onready var solar_system: SolarSystem = get_parent()
 @onready var spawn_timer: Timer = $SpawnTimer
 @onready var danger_timer: Timer = $DangerTimer
+@onready var player_interact_area: PlayerInteractArea = $PlayerInteractArea
 
 func _ready() -> void:
 	await get_parent().ready
-	solar_system.player_interact_area.player_entered.connect(_on_player_entered.unbind(1))
-	solar_system.player_interact_area.player_exited.connect(_on_player_exited.unbind(1))
+	player_interact_area.player_entered.connect(_on_player_entered.unbind(1))
+	player_interact_area.player_exited.connect(_on_player_exited.unbind(1))
 
 func spawn() -> void:
 	var amount_of_enemies := enemy_amount_curve.sample(randf()) * danger_multipliers[danger_rating]

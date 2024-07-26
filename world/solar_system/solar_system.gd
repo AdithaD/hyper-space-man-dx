@@ -56,14 +56,13 @@ var space_stations: Array[SpaceStation]:
 var world: World
 var size: int
 
-@onready var player_interact_area: PlayerInteractArea = $PlayerInteractArea
 @onready var asteroid_belt: Node2D = $AsteroidBelt
 
 func init(p_world: World, p_size: int, number_of_planets: int, p_spread: float, p_sun_name: String) -> void:
 	world = p_world
 	
 	size = p_size
-	$PlayerInteractArea/CollisionShape2D.shape.set_deferred("radius", size)
+	$Enemies/PlayerInteractArea/CollisionShape2D.shape.set_deferred("radius", size)
 	
 	spread = p_spread
 	sun_name = p_sun_name

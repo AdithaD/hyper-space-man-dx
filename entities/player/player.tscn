@@ -9,7 +9,6 @@
 [ext_resource type="Resource" uid="uid://bagxliwk2vv7t" path="res://entities/player/upgrades/instances/upgrade_exhaust_velocity.tres" id="4_h3p4t"]
 [ext_resource type="Script" path="res://entities/player/scripts/player_camera.gd" id="4_hr172"]
 [ext_resource type="Resource" uid="uid://bp8nshg7giykd" path="res://entities/player/weapons/weapon_cannon.tres" id="4_hu4rs"]
-[ext_resource type="AudioStream" uid="uid://bysiyxxx3rsfd" path="res://entities/player/sounds/engine_jolt.wav" id="5_cpwju"]
 [ext_resource type="Resource" uid="uid://dibq5dh0oh5cp" path="res://entities/player/upgrades/instances/upgrade_fuel_capacity.tres" id="5_llema"]
 [ext_resource type="Resource" uid="uid://b1txmy5n7crai" path="res://entities/player/weapons/weapon_missile.tres" id="5_tuqcu"]
 [ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://entities/player/upgrades/instances/upgrade_mass_flow.tres" id="6_3vk0j"]
@@ -41,6 +40,7 @@
 [ext_resource type="AudioStream" uid="uid://okjfh8oa77h2" path="res://entities/player/sounds/pass_through_sound.wav" id="28_lgvic"]
 [ext_resource type="AudioStream" uid="uid://cn6jmwiafotwk" path="res://world/item_pickup_sound.wav" id="32_icqak"]
 [ext_resource type="AudioStream" uid="uid://bufvtiipn8p8i" path="res://entities/player/sounds/burst_sound_2.wav" id="33_acsw3"]
+[ext_resource type="AudioStream" uid="uid://cl56hkl50cj1j" path="res://entities/player/sounds/engine_jolt2.wav" id="34_80tbw"]
 [ext_resource type="Script" path="res://entities/player/player_hurtbox_component.gd" id="35_57bq8"]
 [ext_resource type="AudioStream" uid="uid://cjqt1rs4f5r6p" path="res://entities/player/sounds/switch_weapon_sound.wav" id="35_el5xx"]
 [ext_resource type="Script" path="res://entities/player/burst_manager.gd" id="42_wwp4v"]
@@ -256,7 +256,7 @@ one_shot = true
 [node name="Sounds" type="Node2D" parent="."]
 
 [node name="EngineJoltSound" type="AudioStreamPlayer2D" parent="Sounds"]
-stream = ExtResource("5_cpwju")
+stream = ExtResource("34_80tbw")
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="Sounds"]
 stream = ExtResource("10_68rdc")
