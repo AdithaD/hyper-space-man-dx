@@ -1,7 +1,11 @@
 extends VBoxContainer
 
-@export var player: Player
-@export var mineral_cost_item : PackedScene
+@export var player: Player:
+	set(value):
+		player = value
+		player.upgraded.connect(_on_player_upgraded)
+
+@export var mineral_cost_item: PackedScene
 
 @onready var upgrade_name_label: Label = %UpgradeNameLabel
 @onready var upgrade_level_label: Label = %UpgradeLevelLabel
@@ -13,7 +17,7 @@ extends VBoxContainer
 @onready var upgrade_button: Button = %UpgradeButton
 @onready var upgrade_value_container: HBoxContainer = %UpgradeValueContainer
 
-var _upgrade : TieredUpgrade
+var _upgrade: TieredUpgrade
 
 func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
@@ -23,10 +27,10 @@ func _on_visibility_changed() -> void:
 		set_upgrade(_upgrade)
 
 func set_upgrade(upgrade: TieredUpgrade) -> void:
-	_upgrade =upgrade
+	_upgrade = upgrade
 	upgrade_name_label.text = upgrade.upgrade_name
 	
-	var current_tier : int = player.get_tier(upgrade)
+	var current_tier: int = player.get_tier(upgrade)
 	
 	if upgrade.get_max_tier() != current_tier:
 		upgrade_level_label.text = "LVL %d > %d" % [current_tier + 1, current_tier + 2]
@@ -57,9 +61,12 @@ func set_upgrade(upgrade: TieredUpgrade) -> void:
 		mineral_cost_list.hide()
 		upgrade_button.hide()
 		
-	pass
-
 func _on_upgrade_button_pressed() -> void:
 	player.apply_upgrade(_upgrade)
 	set_upgrade(_upgrade)
 	$UpgradeSound.play()
+
+func _on_player_upgraded() -> void:
+	if _upgrade:
+		set_upgrade(_upgrade)
+		$UpgradeSound.play()

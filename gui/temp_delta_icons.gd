@@ -25,4 +25,3 @@ func update(rate_of_change: float) -> void:
 		icon.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 		add_child(icon)
 	
-	prints("rate_of_change", rate_of_change, "amount", amount)

@@ -77,17 +77,19 @@ func shoot() -> void:
 	
 	shot_count += 1
 
+func die() -> void:
+	is_dead = true
+	behaviour_tree.enabled = false
+	$Sprite2D.play("death")
+	$DeathSound.play()
+	$DeathParticles.emitting = true
+
+	if world:
+		world.spawn_mineral_pickup(global_position, drop_mineral, randi_range(min_drop_amount, max_drop_amount))
+	
 func _on_health_component_died() -> void:
 	if not is_dead:
-		is_dead = true
-		behaviour_tree.enabled = false
-		$Sprite2D.play("death")
-		$DeathSound.play()
-		$DeathParticles.emitting = true
-	
-		if world:
-			world.spawn_mineral_pickup(global_position, drop_mineral, randi_range(min_drop_amount, max_drop_amount))
-
+		die()
 func _draw() -> void:
 	draw_line(Vector2(), desired_rotation.normalized().rotated( - global_rotation) * 64, Color.GREEN)
 	draw_line(Vector2(), velocity.normalized() * 64, Color.RED)

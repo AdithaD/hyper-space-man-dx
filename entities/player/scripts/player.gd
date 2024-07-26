@@ -134,6 +134,7 @@ func _ready() -> void:
 	_set_weapon(current_weapon)
 	
 	mineral_inventory.mineral_modified.connect(pickup_sound.play.unbind(2))
+	print("player ready")
 
 func apply_impulse(impulse: Vector2) -> void:
 	velocity += transform.basis_xform(impulse)
@@ -297,10 +298,11 @@ func _pickup_mining_drone(mining_drone: MiningDrone) -> void:
 	mining_drone.queue_free()
 	mining_drone = null
 
-func apply_upgrade(upgrade: TieredUpgrade, level_up:=true) -> void:
+func apply_upgrade(upgrade: TieredUpgrade, level_up:=true, force:=false) -> void:
 	if upgrade.get_max_tier() != get_tier(upgrade):
 		if level_up:
-			mineral_inventory.remove_subset(upgrade.get_tier_cost(upgrade_tier.get_or_add(upgrade, 0)))
+			if not force:
+				mineral_inventory.remove_subset(upgrade.get_tier_cost(upgrade_tier.get_or_add(upgrade, 0)))
 			upgrade_tier[upgrade] = get_tier(upgrade) + 1
 
 		var value := upgrade.get_tier_value(get_tier(upgrade))

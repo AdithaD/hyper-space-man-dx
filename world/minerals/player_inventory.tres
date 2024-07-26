@@ -1,7 +1,10 @@
-[gd_resource type="Resource" script_class="MineralInventory" load_steps=2 format=3 uid="uid://ccdhhwo57ccca"]
+[gd_resource type="Resource" script_class="MineralInventory" load_steps=3 format=3 uid="uid://ccdhhwo57ccca"]
 
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://world/minerals/resources/mineral_meteorite.tres" id="2_amvas"]
 [ext_resource type="Script" path="res://world/minerals/mineral_inventory.gd" id="2_gsg4w"]
 
 [resource]
 script = ExtResource("2_gsg4w")
-starting_inventory = {}
+starting_inventory = {
+ExtResource("2_amvas"): 20
+}

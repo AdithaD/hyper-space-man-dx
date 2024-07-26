@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=66 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://entities/player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://entities/player/scripts/player.gd" id="1_utgdb"]
@@ -36,7 +36,9 @@
 [ext_resource type="AudioStream" uid="uid://cw2qqjg7kfm2f" path="res://entities/player/sounds/cant_shoot.wav" id="15_4ql6b"]
 [ext_resource type="AudioStream" uid="uid://c0yg8vfuff303" path="res://entities/player/sounds/lock_acquire.wav" id="15_qxkc8"]
 [ext_resource type="Script" path="res://entities/player/mining_interactor.gd" id="18_byx4j"]
+[ext_resource type="Script" path="res://world/minerals/mineral_inventory.gd" id="21_1or4n"]
 [ext_resource type="Material" uid="uid://bktlh6igigio5" path="res://entities/player/engine_particles.tres" id="21_elfmq"]
+[ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://world/minerals/resources/mineral_meteorite.tres" id="22_2alnh"]
 [ext_resource type="AudioStream" uid="uid://okjfh8oa77h2" path="res://entities/player/sounds/pass_through_sound.wav" id="28_lgvic"]
 [ext_resource type="AudioStream" uid="uid://cn6jmwiafotwk" path="res://world/item_pickup_sound.wav" id="32_icqak"]
 [ext_resource type="AudioStream" uid="uid://bufvtiipn8p8i" path="res://entities/player/sounds/burst_sound_2.wav" id="33_acsw3"]
@@ -53,6 +55,12 @@ exhaust_velocity = 100000.0
 dry_mass = 50.0
 fuel_capacity = 100.0
 mass_flow_rate = 1.0
+
+[sub_resource type="Resource" id="Resource_7icu3"]
+script = ExtResource("21_1or4n")
+starting_inventory = {
+ExtResource("22_2alnh"): 20
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
 radius = 24.0
@@ -139,6 +147,7 @@ script = ExtResource("1_utgdb")
 upgrades = Array[ExtResource("2_4i6i5")]([ExtResource("3_rxdoq"), ExtResource("4_h3p4t"), ExtResource("5_llema"), ExtResource("6_3vk0j"), ExtResource("7_e65p5"), ExtResource("8_15wuh"), ExtResource("9_8k863"), ExtResource("10_eoed6"), ExtResource("11_276x8"), ExtResource("12_a7sxu"), ExtResource("13_w5o7j"), ExtResource("14_5e41g"), ExtResource("15_1a4t3"), ExtResource("12_a7sxu")])
 ship_engine = SubResource("Resource_84uqs")
 weapons = Array[ExtResource("3_yws57")]([ExtResource("4_hu4rs"), ExtResource("5_tuqcu"), ExtResource("6_utjo4")])
+mineral_inventory = SubResource("Resource_7icu3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708

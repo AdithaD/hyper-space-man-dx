@@ -5,5 +5,6 @@
 
 [resource]
 script = ExtResource("2_cjjj3")
+mineral_id = &"carbon"
 mineral_name = "Forged Carbon Fibers"
 mineral_icon = ExtResource("1_un4ss")

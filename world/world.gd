@@ -10,6 +10,10 @@ signal mining_drone_created(mining_drone: MiningDrone)
 @export var item_pickup_scene: PackedScene
 @export var player: Player
 @export var player_speed_spawn_cutoff := 100000
+
+@export_subgroup("Registry")
+@export var minerals: Array[Mineral] = []
+
 @onready var solar_system_spawner: SolarSystemSpawner = %SolarSystemSpawner
 
 func _process(delta: float) -> void:

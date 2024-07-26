@@ -5,5 +5,6 @@
 
 [resource]
 script = ExtResource("2_kiixt")
+mineral_id = &"platinum"
 mineral_name = "Platinum"
 mineral_icon = ExtResource("1_3yxif")
