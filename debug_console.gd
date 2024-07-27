@@ -3,6 +3,8 @@ class_name DebugConsole
 
 signal command_submitted(command: Command, arguments: Array)
 
+@export var player: Player
+
 var _command_map: Dictionary = {}
 var mineral_map: Dictionary = {}
 var upgrade_map: Dictionary = {}
@@ -16,10 +18,13 @@ var _history_index := 0
 
 func _ready() -> void:
 	command_line_edit.text_submitted.connect(_on_command_submitted)
+	hide()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("toggle_debug"):
 		visible = not visible
+		player.has_control = not visible
+
 		if visible:
 			command_line_edit.grab_focus()
 		else:

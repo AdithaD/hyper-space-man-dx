@@ -16,8 +16,11 @@ func _ready() -> void:
 
 func _caculate_exploration_vector() -> void:
 	var children := get_children()
-	var com : Vector2 = children.reduce(func(sum : Vector2, x: Node2D) -> Vector2: return sum + x.global_position, Vector2.ZERO) / children.size()
+	var com: Vector2 = children.reduce(func(sum: Vector2, x: Node2D) -> Vector2: return sum + x.global_position, Vector2.ZERO) / children.size()
 
-	if com.distance_to(home_solar_system.global_position) > max_distance_from_home:
-		var dir := com.direction_to(home_solar_system.global_position)
-		exploration_vector = dir.rotated(randf_range( - PI / 4, PI / 4))
+	if home_solar_system:
+		if com.distance_to(home_solar_system.global_position) > max_distance_from_home:
+			var dir := com.direction_to(home_solar_system.global_position)
+			exploration_vector = dir.rotated(randf_range( - PI / 4, PI / 4))
+	else:
+		exploration_vector = Vector2.RIGHT.rotated(randf() * TAU)

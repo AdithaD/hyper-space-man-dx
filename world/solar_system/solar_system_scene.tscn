@@ -78,7 +78,7 @@ asteroid_scenes = Array[PackedScene]([ExtResource("12_kbrad"), ExtResource("13_c
 min_radius = 8191.98
 max_radius = 12288.0
 amount_of_segements = 16.0
-asteroids_per_segment = 6.0
+asteroids_per_segment = 8
 
 [connection signal="timeout" from="Enemies/SpawnTimer" to="Enemies" method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="Enemies/DangerTimer" to="Enemies" method="_on_danger_timer_timeout"]

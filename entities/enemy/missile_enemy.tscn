@@ -168,7 +168,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="HealthComponent" parent="." instance=ExtResource("9_14bkp")]
-maximum_health = 5
+maximum_health = 50
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("10_wl6dr")]
 collision_layer = 12

@@ -6,6 +6,7 @@ var space_station: SpaceStation
 @onready var refuel_task: Control = %RefuelTask
 
 func _ready() -> void:
+	hide()
 	repair_task.purchased.connect(_on_repair_task_purchased)
 	refuel_task.purchased.connect(_on_refuel_task_purchased)
 

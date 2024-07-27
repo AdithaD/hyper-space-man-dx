@@ -1,12 +1,18 @@
 extends Resource
 class_name PlayerWeapon
 
+enum WeaponType {
+	RAY,
+	HITSCAN,
+	PROJECTILE
+}
+
 @export var weapon_name: String = "Weapon Name"
 @export var weapon_icon: Texture2D
 @export var shoot_sound: AudioStream
 
 @export var weapon_shot_scene: PackedScene
-@export var is_hitscan: bool = false
+@export var weapon_type: WeaponType
 @export var is_lock_required: bool = false
 
 @export var weapon_damage: int

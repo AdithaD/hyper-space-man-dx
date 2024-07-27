@@ -1,11 +1,11 @@
 extends Node
 class_name BurstManager
 
-signal amount_of_bursts_updated(new_amount : int)
+signal amount_of_bursts_updated(new_amount: int)
 
 @export var burst_impulse: float = 500
-@export var amount_of_bursts : int = 3
-@export var burst_coolodown : float = 5.0
+@export var amount_of_bursts: int = 3
+@export var burst_coolodown: float = 5.0
 
 @onready var _available_bursts := amount_of_bursts
 
@@ -13,13 +13,15 @@ signal amount_of_bursts_updated(new_amount : int)
 @onready var burst_cooldown_timer: Timer = $BurstCooldownTimer
 @onready var burst_particles_left: GPUParticles2D = $BurstParticlesLeft
 @onready var burst_particles_right: GPUParticles2D = $BurstParticlesRight
+@onready var burst_particles_front: GPUParticles2D = $BurstParticlesFront
+@onready var burst_particles_back: GPUParticles2D = $BurstParticlesBack
 @onready var burst_sound: AudioStreamPlayer2D = $BurstSound
 
 func _ready() -> void:
 	burst_cooldown_timer.timeout.connect(_on_timer_timeout)
 	
-func notify(left: bool, right: bool) -> void:
-	var bursted := left or right
+func notify(left: bool, right: bool, forward: bool, backward: bool) -> void:
+	var bursted := left or right or forward or backward
 	if is_burst_available() and bursted:
 		if left:
 			player.apply_impulse(Vector2.UP * burst_impulse)
@@ -27,6 +29,12 @@ func notify(left: bool, right: bool) -> void:
 		elif right:
 			player.apply_impulse(Vector2.DOWN * burst_impulse)
 			burst_particles_left.emitting = true
+		elif forward:
+			player.apply_impulse(Vector2.RIGHT * burst_impulse)
+			burst_particles_back.emitting = true
+		elif backward:
+			player.apply_impulse(Vector2.LEFT * burst_impulse)
+			burst_particles_front.emitting = true
 			
 		burst_sound.play()
 		
@@ -35,7 +43,7 @@ func notify(left: bool, right: bool) -> void:
 		if burst_cooldown_timer.is_stopped():
 			burst_cooldown_timer.start()
 
-func set_burst_amount(new_amount : int) -> void:
+func set_burst_amount(new_amount: int) -> void:
 	amount_of_bursts = new_amount
 	_available_bursts = min(_available_bursts, amount_of_bursts)
 	

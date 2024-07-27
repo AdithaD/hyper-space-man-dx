@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=69 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://entities/player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://entities/player/scripts/player.gd" id="1_utgdb"]
@@ -45,6 +45,9 @@
 [ext_resource type="AudioStream" uid="uid://cl56hkl50cj1j" path="res://entities/player/sounds/engine_jolt2.wav" id="34_80tbw"]
 [ext_resource type="Script" path="res://entities/player/player_hurtbox_component.gd" id="35_57bq8"]
 [ext_resource type="AudioStream" uid="uid://cjqt1rs4f5r6p" path="res://entities/player/sounds/switch_weapon_sound.wav" id="35_el5xx"]
+[ext_resource type="Script" path="res://entities/player/raycaster.gd" id="36_i22mc"]
+[ext_resource type="AudioStream" uid="uid://dgofdcn2h2h5n" path="res://entities/player/sounds/laser_build.wav" id="37_pdssa"]
+[ext_resource type="AudioStream" uid="uid://3jtxcwetfea7" path="res://entities/player/sounds/laser_beam.wav" id="38_pd4n4"]
 [ext_resource type="Script" path="res://entities/player/burst_manager.gd" id="42_wwp4v"]
 [ext_resource type="Script" path="res://entities/player/player_heat_receiver.gd" id="43_5s4bi"]
 [ext_resource type="AudioStream" uid="uid://bogjv5i8awdcn" path="res://entities/player/sounds/heat_damage_sound.wav" id="46_hwsqx"]
@@ -185,6 +188,25 @@ lifetime = 0.6
 one_shot = true
 explosiveness = 1.0
 
+[node name="BurstParticlesBack" type="GPUParticles2D" parent="BurstManager"]
+position = Vector2(-49, -1)
+rotation = 3.14159
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_hhxgi")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+
+[node name="BurstParticlesFront" type="GPUParticles2D" parent="BurstManager"]
+position = Vector2(48, 0)
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_hhxgi")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+
 [node name="BurstParticlesRight" type="GPUParticles2D" parent="BurstManager"]
 position = Vector2(0, 32)
 rotation = -1.57079
@@ -243,6 +265,30 @@ ray_color = Color(0.388235, 0.780392, 0.301961, 1)
 ray_width = 16
 ray_length = 64.0
 default_duration = 0.1
+
+[node name="Raycaster" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+z_index = -1
+collision_mask = 12
+collide_with_areas = true
+collide_with_bodies = false
+script = ExtResource("36_i22mc")
+ray_distance = 2000.0
+ray_color = Color(0.172549, 0.909804, 0.960784, 1)
+ray_width = 16.0
+
+[node name="HitTimer" type="Timer" parent="Raycaster"]
+one_shot = true
+
+[node name="StartupTimer" type="Timer" parent="Raycaster"]
+wait_time = 0.8
+one_shot = true
+
+[node name="LaserBuildSound" type="AudioStreamPlayer" parent="Raycaster"]
+stream = ExtResource("37_pdssa")
+
+[node name="LaserBeamSound" type="AudioStreamPlayer" parent="Raycaster"]
+stream = ExtResource("38_pd4n4")
 
 [node name="CannonPoint1" type="Node2D" parent="."]
 position = Vector2(-15, -25)

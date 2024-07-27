@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbqnntjtlw2lo"]
+
+[ext_resource type="Texture2D" uid="uid://b7p3bd1luxkbj" path="res://world/asteroids/asteroids.png" id="1_bh4ia"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dqn7h"]
+atlas = ExtResource("1_bh4ia")
+region = Rect2(128, 64, 64, 64)
+
+[node name="DestroyedSprite" type="Sprite2D"]
+scale = Vector2(4, 4)
+texture = SubResource("AtlasTexture_dqn7h")

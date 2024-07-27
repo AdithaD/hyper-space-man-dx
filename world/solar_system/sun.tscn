@@ -19,4 +19,4 @@ scale = Vector2(4, 4)
 
 [node name="HeatEmitter" type="Node2D" parent="." groups=["heat_emitter"]]
 script = ExtResource("3_qf6oh")
-temperature = 228.813
+temperature = 260.0

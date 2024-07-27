@@ -121,6 +121,7 @@ var heat := 0.0:
 @onready var ray_shooter: Node2D = $RayShooter
 
 @onready var shot_parent: Node = $ShotParent
+@onready var raycaster: WeaponRaycaster = $Raycaster
 #endregion
 
 func _ready() -> void:
@@ -131,7 +132,8 @@ func _ready() -> void:
 
 	mineral_inventory._init(mineral_inventory.starting_inventory)
 	heat_cooloff_timer.wait_time = maximum_heat / heat_drain_per_second
-	
+
+	raycaster.target_hit.connect(_on_raycaster_target_hit)
 	_set_weapon(current_weapon)
 	
 	mineral_inventory.mineral_modified.connect(pickup_sound.play.unbind(2))
@@ -142,7 +144,7 @@ func apply_impulse(impulse: Vector2) -> void:
 
 func _physics_process(delta: float) -> void:
 	if not is_dead and has_control:
-		burst_manager.notify(Input.is_action_just_pressed("burst_left"), Input.is_action_just_pressed("burst_right"))
+		burst_manager.notify(Input.is_action_just_pressed("burst_left"), Input.is_action_just_pressed("burst_right"), Input.is_action_just_pressed("burst_forward"), Input.is_action_just_pressed("burst_backward"))
 		#accelerate
 		is_accelerating = Input.is_action_pressed("accelerate")
 		
@@ -158,10 +160,13 @@ func _physics_process(delta: float) -> void:
 			
 		if Input.is_action_pressed("shoot") and shot_timer.is_stopped() and heat_cooloff_timer.is_stopped():
 			shoot()
-
-		# reduce heat
-		if not is_zero_approx(heat):
-			heat -= min(heat, heat_drain_per_second * delta)
+		else:
+			# reduce heat
+			if not is_zero_approx(heat):
+				heat -= min(heat, heat_drain_per_second * delta)
+		
+		if Input.is_action_just_released("shoot"):
+			raycaster.stop_shooting()
 
 		# over speed camera shake
 		if velocity.length() > max_speed:
@@ -224,10 +229,14 @@ func shoot() -> void:
 	if current_weapon.is_lock_required and target_lock.get_current_target() == null:
 		return
 
-	if current_weapon.is_hitscan:
-		_shoot_hitscan(current_weapon, global_position, get_global_mouse_position())
-	else:
-		_shoot_projectile(current_weapon, cannon.global_position, cannon.global_position + transform.x * 100)
+	match current_weapon.weapon_type:
+		PlayerWeapon.WeaponType.HITSCAN:
+			_shoot_hitscan(current_weapon, global_position, get_global_mouse_position())
+		PlayerWeapon.WeaponType.PROJECTILE:
+			_shoot_projectile(current_weapon, cannon.global_position, cannon.global_position + transform.x * 100)
+		PlayerWeapon.WeaponType.RAY:
+			_shoot_ray(current_weapon)
+
 	weapon_shot_sound.play()
 	camera_2d.add_trauma(current_weapon.shot_trauma)
 	
@@ -266,6 +275,10 @@ func _shoot_hitscan(weapon: PlayerWeapon, origin: Vector2, target: Vector2) -> v
 		hurtbox.take_damage(weapon.weapon_damage)
 		print(hurtbox)
 
+func _shoot_ray(weapon: PlayerWeapon) -> void:
+	if not raycaster.is_shooting:
+		raycaster.start_shooting(weapon)
+	
 func _deploy_mining_drone() -> void:
 	# instantiate
 	var mining_drone: MiningDrone = mining_drone_scene.instantiate()
@@ -351,6 +364,7 @@ func _add_heat(amount: float) -> void:
 func _cool_off() -> void:
 	heat_cooloff_timer.start()
 	cannon_cooloff_sound.play()
+	raycaster.stop_shooting()
 
 func set_local_stabilisation(is_on: bool) -> void:
 	is_local_stabilisation_on = is_on
@@ -373,3 +387,14 @@ func _on_health_component_died() -> void:
 func _on_overspeed_timer_timeout() -> void:
 	if not is_dead:
 		queue_death()
+
+func _on_raycaster_target_hit(hurtbox: HurtboxComponent) -> void:
+	var damage := current_weapon.weapon_damage
+
+	if hurtbox.get_parent() is Asteroid:
+		damage *= 2
+	
+	if hurtbox.get_parent() is Enemy:
+		damage /= 2
+
+	hurtbox.take_damage(damage)

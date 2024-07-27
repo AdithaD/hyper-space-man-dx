@@ -6,9 +6,12 @@ extends Node
 @export_subgroup("Coupling")
 @export var player: Player
 @export var world: World
+@export var enemy_parent: Node2D
 
 var mineral_map: Dictionary = {}
 var upgrade_map: Dictionary = {}
+
+@export var debug_enemy_scenes: Array[PackedScene]
 
 func _ready() -> void:
 	debug_console.command_submitted.connect(_on_command_submitted)
@@ -38,6 +41,8 @@ func _on_command_submitted(command: Command, arguments: Array) -> void:
 			_damage_command_handler(arguments)
 		"set_invincible":
 			_set_invincible_command_handler(arguments)
+		"spawn_enemy":
+			_spawn_enemy_command_handler(arguments)
 		_:
 			print_debug("Command not found")
 
@@ -74,3 +79,17 @@ func _set_invincible_command_handler(arguments: Array) -> void:
 	var invincible: bool = arguments[0]
 
 	player.health_component.invincible = invincible
+
+func _spawn_enemy_command_handler(arguments: Array) -> void:
+	var amount: int = arguments[0]
+	
+	var group: EnemyGroup = EnemyGroup.new()
+
+	for _i in range(amount):
+		var enemy: Enemy = debug_enemy_scenes.pick_random().instantiate()
+		enemy.position = (Vector2.RIGHT * 100).rotated(randf() * TAU)
+		enemy.world = world
+		enemy.group = group
+		group.add_child(enemy)
+
+	enemy_parent.add_child(group)

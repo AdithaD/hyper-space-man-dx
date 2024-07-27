@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Command" load_steps=2 format=3 uid="uid://bb7fgt84t8kdl"]
+
+[ext_resource type="Script" path="res://debug/console/command.gd" id="1_v1cgw"]
+
+[resource]
+script = ExtResource("1_v1cgw")
+name = "spawn_enemy"
+description = "Spawns an amount of random enemies"
+arguments = Array[int]([1])

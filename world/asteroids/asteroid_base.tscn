@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1dn5dll7bbep"]
+[gd_scene load_steps=8 format=3 uid="uid://b1dn5dll7bbep"]
 
 [ext_resource type="Script" path="res://world/asteroids/asteroid.gd" id="1_m4u4m"]
 [ext_resource type="PackedScene" uid="uid://cxdx6hkb1rpq" path="res://components/hurtbox_component.tscn" id="2_ey3x0"]
 [ext_resource type="PackedScene" uid="uid://0bdiug3nq1yh" path="res://components/hitbox_component.tscn" id="2_fwpjq"]
 [ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://world/minerals/resources/mineral_meteorite.tres" id="2_hohpc"]
+[ext_resource type="PackedScene" uid="uid://bbqnntjtlw2lo" path="res://world/asteroids/destroyed_asteroid.tscn" id="3_djtnc"]
 [ext_resource type="PackedScene" uid="uid://bb47cvyg02i4a" path="res://components/health_component.tscn" id="3_u5j2i"]
 [ext_resource type="AudioStream" uid="uid://bmloy0oo52ugj" path="res://world/asteroids/asteroid_death.wav" id="5_c15qs"]
 
@@ -13,6 +14,7 @@ collision_mask = 3
 script = ExtResource("1_m4u4m")
 death_mineral = ExtResource("2_hohpc")
 amount = 50
+debris_scene = ExtResource("3_djtnc")
 
 [node name="MineableSprite" type="Sprite2D" parent="."]
 unique_name_in_owner = true
