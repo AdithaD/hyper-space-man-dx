@@ -1,4 +1,4 @@
-@icon("res://enemy/Behaviour Tree/condition.svg")
+@icon("res://entities/enemy/Behaviour Tree/condition.svg")
 extends BehaviourTreeNode
 class_name ConditionBehaviourTreeNode
 ## A base class to inherit that represents a condition evaluating actor state in the behaviour tree system.
@@ -10,7 +10,7 @@ func _ready() -> void:
 
 ## Will return SUCCESS or FAILURE based on the actor's state. Generally this is an 'atomic' operation
 ## and should never report 'RUNNING'.
-func update(_actor : Node, _blackboard : BehaviourTreeBlackboard) -> BehaviourState:
+func update(_actor: Node, _blackboard: BehaviourTreeBlackboard) -> BehaviourState:
 	# call a member function of the actor
 	return BehaviourState.SUCCESS
 

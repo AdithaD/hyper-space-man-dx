@@ -1,4 +1,4 @@
-@icon("res://enemy/Behaviour Tree/action.svg")
+@icon("res://entities/enemy/Behaviour Tree/action.svg")
 extends BehaviourTreeNode
 class_name ActionBehaviourTreeNode
 ## A base class to inherit that represents an action in the behaviour tree system.

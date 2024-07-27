@@ -1,4 +1,4 @@
-@icon("res://enemy/Behaviour Tree/priority_selector.svg")
+@icon("res://entities/enemy/Behaviour Tree/priority_selector.svg")
 extends BehaviourTreeNode
 class_name PriorityBehaviourTreeNode
 ## A node in the BehaviourTree system. Goes through children in child order 
@@ -8,10 +8,10 @@ class_name PriorityBehaviourTreeNode
 ## It effectively prioritises child behaviours over one another.
 
 ## Stores which child is currently RUNNING
-var child_update_index := 0 
+var child_update_index := 0
 
 ## Iterates through its children in node order until a child returns RUNNING or SUCCESS.
-func update(actor: Node, blackboard : BehaviourTreeBlackboard) -> BehaviourState:
+func update(actor: Node, blackboard: BehaviourTreeBlackboard) -> BehaviourState:
 	var i := 0
 	while i < get_child_count():
 		var child := get_child(i) as BehaviourTreeNode
@@ -31,11 +31,10 @@ func update(actor: Node, blackboard : BehaviourTreeBlackboard) -> BehaviourState
 	return BehaviourState.FAILED
 
 func reset_state() -> void:
-	for child : BehaviourTreeNode in get_children():
+	for child: BehaviourTreeNode in get_children():
 		child.reset_state()
 	child_update_index = 0
 	pass
-
 
 func get_active_node() -> BehaviourTreeNode:
 	return get_child(child_update_index).get_active_node() if child_update_index >= 0 else null

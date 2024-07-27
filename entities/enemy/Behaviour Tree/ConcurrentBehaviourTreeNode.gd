@@ -1,4 +1,4 @@
-@icon("res://enemy/Behaviour Tree/concurrent.svg")
+@icon("res://entities/enemy/Behaviour Tree/concurrent.svg")
 extends BehaviourTreeNode
 class_name ConcurrentBehaviourTreeNode
 ## A node in the BehaviourTree system. Returns SUCCESS only if all children report success.
@@ -8,7 +8,7 @@ class_name ConcurrentBehaviourTreeNode
 ## as all child conditions will be evaluated everytime.
 
 # Stores the index of the last child that reported the state 'RUNNING'.
-var _current_running_index := -1
+var _current_running_index := - 1
 
 ## Updates all children in child order, continuing onto the next only if the previous child returned SUCCESS.
 func update(actor: Node, blackboard: BehaviourTreeBlackboard) -> BehaviourState:
@@ -31,7 +31,7 @@ func update(actor: Node, blackboard: BehaviourTreeBlackboard) -> BehaviourState:
 
 ## Resets all children nodes,
 func reset_state() -> void:
-	for child : BehaviourTreeNode in get_children():
+	for child: BehaviourTreeNode in get_children():
 		child.reset_state()
 	_current_running_index = -1
 	pass

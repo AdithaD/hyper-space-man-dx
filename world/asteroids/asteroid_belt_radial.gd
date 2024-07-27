@@ -4,9 +4,9 @@ extends Node2D
 
 @export var min_radius: float = 0
 @export var max_radius: float = 0
-@export var amount_of_segements: float = 8.0
-@export var asteroids_per_segment: float = 2.0
-@export var segments_per_batch := 4.0
+@export var amount_of_segements: int = 8
+@export var asteroids_per_segment: int = 2
+@export var segments_per_batch: int = 4
 @export var mineable_chance := 0.2
 
 @onready var increment := 2 * PI / amount_of_segements
@@ -16,7 +16,7 @@ var spawning := false
 func _generate() -> void:
 	spawning = true
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if spawning:
 		var batch_size := mini(segments_per_batch, amount_of_segements - spawned_segments)
 		_spawn_batch(batch_size)

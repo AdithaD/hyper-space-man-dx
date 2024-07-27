@@ -16,7 +16,7 @@ signal mining_drone_created(mining_drone: MiningDrone)
 
 @onready var solar_system_spawner: SolarSystemSpawner = %SolarSystemSpawner
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	solar_system_spawner.active = player.velocity.length() < player_speed_spawn_cutoff
 
 func get_gravity(origin: Vector2) -> Vector2:
@@ -55,8 +55,8 @@ func add_particles(location: Vector2, destruction_partices: ParticleProcessMater
 	
 	particles.finished.connect(particles.queue_free)
 
-func configure_player(player: Player) -> void:
-	$SolarSystemSpawner.solar_system_spawned.connect(player.mining_interactor._on_solar_system_spawner_solar_system_spawned)
+func configure_player(p: Player) -> void:
+	$SolarSystemSpawner.solar_system_spawned.connect(p.mining_interactor._on_solar_system_spawner_solar_system_spawned)
 
 func start() -> void:
 	$SolarSystemSpawner.start_spawn()

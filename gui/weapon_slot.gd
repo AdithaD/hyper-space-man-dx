@@ -2,7 +2,7 @@ extends Control
 
 @export var weapon: PlayerWeapon: set = set_weapon
 
-var selected = false
+var selected := false
 
 func _ready() -> void:
 	if weapon:
