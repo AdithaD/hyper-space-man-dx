@@ -20,7 +20,7 @@ extends Control
 @onready var temperature_bar: Control = %TemperatureBar
 @onready var temperature_delta_icons: Control = %TemperatureDeltaIcons
 
-@onready var anti_gravity_label: Label = %AntiGravityLabel
+@onready var local_stabilisation_label: Label = %LocalStabilisationLabel
 
 @onready var weapon_heat_gauge: Control = %WeaponHeatGauge
 
@@ -38,11 +38,11 @@ func _ready() -> void:
 	
 	#intiial state
 	fuel_bar.set_ratio(player.ship_engine.get_ratio())
-	anti_gravity_label.enabled = player.is_anti_gravity_on
+	local_stabilisation_label.enabled = player.is_local_stabilisation_on
 	weapon_heat_gauge.set_ratio(0.0)
 	
-func _on_player_state_changed(is_anti_gravity_on: bool) -> void:
-	anti_gravity_label.enabled = is_anti_gravity_on
+func _on_player_state_changed(is_local_stabilisation_on: bool) -> void:
+	local_stabilisation_label.enabled = is_local_stabilisation_on
 	
 func _on_player_engine_burned(_new_amount: int, ratio: float) -> void:
 	fuel_bar.set_ratio(ratio)

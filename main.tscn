@@ -651,7 +651,7 @@ offset_right = 424.0
 offset_bottom = 152.0
 stretch_mode = 4
 
-[node name="AntiGravityLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD"]
+[node name="LocalStabilisationLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 7
@@ -665,7 +665,7 @@ offset_right = 128.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "ANTI GRAV"
+text = "stabiliser"
 label_settings = SubResource("LabelSettings_0e54q")
 script = ExtResource("38_l0s64")
 enabled_color = Color(0.996078, 0.905882, 0.380392, 1)
@@ -892,6 +892,7 @@ custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 
 [node name="HeatVignette" type="NinePatchRect" parent="CanvasLayer/GUI/HUDMargin" node_paths=PackedStringArray("player")]
+visible = false
 modulate = Color(0.968627, 0.462745, 0.133333, 1)
 z_index = -20
 layout_mode = 2
@@ -997,6 +998,7 @@ text = "Restart"
 
 [node name="UpgradeScreen" type="Control" parent="CanvasLayer/GUI"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1122,6 +1124,7 @@ layout_mode = 2
 title = "Refuel"
 
 [node name="DebugGUI" type="Control" parent="CanvasLayer"]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

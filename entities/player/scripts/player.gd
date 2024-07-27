@@ -2,7 +2,7 @@ extends CharacterBody2D
 class_name Player
 signal heat_changed(new_amount: int)
 
-signal player_state_changed(anti_gravity: bool)
+signal player_state_changed(local_stabilisation: bool)
 
 signal weapon_changed(current_weapon: PlayerWeapon)
 
@@ -15,6 +15,7 @@ signal upgraded
 
 @export_subgroup("Engine")
 @export var ship_engine: ShipEngine
+@export var stabilisation_threshold: float = 200.0
 @export var drag := 10.0
 @export var burst_impulse := 600.0
 
@@ -38,7 +39,7 @@ var direction := Vector2.ZERO
 var shot_count: int = 0
 
 var is_mining := false
-var is_anti_gravity_on := false
+var is_local_stabilisation_on := false
 var current_weapon_index := 0
 var is_dead := false
 var has_control := true
@@ -96,8 +97,8 @@ var heat := 0.0:
 
 @onready var engine_jolt_sound: AudioStreamPlayer2D = $Sounds/EngineJoltSound
 @onready var death_sound: AudioStreamPlayer2D = $Sounds/DeathSound
-@onready var antigravity_on_sound: AudioStreamPlayer2D = $Sounds/AntigravityOnSound
-@onready var antigravity_off_sound: AudioStreamPlayer2D = $Sounds/AntigravityOffSound
+@onready var localstabilisation_on_sound: AudioStreamPlayer2D = $Sounds/LocalStabilisationOnSound
+@onready var localstabilisation_off_sound: AudioStreamPlayer2D = $Sounds/LocalStabilisationOffSound
 @onready var engine_sustain_sound: AudioStreamPlayer2D = $Sounds/EngineSustainSound
 @onready var cannon_cooloff_sound: AudioStreamPlayer2D = $Sounds/CannonCooloffSound
 @onready var weapon_shot_sound: AudioStreamPlayer2D = $Sounds/WeaponShotSound
@@ -148,7 +149,7 @@ func _physics_process(delta: float) -> void:
 		if is_accelerating:
 			accelerate(delta)
 		else:
-			if not is_zero_approx(velocity.length()) and velocity.length() < 100:
+			if not is_zero_approx(velocity.length()) and velocity.length() < stabilisation_threshold and is_local_stabilisation_on:
 				velocity -= velocity.normalized() * drag * delta
 
 		# shoot
@@ -184,9 +185,8 @@ func _unhandled_input(event: InputEvent) -> void:
 				if mining_interactor.current_solar_object != null:
 					_deploy_mining_drone()
 
-		if event.is_action_pressed("anti_gravity"):
-			if ship_engine.current_fuel > 0:
-				set_anti_gravity(not is_anti_gravity_on)
+		if event.is_action_pressed("local_stabilisation"):
+			set_local_stabilisation(not is_local_stabilisation_on)
 		
 		if Input.is_action_pressed("cycle_weapon"):
 			var new_index := (current_weapon_index + 1) % weapons.size()
@@ -352,15 +352,15 @@ func _cool_off() -> void:
 	heat_cooloff_timer.start()
 	cannon_cooloff_sound.play()
 
-func set_anti_gravity(is_on: bool) -> void:
-	is_anti_gravity_on = is_on
+func set_local_stabilisation(is_on: bool) -> void:
+	is_local_stabilisation_on = is_on
 	
-	if is_anti_gravity_on:
-		antigravity_on_sound.play()
+	if is_local_stabilisation_on:
+		localstabilisation_on_sound.play()
 	else:
-		antigravity_off_sound.play()
+		localstabilisation_off_sound.play()
 	
-	player_state_changed.emit(is_anti_gravity_on)
+	player_state_changed.emit(is_local_stabilisation_on)
 
 func queue_death() -> void:
 	is_dead = true

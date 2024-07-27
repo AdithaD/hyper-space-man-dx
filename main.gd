@@ -1,9 +1,9 @@
 extends Node
 
-@export var winning_speed : float = 299000
+@export var winning_speed: float = 299000
 
-var game_won : bool = false
-var start_time : int = 0
+var game_won: bool = false
+var start_time: int = 0
 
 @onready var player: Player = $Player
 @onready var world: World = $World
@@ -15,7 +15,7 @@ func _ready() -> void:
 	start_time = Time.get_ticks_msec()
 	player.died.connect(_start_game_over_sequence)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if player.velocity.length() > 299900 and not game_won:
 		if win_timer.is_stopped():
 			win_timer.start()
@@ -28,7 +28,6 @@ func _on_prompt_prompt_interacted(object: Object) -> void:
 		var space_station := object as SpaceStation
 		space_station.fill(player)
 
-
 func restart_game() -> void:
 	get_tree().reload_current_scene()
 
@@ -37,7 +36,6 @@ func _on_restart_button_pressed() -> void:
 
 func _start_game_over_sequence() -> void:
 	$AnimationPlayer.play("game_over")
-
 
 func _on_win_timer_timeout() -> void:
 	game_won = true
