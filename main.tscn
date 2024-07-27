@@ -1,4 +1,4 @@
-[gd_scene load_steps=97 format=3 uid="uid://dxo17ebgranxt"]
+[gd_scene load_steps=99 format=3 uid="uid://dxo17ebgranxt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_tgsu5"]
 [ext_resource type="Script" path="res://utils/sound_manager.gd" id="2_fhc6a"]
@@ -13,16 +13,17 @@
 [ext_resource type="Resource" uid="uid://b7rox88yyx4x1" path="res://debug/console/command_level.tres" id="5_ev6bi"]
 [ext_resource type="Texture2D" uid="uid://dw7tlcb3cqdhj" path="res://world/star_bg_2.png" id="5_x37fm"]
 [ext_resource type="Resource" uid="uid://cs46ielcqmbue" path="res://debug/console/command_killall.tres" id="6_qgris"]
+[ext_resource type="Resource" uid="uid://cknblwugydcoo" path="res://debug/console/command_heal.tres" id="7_d7eku"]
 [ext_resource type="Script" path="res://world/minerals/mineral.gd" id="8_cb4gn"]
 [ext_resource type="PackedScene" uid="uid://tyxjmooe1q3k" path="res://world/item_pickup.tscn" id="8_hw0tm"]
+[ext_resource type="Resource" uid="uid://gsv4o7nxq8gc" path="res://debug/console/command_damage.tres" id="8_ummlw"]
 [ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://world/minerals/resources/mineral_meteorite.tres" id="9_56831"]
 [ext_resource type="PackedScene" uid="uid://b5324c2o2kjct" path="res://entities/player/player.tscn" id="9_hq3w5"]
+[ext_resource type="Resource" uid="uid://cjv825nf5yb06" path="res://debug/console/command_invincibility.tres" id="9_n4kbp"]
 [ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://world/minerals/resources/mineral_platinum.tres" id="10_sfr00"]
-[ext_resource type="Script" path="res://entities/enemy/enemy_group.gd" id="10_uw0ym"]
 [ext_resource type="Resource" uid="uid://ccdhhwo57ccca" path="res://world/minerals/player_inventory.tres" id="10_wjjcp"]
 [ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://world/minerals/resources/mineral_forged_carbon_fiber.tres" id="11_aov5m"]
 [ext_resource type="PackedScene" uid="uid://djatwe46ey201" path="res://entities/player/mining_drone/mine_drone.tscn" id="11_kmxs3"]
-[ext_resource type="PackedScene" uid="uid://etng58t8qcmc" path="res://entities/enemy/missile_enemy.tscn" id="11_mx0lu"]
 [ext_resource type="Script" path="res://gui/gui.gd" id="12_ar618"]
 [ext_resource type="Resource" uid="uid://dky8iehrf2ndd" path="res://entities/player/upgrades/instances/upgrade_max_speed.tres" id="12_h38fx"]
 [ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="12_ndlri"]
@@ -32,6 +33,7 @@
 [ext_resource type="Texture2D" uid="uid://em41dl2fg08m" path="res://gui/gui_outline.png" id="15_55n0g"]
 [ext_resource type="Resource" uid="uid://dg048mvjvugaq" path="res://entities/player/upgrades/instances/upgrade_mass_flow.tres" id="15_vq4ov"]
 [ext_resource type="Script" path="res://gui/minimap_draw.gd" id="16_hieb5"]
+[ext_resource type="PackedScene" uid="uid://bi7sudnr12ic4" path="res://world/space_station/space_station.tscn" id="17_0g7oa"]
 [ext_resource type="Script" path="res://gui/enemy_radar.gd" id="17_cmm5f"]
 [ext_resource type="Script" path="res://gui/SegmentedProgressBar.gd" id="21_f3e6b"]
 [ext_resource type="Script" path="res://gui/weapon_gui.gd" id="24_st0nx"]
@@ -270,7 +272,7 @@ script = ExtResource("1_tgsu5")
 [node name="DebugManager" type="Node" parent="." node_paths=PackedStringArray("debug_console", "player", "world")]
 script = ExtResource("2_pkapu")
 debug_console = NodePath("../CanvasLayer/DebugGUI")
-commands = Array[ExtResource("3_iuimt")]([ExtResource("4_dt0vr"), ExtResource("5_ev6bi"), ExtResource("6_qgris")])
+commands = Array[ExtResource("3_iuimt")]([ExtResource("4_dt0vr"), ExtResource("5_ev6bi"), ExtResource("6_qgris"), ExtResource("7_d7eku"), ExtResource("8_ummlw"), ExtResource("9_n4kbp")])
 player = NodePath("../Player")
 world = NodePath("../World")
 
@@ -294,6 +296,8 @@ item_pickup_scene = ExtResource("8_hw0tm")
 player = NodePath("../Player")
 player_speed_spawn_cutoff = 40000
 minerals = Array[ExtResource("8_cb4gn")]([ExtResource("9_56831"), ExtResource("10_sfr00"), ExtResource("11_aov5m"), ExtResource("12_oibwf")])
+
+[node name="SpaceStation" parent="World" instance=ExtResource("17_0g7oa")]
 
 [node name="Parallax2D" type="Parallax2D" parent="World"]
 scroll_scale = Vector2(0.1, 0.1)
@@ -335,15 +339,6 @@ max_solar_range = 17500
 solar_system_randomness = 0.3
 
 [node name="Enemies" type="Node2D" parent="."]
-
-[node name="EnemyGroup" type="Node2D" parent="Enemies"]
-script = ExtResource("10_uw0ym")
-
-[node name="Enemy" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("world") instance=ExtResource("11_mx0lu")]
-world = NodePath("../../../World")
-
-[node name="Enemy2" parent="Enemies/EnemyGroup" node_paths=PackedStringArray("world") instance=ExtResource("11_mx0lu")]
-world = NodePath("../../../World")
 
 [node name="Player" parent="." node_paths=PackedStringArray("world", "cannon_points") instance=ExtResource("9_hq3w5")]
 world = NodePath("../World")
@@ -1083,7 +1078,6 @@ mineral_inventory = ExtResource("10_wjjcp")
 mineral_inventory_item_gui = ExtResource("34_2rmpe")
 
 [node name="SpaceStationGUI" type="Control" parent="CanvasLayer/GUI"]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1091,9 +1085,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -307.5
-offset_top = -255.0
+offset_top = -121.5
 offset_right = 307.5
-offset_bottom = 255.0
+offset_bottom = 121.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("58_6ursl")
@@ -1177,8 +1171,4 @@ one_shot = true
 [connection signal="heat_changed" from="Player" to="CanvasLayer/GUI" method="_on_player_heat_changed"]
 [connection signal="pressed" from="CanvasLayer/GUI/GameOverScreen/VBoxContainer/Button" to="." method="_on_restart_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/GUI/WinScreen/VBoxContainer/Button" to="." method="_on_restart_button_pressed"]
-[connection signal="all_task_purchased" from="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer/RepairTask" to="CanvasLayer/GUI/SpaceStationGUI" method="_on_repair_task_all_task_purchased"]
-[connection signal="single_task_purchased" from="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer/RepairTask" to="CanvasLayer/GUI/SpaceStationGUI" method="_on_repair_task_single_task_purchased"]
-[connection signal="all_task_purchased" from="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer/RefuelTask" to="CanvasLayer/GUI/SpaceStationGUI" method="_on_refuel_task_all_task_purchased"]
-[connection signal="single_task_purchased" from="CanvasLayer/GUI/SpaceStationGUI/PanelContainer/HBoxContainer/RefuelTask" to="CanvasLayer/GUI/SpaceStationGUI" method="_on_refuel_task_single_task_purchased"]
 [connection signal="timeout" from="WinTimer" to="." method="_on_win_timer_timeout"]

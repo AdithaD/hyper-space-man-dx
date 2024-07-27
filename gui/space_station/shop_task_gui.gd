@@ -1,27 +1,40 @@
 extends VBoxContainer
 
-signal single_task_purchased
-signal all_task_purchased
+signal purchased(amount: int)
 
 @export var title: String
 
-@onready var single_task_button: Button = %RestoreOneButton
-@onready var all_task_button: Button = %RestoreAllButton
+@onready var ten_percent_task_button: Button = %FixTenPercentButton
+@onready var ten_percent_mineral_cost: MineralCostGUI = %TenPercentMineralCost
+
+@onready var fix_all_button: Button = %FixAllButton
+@onready var all_mineral_cost: MineralCostGUI = %AllMineralCost
 
 @onready var title_label: Label = %TitleLabel
-@onready var mineral_cost_label: Label = %MineralCostLabel
-@onready var mineral_icon_texture_rect: TextureRect = %MineralIconTextureRect
+
+var ten_percent: int
+var all: int
 
 func _ready() -> void:
 	title_label.text = title
 
-	single_task_button.pressed.connect(single_task_purchased.emit)
-	all_task_button.pressed.connect(all_task_purchased.emit)
+	ten_percent_task_button.pressed.connect(_on_partial_button_pressed)
+	fix_all_button.pressed.connect(_on_all_button_pressed)
 
-func set_cost(mineral: Mineral, amount: int) -> void:
-	mineral_icon_texture_rect.texture = mineral.mineral_icon
-	mineral_cost_label.text = str(GlobalFormat.format_amount(amount))
+func update(cost_mineral: Mineral, cost_per_unit: float, deficiency: float, maximum: float, purchasable_amount: int) -> void:
+	ten_percent = mini(ceili(maximum / 10), ceili(deficiency))
+	all = ceili(deficiency)
 
-func update(deficiency: int, purchasable_amount: int) -> void:
-	single_task_button.disabled = deficiency == 0 or purchasable_amount == 0
-	all_task_button.disabled = deficiency > purchasable_amount or deficiency == 0 or purchasable_amount == 0
+	ten_percent_mineral_cost.set_cost(cost_mineral, ceili(ten_percent * cost_per_unit))
+	ten_percent_task_button.text = str("FIX ", ten_percent)
+
+	all_mineral_cost.set_cost(cost_mineral, ceili(deficiency * cost_per_unit))
+
+	ten_percent_task_button.disabled = purchasable_amount < ten_percent or ten_percent == 0
+	fix_all_button.disabled = deficiency > purchasable_amount or deficiency == 0 or purchasable_amount == 0
+
+func _on_partial_button_pressed() -> void:
+	purchased.emit(ten_percent)
+
+func _on_all_button_pressed() -> void:
+	purchased.emit(all)

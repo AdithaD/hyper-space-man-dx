@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Command" load_steps=2 format=3 uid="uid://gsv4o7nxq8gc"]
+
+[ext_resource type="Script" path="res://debug/console/command.gd" id="1_eop0y"]
+
+[resource]
+script = ExtResource("1_eop0y")
+name = "damage"
+description = "Damages the player"
+arguments = Array[int]([1])

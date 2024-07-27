@@ -98,6 +98,14 @@ func _map_arguments(command: Command, arguments: Array) -> Array:
 
 			Command.ArgumentType.UPGRADE:
 				mapped_arguments.append(upgrade_map.get(argument.to_lower()))
+			
+			Command.ArgumentType.BOOLEAN:
+				if argument in ["true", "yes", "y"]:
+					mapped_arguments.append(true)
+				elif argument in ["false", "no", "n"]:
+					mapped_arguments.append(false)
+				else:
+					mapped_arguments.append(null)
 
 	return mapped_arguments
 

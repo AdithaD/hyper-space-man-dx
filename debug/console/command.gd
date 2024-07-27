@@ -2,7 +2,7 @@ extends Resource
 class_name Command
 
 enum ArgumentType {
-	STRING, NUMBER, MINERAL, UPGRADE, COMMAND
+	STRING, NUMBER, MINERAL, UPGRADE, COMMAND, BOOLEAN
 }
 
 @export var name: String
@@ -32,6 +32,10 @@ func is_valid(p_arguments: Array) -> bool:
 
 			ArgumentType.UPGRADE:
 				if not argument is TieredUpgrade:
+					return false
+
+			ArgumentType.BOOLEAN:
+				if not argument is bool:
 					return false
 
 	return arguments.size() == p_arguments.size()

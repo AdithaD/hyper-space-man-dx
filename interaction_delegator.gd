@@ -9,7 +9,7 @@ func push(interactor: PlayerInteractArea) -> void:
 	_stack.push_back(interactor)
 
 func pop() -> void:
-	var back: PlayerInteractArea = _stack.pop_back()
+	var back: PlayerInteractArea = _stack.back()
 	var interaction_delegate: InteractionDelegate = _delegate_map.get(back.interactor_key)
 	if interaction_delegate:
 		interaction_delegate.interact(back.source_node)

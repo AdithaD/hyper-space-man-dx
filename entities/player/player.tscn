@@ -203,6 +203,7 @@ volume_db = 4.333
 script = ExtResource("18_byx4j")
 
 [node name="HealthComponent" parent="." instance=ExtResource("11_amrm5")]
+maximum_health = 100
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("player", "health_component") instance=ExtResource("10_h7v8t")]
 collision_layer = 2

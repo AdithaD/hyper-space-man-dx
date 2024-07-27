@@ -30,4 +30,4 @@ script = ExtResource("1_20w6w")
 upgrade_id = &"hull_plating"
 upgrade_name = "Hull Plating"
 tier_costs = Array[ExtResource("2_sdrga")]([SubResource("Resource_3xxhk"), SubResource("Resource_w60ae"), SubResource("Resource_wpdq5")])
-tier_values = Array[float]([10.0, 20.0, 40.0, 80.0])
+tier_values = Array[float]([100.0, 200.0, 400.0, 800.0])

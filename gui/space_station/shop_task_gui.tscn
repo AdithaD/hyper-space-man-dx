@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://dvv1qrx27gw51"]
+[gd_scene load_steps=5 format=3 uid="uid://dvv1qrx27gw51"]
 
-[ext_resource type="Texture2D" uid="uid://dbwq2h5fh32cx" path="res://world/minerals/mineral_fcf_icon.tres" id="1_ekud8"]
+[ext_resource type="Theme" uid="uid://dy7wgxfvqt70i" path="res://gui/gui_theme.tres" id="1_61dml"]
 [ext_resource type="Script" path="res://gui/space_station/shop_task_gui.gd" id="1_rfwd0"]
+[ext_resource type="PackedScene" uid="uid://ds0hn2de4vgeu" path="res://gui/cost_horizontal.tscn" id="4_53428"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_qfxui"]
 font_size = 64
 
 [node name="Repair" type="VBoxContainer"]
 size_flags_horizontal = 3
+theme = ExtResource("1_61dml")
 script = ExtResource("1_rfwd0")
 
 [node name="TitleLabel" type="Label" parent="."]
@@ -17,45 +19,28 @@ text = "Repair"
 label_settings = SubResource("LabelSettings_qfxui")
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="MineralCostLabel" type="Label" parent="HBoxContainer"]
+[node name="FixTenPercentButton" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 64
-text = "10"
-horizontal_alignment = 1
+text = " FIX X"
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="TenPercentMineralCost" parent="VBoxContainer" instance=ExtResource("4_53428")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VBoxContainer2" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="FixAllButton" type="Button" parent="VBoxContainer2"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+text = " fix all"
 
-[node name="MineralIconTextureRect" type="TextureRect" parent="HBoxContainer/Control"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 96)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_top = -4.0
-offset_bottom = 4.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_ekud8")
-expand_mode = 5
-stretch_mode = 4
-
-[node name="RestoreOneButton" type="Button" parent="."]
+[node name="AllMineralCost" parent="VBoxContainer2" instance=ExtResource("4_53428")]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Restore 1"
-
-[node name="RestoreAllButton" type="Button" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Restore All"

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Command" load_steps=2 format=3 uid="uid://cjv825nf5yb06"]
+
+[ext_resource type="Script" path="res://debug/console/command.gd" id="1_1tn1w"]
+
+[resource]
+script = ExtResource("1_1tn1w")
+name = "set_invincible"
+description = "Turns off / on player damage"
+arguments = Array[int]([5])

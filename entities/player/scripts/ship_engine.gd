@@ -42,4 +42,4 @@ func get_ratio() -> float:
 
 func fill(amount: float) -> void:
 	current_fuel = min(current_fuel + amount, fuel_capacity)
-	engine_burned.emit(current_fuel, fuel_capacity)
+	engine_burned.emit(current_fuel, get_ratio())

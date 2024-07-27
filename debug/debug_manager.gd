@@ -32,6 +32,12 @@ func _on_command_submitted(command: Command, arguments: Array) -> void:
 			_level_command_handler(arguments)
 		"killall":
 			_killall_command_handler()
+		"heal":
+			_heal_command_handler(arguments)
+		"damage":
+			_damage_command_handler(arguments)
+		"set_invincible":
+			_set_invincible_command_handler(arguments)
 		_:
 			print_debug("Command not found")
 
@@ -53,3 +59,18 @@ func _level_command_handler(arguments: Array) -> void:
 func _killall_command_handler() -> void:
 	for enemy in get_tree().get_nodes_in_group("enemy"):
 		enemy.die()
+		
+func _heal_command_handler(arguments: Array) -> void:
+	var amount: int = arguments[0]
+
+	player.health_component.heal(amount)
+
+func _damage_command_handler(arguments: Array) -> void:
+	var amount: int = arguments[0]
+
+	player.health_component.take_damage(amount)
+	
+func _set_invincible_command_handler(arguments: Array) -> void:
+	var invincible: bool = arguments[0]
+
+	player.health_component.invincible = invincible

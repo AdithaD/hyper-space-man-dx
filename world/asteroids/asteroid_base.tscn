@@ -39,7 +39,7 @@ health_component = NodePath("../HealthComponent")
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HurtboxComponent"]
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_u5j2i")]
-maximum_health = 20
+maximum_health = 120
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_c15qs")

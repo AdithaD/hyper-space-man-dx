@@ -76,9 +76,7 @@ func _physics_process(delta: float) -> void:
 	temperature_delta_icons.update(player.heat_receiver.get_temp_delta(delta) / player.heat_receiver.temperature_limit)
 
 func _on_player_health_changed(_amount: int, health: int, maximum_health: int) -> void:
-	hull_bar.segments = maximum_health
-	hull_bar.value = health
-	hull_bar.queue_redraw()
+	hull_bar.set_ratio(float(health) / float(maximum_health))
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_released("toggle_upgrade_screen"):

@@ -7,17 +7,21 @@ signal died
 
 @export var maximum_health := 100
 
-@onready var current_health : int = maximum_health
+var invincible := false
+
+@onready var current_health: int = maximum_health
 
 func _ready() -> void:
 	health_changed.emit(0, current_health, maximum_health)
 
 func take_damage(amount: int) -> void:
-	current_health = max(0, current_health - abs(amount))
-	health_changed.emit(amount, current_health, maximum_health)
-	
-	if current_health == 0:
-		_die()
+	if not invincible:
+		current_health = max(0, current_health - abs(amount))
+
+		health_changed.emit(amount, current_health, maximum_health)
+		
+		if current_health == 0:
+			_die()
 
 func heal(amount: int) -> void:
 	current_health = min(maximum_health, current_health + amount)
