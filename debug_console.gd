@@ -53,7 +53,7 @@ func _on_command_submitted(input: String) -> void:
 		push_output("[color=#FF6347]Command not found[/color]")
 		return
 
-	var arguments : Array = []
+	var arguments: Array = []
 	
 	if split.size() > 1:
 		var raw_arguments := split.slice(1)
@@ -72,12 +72,12 @@ func _on_command_submitted(input: String) -> void:
 	var new_call := CommandCall.new(command, arguments, input)
 	history.append(new_call)
 
-	push_output("[color=#ADFF2F]>>%s[/color]" % input )
-	command_line_edit.clear()
+	push_output("[color=#ADFF2F]>>%s[/color]" % input)
 	_history_index = 0
 
 func push_output(output: String) -> void:
 	output_text_label.append_text(output + "\n")
+	command_line_edit.clear()
 
 func _map_arguments(command: Command, arguments: Array) -> Array:
 	var mapped_arguments := []

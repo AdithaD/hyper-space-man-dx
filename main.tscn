@@ -1160,6 +1160,7 @@ scroll_following = true
 [node name="CommandLineEdit" type="LineEdit" parent="CanvasLayer/DebugGUI/PanelContainer/VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+placeholder_text = "Enter command..."
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
