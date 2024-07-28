@@ -24,9 +24,11 @@ func set_mineral_inventory(value: MineralInventory) -> void:
 func update() -> void:
 	for child in get_children():
 		child.queue_free()
+		
+	mineral_to_child_map.clear()
 	
 	for m in mineral_inventory.get_minerals():
-		var item_gui : MineralInventoryItemGUI = mineral_inventory_item_gui.instantiate()
+		var item_gui: MineralInventoryItemGUI = mineral_inventory_item_gui.instantiate()
 		item_gui.set_mineral(m)
 		item_gui.update(mineral_inventory.get_amount(m))
 		
@@ -35,7 +37,7 @@ func update() -> void:
 		add_child(item_gui)
 		
 func _on_mineral_modified(mineral: Mineral, new_amount: int) -> void:
-	var child : MineralInventoryItemGUI = mineral_to_child_map.get(mineral)
+	var child: MineralInventoryItemGUI = mineral_to_child_map.get(mineral)
 	if child:
 		child.update(new_amount)
 	else:

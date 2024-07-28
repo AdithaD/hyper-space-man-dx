@@ -356,9 +356,11 @@ script = ExtResource("30_2hwi8")
 player = NodePath("../../Player")
 world = NodePath("..")
 enemy_scenes = Array[PackedScene]([ExtResource("10_3f4oy"), ExtResource("11_mx0lu")])
+min_group_size = 1
+max_group_size = 2
 
 [node name="SpawnTimer" type="Timer" parent="World/HarrassingEnemySpawner"]
-wait_time = 30.0
+wait_time = 60.0
 autostart = true
 
 [node name="Enemies" type="Node2D" parent="."]
