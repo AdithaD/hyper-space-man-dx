@@ -45,5 +45,6 @@ maximum_health = 120
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_c15qs")
+attenuation = 0.329877
 
 [connection signal="died" from="HealthComponent" to="." method="_on_health_component_died"]

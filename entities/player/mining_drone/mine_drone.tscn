@@ -140,6 +140,7 @@ scale_max = 5.0
 [node name="MiningDrone" type="Node2D" groups=["mining_drone"]]
 position = Vector2(207, 144)
 script = ExtResource("1_pbogc")
+harvest_rate = 10
 
 [node name="PickupComponent" parent="." instance=ExtResource("2_mat0r")]
 pickup_range = 256.0

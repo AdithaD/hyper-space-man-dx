@@ -33,5 +33,5 @@ func _on_health_component_died() -> void:
 	debris.global_position = global_position
 	world.add_child(debris)
 	
-	SoundManager.play_sound_and_free(global_position, $DeathSound.stream)
+	SoundManager.play_sound_and_free(global_position, $DeathSound.stream, 0.4)
 	queue_free()

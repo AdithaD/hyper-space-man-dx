@@ -8,8 +8,7 @@
 [sub_resource type="Resource" id="Resource_jxndf"]
 script = ExtResource("2_4o8xr")
 starting_inventory = {
-ExtResource("3_b75g0"): 10000,
-ExtResource("4_8jrsv"): 5000
+ExtResource("3_b75g0"): 50
 }
 
 [sub_resource type="Resource" id="Resource_xhsw8"]

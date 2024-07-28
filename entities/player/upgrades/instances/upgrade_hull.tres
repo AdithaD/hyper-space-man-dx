@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=8 format=3 uid="uid://4mitebny6twt"]
+[gd_resource type="Resource" script_class="TieredUpgrade" load_steps=9 format=3 uid="uid://4mitebny6twt"]
 
 [ext_resource type="Script" path="res://entities/player/upgrades/tiered_upgrade.gd" id="1_20w6w"]
 [ext_resource type="Script" path="res://world/minerals/mineral_inventory.gd" id="2_sdrga"]
 [ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://world/minerals/resources/mineral_forged_carbon_fiber.tres" id="3_fe28a"]
 [ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://world/minerals/resources/mineral_meteorite.tres" id="4_qdn3f"]
+[ext_resource type="Resource" uid="uid://mrhoq0gx6s8j" path="res://world/minerals/resources/mineral_platinum.tres" id="5_vb8id"]
 
 [sub_resource type="Resource" id="Resource_3xxhk"]
 script = ExtResource("2_sdrga")
@@ -14,8 +15,8 @@ ExtResource("3_fe28a"): 5000
 [sub_resource type="Resource" id="Resource_w60ae"]
 script = ExtResource("2_sdrga")
 starting_inventory = {
-ExtResource("3_fe28a"): 20000,
-ExtResource("4_qdn3f"): 100
+ExtResource("5_vb8id"): 50,
+ExtResource("3_fe28a"): 100
 }
 
 [sub_resource type="Resource" id="Resource_wpdq5"]

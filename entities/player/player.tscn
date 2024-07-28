@@ -369,6 +369,7 @@ script = ExtResource("43_5s4bi")
 temperature_limit = 3000.0
 temperature_loss_rate = 50.0
 health_component = NodePath("../HealthComponent")
+damage_per_tick = 10
 
 [node name="DamageTimer" type="Timer" parent="HeatReceiver"]
 
