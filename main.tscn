@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://dxo17ebgranxt"]
+[gd_scene load_steps=109 format=3 uid="uid://dxo17ebgranxt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_tgsu5"]
 [ext_resource type="Script" path="res://utils/sound_manager.gd" id="2_fhc6a"]
@@ -81,6 +81,8 @@
 [ext_resource type="Script" path="res://interaction_delegator.gd" id="62_lp14l"]
 [ext_resource type="Script" path="res://space_station_interaction_delegate.gd" id="63_egp1p"]
 [ext_resource type="Script" path="res://debug_console.gd" id="63_i4xyd"]
+[ext_resource type="AudioStream" uid="uid://bf0ov2ybxpk31" path="res://gui/alert.wav" id="72_nj8pm"]
+[ext_resource type="Script" path="res://gui/warning_audio_stream_player.gd" id="73_a4ofp"]
 [ext_resource type="AudioStream" uid="uid://ccnhuipkedc6q" path="res://world/Mesmerizing Galaxy Loop.mp3" id="76_xadg4"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_shv1g"]
@@ -97,8 +99,8 @@ colors = PackedColorArray(1, 0, 0, 1)
 
 [sub_resource type="Gradient" id="Gradient_v5k8b"]
 interpolation_mode = 1
-offsets = PackedFloat32Array(0, 0.33, 0.66)
-colors = PackedColorArray(0.894118, 0.231373, 0.266667, 1, 0.996078, 0.682353, 0.203922, 1, 0.388235, 0.780392, 0.301961, 1)
+offsets = PackedFloat32Array(0.00928793)
+colors = PackedColorArray(0.388235, 0.780392, 0.301961, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_0e54q"]
 font_size = 64
@@ -112,6 +114,9 @@ font_size = 32
 [sub_resource type="LabelSettings" id="LabelSettings_cyyiv"]
 font_size = 64
 font_color = Color(0.388235, 0.780392, 0.301961, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_15igo"]
+bg_color = Color(0, 0.6, 0.858824, 0.611765)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wbtvb"]
 font_size = 64
@@ -727,6 +732,7 @@ size_flags_horizontal = 3
 
 [node name="HullBar" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HullSection/Control"]
 unique_name_in_owner = true
+clip_children = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -742,6 +748,17 @@ segments = 124
 separation = 0
 segment_color_gradient = SubResource("Gradient_v5k8b")
 start_value = 124
+
+[node name="ShieldBar" type="ProgressBar" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HullSection/Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 32.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 32.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_15igo")
+value = 100.0
+show_percentage = false
 
 [node name="FuelSection" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats"]
 layout_mode = 2
@@ -830,7 +847,7 @@ size_flags_horizontal = 3
 script = ExtResource("51_2u1cb")
 increasing_texture = ExtResource("51_bret6")
 decreasing_texture = ExtResource("53_as00l")
-cutoffs = Array[float]([0.0, 0.08, 0.15])
+cutoffs = Array[float]([0.0, 0.05, 0.1])
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer/TemperatureControl/TemperatureDeltaIcons"]
 custom_minimum_size = Vector2(16, 24)
@@ -901,6 +918,12 @@ text = "Destruction in 4.0s"
 label_settings = SubResource("LabelSettings_5uvkm")
 horizontal_alignment = 1
 uppercase = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/GUI/HUDMargin/HUD/VBoxContainer2" node_paths=PackedStringArray("controls")]
+stream = ExtResource("72_nj8pm")
+volume_db = 6.012
+script = ExtResource("73_a4ofp")
+controls = [NodePath("../OverheatCautionLabel"), NodePath("../LowFuelLabel"), NodePath("../OverspeedCautionParent")]
 
 [node name="PlayerInventory" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
 layout_mode = 1

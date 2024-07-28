@@ -9,14 +9,15 @@
 [sub_resource type="Resource" id="Resource_3xxhk"]
 script = ExtResource("2_sdrga")
 starting_inventory = {
-ExtResource("3_fe28a"): 5000
+ExtResource("3_fe28a"): 50,
+ExtResource("4_qdn3f"): 50.0
 }
 
 [sub_resource type="Resource" id="Resource_w60ae"]
 script = ExtResource("2_sdrga")
 starting_inventory = {
-ExtResource("5_vb8id"): 50,
-ExtResource("3_fe28a"): 100
+ExtResource("5_vb8id"): 100,
+ExtResource("3_fe28a"): 200
 }
 
 [sub_resource type="Resource" id="Resource_wpdq5"]
@@ -31,4 +32,4 @@ script = ExtResource("1_20w6w")
 upgrade_id = &"hull_plating"
 upgrade_name = "Hull Plating"
 tier_costs = Array[ExtResource("2_sdrga")]([SubResource("Resource_3xxhk"), SubResource("Resource_w60ae"), SubResource("Resource_wpdq5")])
-tier_values = Array[float]([100.0, 200.0, 400.0, 800.0])
+tier_values = Array[float]([100.0, 150.0, 400.0, 800.0])

@@ -34,8 +34,8 @@ scale_max = 3.0
 scale_curve = SubResource("CurveTexture_xyoix")
 color_ramp = SubResource("GradientTexture1D_xo312")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8sm32"]
-size = Vector2(40, 28)
+[sub_resource type="CircleShape2D" id="CircleShape2D_ie7m7"]
+radius = 19.0263
 
 [node name="Shot" type="Node2D" node_paths=PackedStringArray("hitbox")]
 z_index = 5
@@ -57,7 +57,7 @@ damage = 10
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, 1)
-shape = SubResource("RectangleShape2D_8sm32")
+shape = SubResource("CircleShape2D_ie7m7")
 
 [node name="FlyingShotSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_xfngd")

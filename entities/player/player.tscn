@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://b5324c2o2kjct"]
+[gd_scene load_steps=70 format=3 uid="uid://b5324c2o2kjct"]
 
 [ext_resource type="Texture2D" uid="uid://dvqjx7kgltby" path="res://entities/player/player.png" id="1_jem3x"]
 [ext_resource type="Script" path="res://entities/player/scripts/player.gd" id="1_utgdb"]
@@ -40,6 +40,7 @@
 [ext_resource type="Material" uid="uid://bktlh6igigio5" path="res://entities/player/engine_particles.tres" id="21_elfmq"]
 [ext_resource type="Resource" uid="uid://cirdue0ayojs0" path="res://world/minerals/resources/mineral_meteorite.tres" id="22_2alnh"]
 [ext_resource type="AudioStream" uid="uid://okjfh8oa77h2" path="res://entities/player/sounds/pass_through_sound.wav" id="28_lgvic"]
+[ext_resource type="Script" path="res://components/shielded_health_component.gd" id="29_0mlbu"]
 [ext_resource type="AudioStream" uid="uid://cn6jmwiafotwk" path="res://world/item_pickup_sound.wav" id="32_icqak"]
 [ext_resource type="AudioStream" uid="uid://bufvtiipn8p8i" path="res://entities/player/sounds/burst_sound_2.wav" id="33_acsw3"]
 [ext_resource type="AudioStream" uid="uid://cl56hkl50cj1j" path="res://entities/player/sounds/engine_jolt2.wav" id="34_80tbw"]
@@ -227,7 +228,14 @@ volume_db = 4.333
 script = ExtResource("18_byx4j")
 
 [node name="HealthComponent" parent="." instance=ExtResource("11_amrm5")]
+script = ExtResource("29_0mlbu")
+max_shield_strength = 50
+regen_rate = 25
 maximum_health = 100
+
+[node name="ShieldRegenDelayTimer" type="Timer" parent="HealthComponent"]
+wait_time = 3.0
+one_shot = true
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("player", "health_component") instance=ExtResource("10_h7v8t")]
 collision_layer = 2
@@ -368,7 +376,7 @@ randomness = 0.52
 
 [node name="HeatReceiver" type="Node2D" parent="." node_paths=PackedStringArray("health_component")]
 script = ExtResource("43_5s4bi")
-temperature_limit = 3000.0
+temperature_limit = 2700.0
 temperature_loss_rate = 50.0
 health_component = NodePath("../HealthComponent")
 damage_per_tick = 10

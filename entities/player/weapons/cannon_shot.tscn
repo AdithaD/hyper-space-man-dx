@@ -40,9 +40,11 @@ size = Vector2(40, 28)
 [node name="Shot" type="Node2D" node_paths=PackedStringArray("hitbox")]
 z_index = 5
 script = ExtResource("1_hb2iy")
-acceleration = 2000.0
+acceleration = 0.0
 max_speed = 2000.0
 hitbox = NodePath("Hitbox")
+lifetime = 5.0
+starting_speed = 1500.0
 
 [node name="EngineParticles1" type="GPUParticles2D" parent="."]
 amount = 16

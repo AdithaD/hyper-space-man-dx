@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://etng58t8qcmc"]
+[gd_scene load_steps=37 format=3 uid="uid://etng58t8qcmc"]
 
 [ext_resource type="Script" path="res://entities/enemy/enemy.gd" id="1_pjj7t"]
 [ext_resource type="Resource" uid="uid://dyj0gpvi5o7kp" path="res://world/minerals/resources/mineral_forged_carbon_fiber.tres" id="2_neqel"]
@@ -22,6 +22,9 @@
 [ext_resource type="Script" path="res://entities/enemy/action_shoot_player.gd" id="19_ijcww"]
 [ext_resource type="Script" path="res://entities/enemy/action_explore.gd" id="20_r4rt3"]
 [ext_resource type="Script" path="res://gui/behaviour_tree_label.gd" id="21_8bx6v"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aifha"]
+radius = 2048.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t7nkm"]
 radius = 46.0
@@ -114,6 +117,14 @@ enemy_shot_scene = ExtResource("2_nsauo")
 drop_mineral = ExtResource("2_neqel")
 min_drop_amount = 8
 max_drop_amount = 12
+
+[node name="LocalGroupArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LocalGroupArea"]
+shape = SubResource("CircleShape2D_aifha")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708

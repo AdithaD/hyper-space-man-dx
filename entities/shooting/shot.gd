@@ -3,6 +3,7 @@ class_name Shot
 
 @export var hitbox: HitboxComponent
 @export var lifetime: float = 10.0
+@export var starting_speed: float = 0.0
 
 ## the inherited velocity of the shot from the shot owner
 var inherited_velocity: Vector2 = Vector2.ZERO;
@@ -17,6 +18,7 @@ var _timer: float = 0.0
 
 func _ready() -> void:
 	look_at(_destination)
+	_forward_speed = starting_speed
 
 func _physics_process(delta: float) -> void:
 	_timer += delta

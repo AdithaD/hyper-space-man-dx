@@ -5,7 +5,7 @@ extends ActionBehaviourTreeNode
 
 func update(actor: Node, blackboard: BehaviourTreeBlackboard) -> BehaviourState:
 	var _actor := actor as Enemy
-	var enemies_in_range := _actor.enemy_group.filter(func(x: Enemy) -> bool: return x != _actor \
+	var enemies_in_range := _actor.local_group.filter(func(x: Enemy) -> bool: return x != _actor \
 			and _actor.global_position.distance_to(x.global_position) < maximum_alignment_range)
 	
 	if enemies_in_range.is_empty():

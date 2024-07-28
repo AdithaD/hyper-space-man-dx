@@ -17,6 +17,7 @@ extends Control
 
 @onready var fuel_bar: Control = %FuelBar
 @onready var hull_bar: Control = %HullBar
+@onready var shield_bar: ProgressBar = %ShieldBar
 @onready var temperature_bar: Control = %TemperatureBar
 @onready var temperature_delta_icons: Control = %TemperatureDeltaIcons
 
@@ -35,6 +36,7 @@ func _ready() -> void:
 	player.ship_engine.engine_burned.connect(_on_player_engine_burned)
 	player.player_state_changed.connect(_on_player_state_changed)
 	player.health_component.health_changed.connect(_on_player_health_changed)
+	player.health_component.shield_strength_changed.connect(_on_player_shield_strength_changed)
 	player.mining_interactor.stack_changed.connect(solar_object_panel._on_player_mining_interactor_stack_changed)
 	
 	#intiial state
@@ -78,6 +80,9 @@ func _physics_process(delta: float) -> void:
 
 func _on_player_health_changed(_amount: int, health: int, maximum_health: int) -> void:
 	hull_bar.set_ratio(float(health) / float(maximum_health))
+
+func _on_player_shield_strength_changed(ratio: float) -> void:
+	shield_bar.ratio = ratio
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_released("toggle_upgrade_screen"):

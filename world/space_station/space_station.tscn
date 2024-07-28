@@ -12,7 +12,7 @@ radius = 362.353
 [node name="SpaceStation" type="Node2D" groups=["space_station"]]
 z_index = 2
 script = ExtResource("1_ie2h8")
-repair_cost_per_stock = 4
+repair_cost_per_stock = 2
 repair_cost_mineral = ExtResource("2_tr2vc")
 refuel_cost_per_stock = 2
 refuel_cost_mineral = ExtResource("2_tr2vc")

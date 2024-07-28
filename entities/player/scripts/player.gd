@@ -255,7 +255,7 @@ func shoot() -> void:
 
 func _shoot_projectile(weapon: PlayerWeapon, origin: Vector2, destination: Vector2) -> void:
 	var new_shot := weapon.instantiate_shot()
-	new_shot.global_position = origin
+	new_shot.global_position = origin + get_last_motion()
 	new_shot.global_rotation = global_rotation
 	
 	new_shot.inherited_velocity = velocity
@@ -367,6 +367,7 @@ func get_tier(upgrade: TieredUpgrade) -> int:
 func _add_heat(amount: float) -> void:
 	heat = heat + amount
 	if heat > maximum_heat:
+		heat = maximum_heat
 		_cool_off()
 		
 func _cool_off() -> void:
