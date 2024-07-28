@@ -11,7 +11,7 @@ extends Control
 
 @onready var speed_bar: TextureProgressBar = %SpeedBar
 @onready var speed_label: Label = %SpeedLabel
-@onready var overspeed_caution_label: Label = %OverspeedCautionLabel
+@onready var overspeed_caution_parent: Control = %OverspeedCautionParent
 @onready var destruction_timer_label: Label = %DestructionTimerLabel
 @onready var overheat_caution_label: Label = %OverheatCautionLabel
 
@@ -29,6 +29,7 @@ extends Control
 
 @onready var warning_sound: AudioStreamPlayer = $WarningSound
 @onready var low_fuel_label: Label = %LowFuelLabel
+@onready var menu_manager: ExclusiveMenuManager = %ExclusiveMenuManager
 
 func _ready() -> void:
 	player.ship_engine.engine_burned.connect(_on_player_engine_burned)
@@ -56,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	speed_bar.value = speed_ratio * 100
 	speed_label.text = str(GlobalFormat.format_amount(floori(player.velocity.length())))
 	
-	overspeed_caution_label.visible = player.is_overspeed
+	overspeed_caution_parent.visible = player.is_overspeed
 	destruction_timer_label.visible = player.is_overspeed
 	
 	overheat_caution_label.visible = player.heat_receiver.is_exceeded
@@ -80,5 +81,4 @@ func _on_player_health_changed(_amount: int, health: int, maximum_health: int) -
 
 func _unhandled_key_input(event: InputEvent) -> void:
 	if event.is_action_released("toggle_upgrade_screen"):
-		upgrade_screen.visible = not upgrade_screen.visible
-		player.has_control = not upgrade_screen.visible
+		menu_manager.toggle_menu(upgrade_screen)

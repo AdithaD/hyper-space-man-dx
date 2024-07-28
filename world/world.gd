@@ -33,6 +33,18 @@ func add_mining_drone(mining_drone: MiningDrone) -> void:
 	add_child(mining_drone)
 	mining_drone_created.emit(mining_drone)
 
+func spawn_enemy_group(location: Vector2, enemies: Array[Enemy], parent: Node2D=self, dispersion:=128) -> void:
+	var group := EnemyGroup.new()
+	
+	for enemy in enemies:
+		enemy.group = group
+		enemy.world = self
+
+		enemy.global_position = location + Vector2(dispersion, 0).rotated(TAU * randf())
+		group.add_child(enemy)
+	
+	parent.add_child(group)
+
 func spawn_mineral_pickup(location: Vector2, mineral: Mineral, amount: int) -> void:
 	var instance := item_pickup_scene.instantiate()
 	

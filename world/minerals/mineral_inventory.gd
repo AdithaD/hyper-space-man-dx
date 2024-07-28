@@ -29,6 +29,9 @@ func remove_amount(mineral: Mineral, amount: int) -> void:
 	else:
 		push_warning("Tried to remove mineral that is not in inventory")
 
+func clear() -> void:
+	inventory.clear()
+
 func get_amount(mineral: Mineral) -> int:
 	return inventory.get(mineral, 0)
 

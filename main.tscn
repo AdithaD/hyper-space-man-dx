@@ -1,4 +1,4 @@
-[gd_scene load_steps=104 format=3 uid="uid://dxo17ebgranxt"]
+[gd_scene load_steps=106 format=3 uid="uid://dxo17ebgranxt"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_tgsu5"]
 [ext_resource type="Script" path="res://utils/sound_manager.gd" id="2_fhc6a"]
@@ -43,6 +43,7 @@
 [ext_resource type="Script" path="res://gui/weapon_gui.gd" id="24_st0nx"]
 [ext_resource type="Resource" uid="uid://3lh1c3r87xdo" path="res://entities/player/upgrades/instances/upgrade_burst_charges.tres" id="25_hm4vy"]
 [ext_resource type="Script" path="res://gui/weapon_heat_gauge.gd" id="28_8l26f"]
+[ext_resource type="Script" path="res://world/harrassing_enemy_spawner.gd" id="30_2hwi8"]
 [ext_resource type="Script" path="res://gui/solar_mineral_inventory_gui.gd" id="32_dri58"]
 [ext_resource type="LabelSettings" uid="uid://cj4mpabajipwp" path="res://world/minerals/gui_large_light_blue_label_settings.tres" id="32_n128g"]
 [ext_resource type="Texture2D" uid="uid://g8ejp83rvnjx" path="res://gui/mini_map_mask.png" id="33_q20b3"]
@@ -67,6 +68,7 @@
 [ext_resource type="Texture2D" uid="uid://cyf3r8y7vtwx3" path="res://gui/npr_texture.png" id="47_kq4u6"]
 [ext_resource type="StyleBox" uid="uid://1o2irf2sobl6" path="res://gui/tab_selected_style_box.tres" id="48_dgbm1"]
 [ext_resource type="Script" path="res://gui/heat_vignette.gd" id="50_c7sdd"]
+[ext_resource type="Script" path="res://gui/exclusive_menu_manager.gd" id="50_ni1qh"]
 [ext_resource type="PackedScene" uid="uid://dilq7a2ttbv1t" path="res://gui/upgrade_tab.tscn" id="50_v6640"]
 [ext_resource type="Script" path="res://gui/temp_delta_icons.gd" id="51_2u1cb"]
 [ext_resource type="Script" path="res://entities/player/upgrades/tiered_upgrade.gd" id="51_33kkw"]
@@ -80,14 +82,6 @@
 [ext_resource type="Script" path="res://space_station_interaction_delegate.gd" id="63_egp1p"]
 [ext_resource type="Script" path="res://debug_console.gd" id="63_i4xyd"]
 [ext_resource type="AudioStream" uid="uid://ccnhuipkedc6q" path="res://world/Mesmerizing Galaxy Loop.mp3" id="76_xadg4"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_aapjq"]
-font_size = 64
-font_color = Color(0.894118, 0.231373, 0.266667, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_5uvkm"]
-font_size = 32
-font_color = Color(0.894118, 0.231373, 0.266667, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_shv1g"]
 font_size = 64
@@ -136,6 +130,14 @@ font_color = Color(0.968627, 0.462745, 0.133333, 1)
 interpolation_mode = 1
 offsets = PackedFloat32Array(0, 0.737255)
 colors = PackedColorArray(0.968627, 0.462745, 0.133333, 1, 0.894118, 0.231373, 0.266667, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_aapjq"]
+font_size = 64
+font_color = Color(0.894118, 0.231373, 0.266667, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5uvkm"]
+font_size = 32
+font_color = Color(0.894118, 0.231373, 0.266667, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_yikrg"]
 font_size = 96
@@ -289,9 +291,10 @@ script = ExtResource("2_fhc6a")
 [node name="InteractionDelegator" type="Node" parent="." groups=["interaction_delegator"]]
 script = ExtResource("62_lp14l")
 
-[node name="InteractionDelegate" type="Node" parent="InteractionDelegator" node_paths=PackedStringArray("space_station_gui", "player")]
+[node name="InteractionDelegate" type="Node" parent="InteractionDelegator" node_paths=PackedStringArray("space_station_gui", "menu_manager", "player")]
 script = ExtResource("63_egp1p")
 space_station_gui = NodePath("../../CanvasLayer/GUI/SpaceStationGUI")
+menu_manager = NodePath("../../CanvasLayer/GUI/ExclusiveMenuManager")
 interactor_key = &"space_station"
 player = NodePath("../../Player")
 
@@ -348,6 +351,16 @@ min_solar_range = 12500
 max_solar_range = 17500
 solar_system_randomness = 0.3
 
+[node name="HarrassingEnemySpawner" type="Node2D" parent="World" node_paths=PackedStringArray("player", "world")]
+script = ExtResource("30_2hwi8")
+player = NodePath("../../Player")
+world = NodePath("..")
+enemy_scenes = Array[PackedScene]([ExtResource("10_3f4oy"), ExtResource("11_mx0lu")])
+
+[node name="SpawnTimer" type="Timer" parent="World/HarrassingEnemySpawner"]
+wait_time = 30.0
+autostart = true
+
 [node name="Enemies" type="Node2D" parent="."]
 
 [node name="Player" parent="." node_paths=PackedStringArray("world", "cannon_points") instance=ExtResource("9_hq3w5")]
@@ -370,6 +383,12 @@ theme = ExtResource("12_ndlri")
 script = ExtResource("12_ar618")
 player = NodePath("../../Player")
 world = NodePath("../../World")
+
+[node name="ExclusiveMenuManager" type="Node" parent="CanvasLayer/GUI" node_paths=PackedStringArray("menus", "player")]
+unique_name_in_owner = true
+script = ExtResource("50_ni1qh")
+menus = [NodePath("../SpaceStationGUI"), NodePath("../UpgradeScreen")]
+player = NodePath("../../../Player")
 
 [node name="WarningSound" type="AudioStreamPlayer" parent="CanvasLayer/GUI"]
 stream = ExtResource("34_slv2k")
@@ -481,67 +500,6 @@ theme_override_constants/separation = 8
 script = ExtResource("32_dri58")
 name_label = NodePath("../SolarObjectNameLabel")
 mineral_inventory_item_gui = ExtResource("34_2rmpe")
-
-[node name="OverspeedCautionLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -256.0
-offset_top = 48.0
-offset_right = 280.0
-offset_bottom = 112.0
-grow_horizontal = 2
-text = "WARNING: OVERSPEED"
-label_settings = SubResource("LabelSettings_aapjq")
-
-[node name="OverheatCautionLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -256.0
-offset_top = 48.0
-offset_right = 280.0
-offset_bottom = 112.0
-grow_horizontal = 2
-text = "DANGER: EXCESSIVE CORE TEMP"
-label_settings = SubResource("LabelSettings_aapjq")
-
-[node name="LowFuelLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -256.0
-offset_top = 48.0
-offset_right = 280.0
-offset_bottom = 112.0
-grow_horizontal = 2
-text = "DANGER: LOW FUEL"
-label_settings = SubResource("LabelSettings_aapjq")
-
-[node name="TopCenterPrompts" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
-layout_mode = 1
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -272.0
-offset_top = 136.0
-offset_right = 272.0
-offset_bottom = 224.0
-grow_horizontal = 2
-
-[node name="DestructionTimerLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/TopCenterPrompts"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Destruction in 4.0s"
-label_settings = SubResource("LabelSettings_5uvkm")
-horizontal_alignment = 1
-uppercase = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
 layout_mode = 0
@@ -778,9 +736,10 @@ offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("21_f3e6b")
-separation = 8
+segments = 124
+separation = 0
 segment_color_gradient = SubResource("Gradient_v5k8b")
-start_value = 10
+start_value = 124
 
 [node name="FuelSection" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats"]
 layout_mode = 2
@@ -811,8 +770,8 @@ offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("21_f3e6b")
-segments = 15
-separation = 8
+segments = 124
+separation = 0
 segment_color_gradient = SubResource("Gradient_khk2k")
 
 [node name="HeatSection" type="HBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats"]
@@ -895,6 +854,68 @@ stretch_mode = 5
 [node name="Control2" type="Control" parent="CanvasLayer/GUI/HUDMargin/HUD/Stats/HeatSection/VBoxContainer"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -368.0
+offset_top = 48.0
+offset_right = 368.0
+offset_bottom = 184.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="OverheatCautionLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "DANGER: EXCESSIVE CORE TEMP"
+label_settings = SubResource("LabelSettings_aapjq")
+horizontal_alignment = 1
+
+[node name="LowFuelLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "DANGER: LOW FUEL"
+label_settings = SubResource("LabelSettings_aapjq")
+horizontal_alignment = 1
+
+[node name="OverspeedCautionParent" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD/VBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="OverspeedCautionLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/VBoxContainer2/OverspeedCautionParent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "WARNING: OVERSPEED"
+label_settings = SubResource("LabelSettings_aapjq")
+horizontal_alignment = 1
+
+[node name="DestructionTimerLabel" type="Label" parent="CanvasLayer/GUI/HUDMargin/HUD/VBoxContainer2/OverspeedCautionParent"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Destruction in 4.0s"
+label_settings = SubResource("LabelSettings_5uvkm")
+horizontal_alignment = 1
+uppercase = true
+
+[node name="PlayerInventory" type="VBoxContainer" parent="CanvasLayer/GUI/HUDMargin/HUD"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -96.0
+offset_right = -48.0
+offset_bottom = 96.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("57_ymyow")
+mineral_inventory = ExtResource("10_wjjcp")
+mineral_inventory_item_gui = ExtResource("34_2rmpe")
 
 [node name="HeatVignette" type="NinePatchRect" parent="CanvasLayer/GUI/HUDMargin" node_paths=PackedStringArray("player")]
 visible = false
@@ -1061,34 +1082,7 @@ player = NodePath("../../../../../Player")
 upgrades = Array[ExtResource("51_33kkw")]([ExtResource("42_maqn3"), ExtResource("44_d80h3"), ExtResource("43_u02ci")])
 metadata/_tab_index = 3
 
-[node name="Control" type="MarginContainer" parent="CanvasLayer/GUI/UpgradeScreen"]
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -283.0
-offset_right = 350.0
-offset_bottom = 303.0
-grow_horizontal = 0
-grow_vertical = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
-[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/GUI/UpgradeScreen/Control"]
-layout_mode = 2
-
-[node name="PlayerMineralGUI" type="VBoxContainer" parent="CanvasLayer/GUI/UpgradeScreen/Control/CenterContainer"]
-layout_mode = 2
-script = ExtResource("57_ymyow")
-mineral_inventory = ExtResource("10_wjjcp")
-mineral_inventory_item_gui = ExtResource("34_2rmpe")
-
 [node name="SpaceStationGUI" type="Control" parent="CanvasLayer/GUI"]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

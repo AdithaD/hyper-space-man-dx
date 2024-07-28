@@ -12,6 +12,8 @@ extends Node2D
 @export var orbit_speed := 300.0
 var orbit_origin: Vector2
 
+var last_velocity := Vector2.ZERO
+
 var interact_area: PlayerInteractArea:
 	get:
 		return $PlayerInteractArea
@@ -25,7 +27,8 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if orbit_origin:
 		var dir := global_position.direction_to(orbit_origin).normalized().orthogonal()
-		position += dir * orbit_speed * delta
+		last_velocity = dir * orbit_speed * delta
+		position += last_velocity
 
 	queue_redraw()
 

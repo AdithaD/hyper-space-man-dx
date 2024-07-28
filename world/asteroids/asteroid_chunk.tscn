@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://dcssvmxunu6cc"]
+
+[ext_resource type="PackedScene" uid="uid://b1dn5dll7bbep" path="res://world/asteroids/asteroid_base.tscn" id="1_mwiv1"]
+[ext_resource type="Texture2D" uid="uid://twxwpksdnnbk" path="res://world/asteroids/asteroid_chunk.png" id="2_4tvlh"]
+
+[node name="Asteroid" instance=ExtResource("1_mwiv1")]
+amount = 500
+
+[node name="MineableSprite" parent="." index="0"]
+texture = ExtResource("2_4tvlh")
+
+[node name="CollisionPolygon2D" parent="." index="2"]
+polygon = PackedVector2Array(145, -483, -54, -366, -147, -402, -257, -311, -344, -377, -452, -252, -380, -59, -344, 72, -387, 212, -315, 337, -198, 335, -134, 407, -52, 407, 22, 386, 113, 416, 185, 416, 310, 272, 304, 206, 368, 216, 497, 43, 442, -144, 376, -167, 302, -368)
+
+[node name="CollisionPolygon2D" parent="HitboxComponent" index="0"]
+polygon = PackedVector2Array(150, -445, -32, -322, -124, -344, -244, -272, -335, -328, -420, -226, -303, 68, -360, 221, -297, 294, -198, 335, -85, 389, 16, 355, 186, 392, 252, 269, 268, 182, 350, 182, 451, 47, 424, -114, 350, -144, 282, -349)
+
+[node name="CollisionPolygon2D" parent="HurtboxComponent" index="2"]
+polygon = PackedVector2Array(145, -483, -54, -366, -147, -402, -257, -311, -344, -377, -452, -252, -380, -59, -344, 72, -387, 212, -315, 337, -198, 335, -134, 407, -52, 407, 22, 386, 113, 416, 185, 416, 310, 272, 304, 206, 368, 216, 497, 43, 442, -144, 376, -167, 302, -368)
+
+[node name="HealthComponent" parent="." index="5"]
+maximum_health = 900

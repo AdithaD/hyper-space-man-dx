@@ -42,9 +42,13 @@ var is_mining := false
 var is_local_stabilisation_on := false
 var current_weapon_index := 0
 var is_dead := false
+
+var movement_override := false
 var has_control := true
 
 var max_speed := 500.0
+
+var dock_target: Node2D
 
 var is_annihilation_shield_active := false:
 	set(value):
@@ -130,6 +134,7 @@ func _ready() -> void:
 	for upgrade in upgrades:
 		apply_upgrade(upgrade, false)
 
+	mineral_inventory.clear()
 	mineral_inventory._init(mineral_inventory.starting_inventory)
 	heat_cooloff_timer.wait_time = maximum_heat / heat_drain_per_second
 
@@ -138,6 +143,8 @@ func _ready() -> void:
 	
 	mineral_inventory.mineral_modified.connect(pickup_sound.play.unbind(2))
 	print("player ready")
+
+	ship_engine.burn(0, Vector2.ZERO)
 
 func apply_impulse(impulse: Vector2) -> void:
 	velocity += transform.basis_xform(impulse)
@@ -181,7 +188,8 @@ func _physics_process(delta: float) -> void:
 		look_at(get_global_mouse_position())
 		
 	velocity = velocity.limit_length(300000)
-	move_and_slide()
+	if not movement_override:
+		move_and_slide()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if has_control:
@@ -323,7 +331,7 @@ func apply_upgrade(upgrade: TieredUpgrade, level_up:=true, force:=false) -> void
 			&"max_speed":
 				max_speed = value
 			&"fuel_capacity":
-				ship_engine.fuel_capacity = value
+				ship_engine.set_fuel_capacity(value)
 			&"mass_flow":
 				ship_engine.mass_flow_rate = value
 			&"exhaust_velocity":
@@ -392,7 +400,7 @@ func _on_raycaster_target_hit(hurtbox: HurtboxComponent) -> void:
 	var damage := current_weapon.weapon_damage
 
 	if hurtbox.get_parent() is Asteroid:
-		damage *= 2
+		damage *= 4
 	
 	if hurtbox.get_parent() is Enemy:
 		damage /= 2

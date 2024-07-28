@@ -141,6 +141,7 @@ scale_max = 5.0
 position = Vector2(207, 144)
 script = ExtResource("1_pbogc")
 harvest_rate = 10
+maximum_storage = 500
 
 [node name="PickupComponent" parent="." instance=ExtResource("2_mat0r")]
 pickup_range = 256.0

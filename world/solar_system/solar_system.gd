@@ -30,6 +30,10 @@ extends Node2D
 @export_subgroup("Space Station")
 @export var space_station_scenes: Array[PackedScene]
 
+@export_subgroup("Other")
+@export var asteroid_chunk_scene: PackedScene
+@export var asteroid_chunk_offset_to_sun: float = 100.0
+
 var spread: float
 
 var sun_name: String
@@ -79,6 +83,13 @@ func init(p_world: World, p_size: int, number_of_planets: int, p_spread: float, 
 	asteroid_belt.max_radius = spread * 1.5
 	
 	$AsteroidBelt._generate()
+	
+	var asteroid_chunk: Asteroid = asteroid_chunk_scene.instantiate()
+	
+	var asteroid_chunk_offset := Vector2(asteroid_chunk_offset_to_sun, 0).rotated(TAU * randf())
+	asteroid_chunk.global_position = sun.global_position + asteroid_chunk_offset
+
+	add_child(asteroid_chunk)
 		
 	for x in range(0, number_of_planets):
 		spawn_planet()

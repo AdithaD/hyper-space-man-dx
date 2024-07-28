@@ -6,6 +6,7 @@ signal amount_of_bursts_updated(new_amount: int)
 @export var burst_impulse: float = 500
 @export var amount_of_bursts: int = 3
 @export var burst_coolodown: float = 5.0
+@export var burst_fuel_consumption: float = 10.0
 
 @onready var _available_bursts := amount_of_bursts
 
@@ -35,7 +36,9 @@ func notify(left: bool, right: bool, forward: bool, backward: bool) -> void:
 		elif backward:
 			player.apply_impulse(Vector2.LEFT * burst_impulse)
 			burst_particles_front.emitting = true
-			
+
+		player.ship_engine.burn_amount(burst_fuel_consumption)
+
 		burst_sound.play()
 		
 		_available_bursts -= 1
@@ -55,7 +58,7 @@ func _on_timer_timeout() -> void:
 		burst_cooldown_timer.start()
 
 func is_burst_available() -> bool:
-	return _available_bursts > 0
+	return _available_bursts > 0 and player.ship_engine.current_fuel > burst_fuel_consumption
 
 func get_amount_of_available_bursts() -> int:
 	return _available_bursts

@@ -149,6 +149,7 @@ motion_mode = 1
 script = ExtResource("1_utgdb")
 upgrades = Array[ExtResource("2_4i6i5")]([ExtResource("3_rxdoq"), ExtResource("4_h3p4t"), ExtResource("5_llema"), ExtResource("6_3vk0j"), ExtResource("7_e65p5"), ExtResource("8_15wuh"), ExtResource("9_8k863"), ExtResource("10_eoed6"), ExtResource("11_276x8"), ExtResource("12_a7sxu"), ExtResource("13_w5o7j"), ExtResource("14_5e41g"), ExtResource("15_1a4t3"), ExtResource("12_a7sxu")])
 ship_engine = SubResource("Resource_84uqs")
+stabilisation_threshold = 400.0
 drag = 40.0
 weapons = Array[ExtResource("3_yws57")]([ExtResource("4_hu4rs"), ExtResource("5_tuqcu"), ExtResource("6_utjo4")])
 mineral_inventory = SubResource("Resource_7icu3")

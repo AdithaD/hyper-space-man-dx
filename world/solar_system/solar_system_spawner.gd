@@ -95,6 +95,7 @@ func spawn(amount: int, player_position: Vector2, origin: Vector2, distance_from
 			solar_system_spawned.emit(solar_system)
 	
 func start_spawn() -> void:
+	spawn(1, Vector2(1, 0), Vector2(0, 0), grid_size)
 	spawn(2, Vector2(1, 0), Vector2(0, 0), grid_size * 3.3)
 	spawn(2, Vector2( - 1, 0), Vector2(0, 0), grid_size * 3.3)
 	spawn(2, Vector2(0, 1), Vector2(0, 0), grid_size * 3.3)

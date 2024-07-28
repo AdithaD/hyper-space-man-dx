@@ -30,4 +30,4 @@ script = ExtResource("1_clnxl")
 upgrade_id = &"exhaust_velocity"
 upgrade_name = "Exhaust Velocity"
 tier_costs = Array[ExtResource("2_4o8xr")]([SubResource("Resource_jxndf"), SubResource("Resource_xhsw8"), SubResource("Resource_uwrns")])
-tier_values = Array[float]([50000.0, 200000.0, 400000.0, 800000.0])
+tier_values = Array[float]([100000.0, 400000.0, 800000.0, 1.6e+06])

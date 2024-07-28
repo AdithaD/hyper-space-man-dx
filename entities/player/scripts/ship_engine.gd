@@ -37,9 +37,17 @@ func burn(delta: float, direction: Vector2) -> Vector2:
 	engine_burned.emit(current_fuel, get_ratio())
 	return change_in_velocity * direction
 
-func get_ratio() -> float:
-	return current_fuel / fuel_capacity
+func burn_amount(amount: float) -> void:
+	current_fuel -= amount
+	engine_burned.emit(current_fuel, get_ratio())
+
+func set_fuel_capacity(amount: float) -> void:
+	fuel_capacity = amount
+	engine_burned.emit(current_fuel, get_ratio())
 
 func fill(amount: float) -> void:
 	current_fuel = min(current_fuel + amount, fuel_capacity)
 	engine_burned.emit(current_fuel, get_ratio())
+
+func get_ratio() -> float:
+	return current_fuel / fuel_capacity

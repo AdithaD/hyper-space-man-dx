@@ -6,7 +6,7 @@ class_name Asteroid
 
 @export var debris_scene: PackedScene
 
-var mineable := false
+var mineable := true
 
 @onready var world: World = get_tree().get_first_node_in_group("world")
 
