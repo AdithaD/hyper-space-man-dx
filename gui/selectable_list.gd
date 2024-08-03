@@ -17,6 +17,15 @@ func append_item(item: Control) -> void:
 		items.append(item)
 	item.selected.connect(_on_item_selected.bind(item))
 	
+	if selected_item == null:
+		item.set_selected(true)
+	
+func clear() -> void:
+	for child in get_children():
+		child.queue_free()
+	
+	items.clear()
+	
 func _on_item_selected(item: Control) -> void:
 	selected_item = item
 	for i in items:

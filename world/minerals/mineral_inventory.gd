@@ -16,10 +16,13 @@ func _init(p_starting_inventory: Dictionary={}) -> void:
 		mineral_modified.emit(m, inventory[m])
 		
 func add_amount(mineral: Mineral, amount: int) -> void:
-	if not inventory.has(mineral):
-		new_mineral_added.emit(mineral)
+	var new_mineral := not inventory.has(mineral)
 
 	inventory[mineral] = inventory.get(mineral, 0) + amount
+	
+	if new_mineral:
+		new_mineral_added.emit(mineral)
+
 	mineral_modified.emit(mineral, inventory[mineral])
 
 func remove_amount(mineral: Mineral, amount: int) -> void:
